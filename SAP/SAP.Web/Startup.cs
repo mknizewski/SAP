@@ -2,6 +2,7 @@
 using Owin;
 
 [assembly: OwinStartupAttribute(typeof(SAP.Web.Startup))]
+
 namespace SAP.Web
 {
     public partial class Startup

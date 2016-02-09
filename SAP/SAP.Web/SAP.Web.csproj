@@ -219,6 +219,8 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Infrastructrue\DbContext\ApplicationDbContext.cs" />
+    <Compile Include="Infrastructrue\IoC\NinjectDepedencyResolver.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
@@ -300,6 +302,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Infrastructrue\Filters\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
@@ -310,6 +313,10 @@
     <ProjectReference Include="..\SAP.BOL\SAP.BOL.csproj">
       <Project>{0c8ec392-d3ec-43dd-8188-401823220e9d}</Project>
       <Name>SAP.BOL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SAP.DAL\SAP.DAL.csproj">
+      <Project>{d950b3b5-63a5-4934-82bb-e80521d8a8d2}</Project>
+      <Name>SAP.DAL</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
