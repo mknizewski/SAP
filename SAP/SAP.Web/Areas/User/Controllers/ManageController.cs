@@ -1,13 +1,15 @@
 ﻿using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
+using SAP.Web.Areas.User.Models;
+using SAP.Web.Controllers;
 using SAP.Web.Models;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 
-namespace SAP.Web.Controllers
+namespace SAP.Web.Areas.User.Controllers
 {
     [Authorize]
     public class ManageController : Controller

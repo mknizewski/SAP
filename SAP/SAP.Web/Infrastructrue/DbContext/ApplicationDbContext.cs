@@ -8,6 +8,7 @@ namespace SAP.Web.Infrastructrue.DbContext
 {
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
+        //tabele
         public DbSet<ApplicationRole> Role { get; set; }
         public DbSet<test> Test { get; set; }
 
@@ -61,7 +62,6 @@ namespace SAP.Web.Infrastructrue.DbContext
             protected override void Seed(ApplicationDbContext context)
             {
                 context.Seed(context);
-
                 base.Seed(context);
             }
         }

@@ -3,7 +3,7 @@ using Microsoft.Owin.Security;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace SAP.Web.Models
+namespace SAP.Web.Areas.User.Models
 {
     public class IndexViewModel
     {

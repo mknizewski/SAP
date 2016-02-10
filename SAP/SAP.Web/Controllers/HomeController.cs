@@ -1,4 +1,5 @@
-﻿using System.Web.Mvc;
+﻿using SAP.BOL.HelperClasses;
+using System.Web.Mvc;
 
 namespace SAP.Web.Controllers
 {
@@ -6,6 +7,7 @@ namespace SAP.Web.Controllers
     {
         public ActionResult Index()
         {
+            TempData["Alert"] = SetAlert.Set("Testowy message", "tag", AlertType.Success);
             return View();
         }
 
