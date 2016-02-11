@@ -1,17 +1,90 @@
-﻿@{
-    ViewBag.Title = "Contact";
+﻿@using SAP.Web.Models
+@model ContactModel
+
+@{
+    ViewBag.Title = "Kontakt";
 }
 <h2>@ViewBag.Title.</h2>
 <h3>@ViewBag.Message</h3>
 
-<address>
-    One Microsoft Way<br />
-    Redmond, WA 98052-6399<br />
-    <abbr title="Phone">P:</abbr>
-    425.555.0100
-</address>
+<br />
 
-<address>
-    <strong>Support:</strong>   <a href="mailto:Support@example.com">Support@example.com</a><br />
-    <strong>Marketing:</strong> <a href="mailto:Marketing@example.com">Marketing@example.com</a>
-</address>
+<div class="row">
+    <div class="col-md-12">
+        <section id="contactForm">
+            @using (Html.BeginForm("Contact", "Home", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+            {
+                @Html.AntiForgeryToken()
+
+                <div class="form-group">
+                    @Html.LabelFor(x => x.Name, new { @class = "col-md-2 control-label" })
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(x => x.Name, new { @class = "form-control", @placeholder = "Imię" })
+                        @Html.ValidationMessageFor(x => x.Name, "", new { @class = "text-danger " })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(x => x.Surname, new { @class = "col-md-2 control-label " })
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(x => x.Surname, new { @class = "form-control", @placeholder = "Nazwisko" })
+                        @Html.ValidationMessageFor(x => x.Surname, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(x => x.Email, new { @class = "col-md-2 control-label" })
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(x => x.Email, new { @class = "form-control", @placeholder = "Adres email" })
+                        @Html.ValidationMessageFor(x => x.Email, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(x => x.Message, new { @class = "col-md-2 control-label" })
+                    <div class="col-md-10">
+                        @Html.TextAreaFor(x => x.Message, 10, 30, new { @class = "from-control"})
+                        @Html.ValidationMessageFor(x => x.Message, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type = "submit" value="Wyślij" class="btn btn-success" />
+                    </div>
+                </div>
+            }
+        </section>
+    </div>
+</div>
+
+<hr />
+<h3>Dane kontaktowe</h3>
+<br />
+<div class="row">
+    <div class="col-md-6">
+        <address>
+            Uniwersytet w Białymstoku<br />
+            Kampus Uniwersytetu w Białymstoku<br />
+            Wydział Matematyki i Informatyki<br />
+            ul. Ciołkowskiego 1M, 15-245 Białystok<br />
+            <abbr title="Telefon">Tel:</abbr>
+            (085) 738-83-33
+        </address>
+    </div>
+    <div class="col-md-6">
+        <address>
+            <strong>Kontakt z RKI:</strong>   <a href="mailto:rki@ii.uwb.edu.pl">rki@ii.uwb.edu.pl</a><br />
+            <strong>Sekretariat:</strong> <a href="mailto:sekretariat@ii.uwb.edu.pl">sekretariat@ii.uwb.edu.pl</a>
+        </address>
+    </div>
+</div>
+
+<hr />
+<h3>Dojazd do Kampusu Uniwersytetu w Białymstoku</h3>
+<br />
+<img src="~/Images/mapka.png" alt="mapa" class="img-responsive center-block" />
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

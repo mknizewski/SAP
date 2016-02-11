@@ -13,14 +13,23 @@ namespace SAP.Web.HTMLHelpers
                 var typeAlert = type as SetAlert;
                 var divTag = new TagBuilder("div");
 
-                divTag.AddCssClass("alert " + typeAlert.TypeOfAlert);
+                divTag.AddCssClass("alert alert-dismissible " + typeAlert.TypeOfAlert);
+
+                var closeButtonTag = new TagBuilder("button");
+
+                closeButtonTag.MergeAttribute("type", "button");
+                closeButtonTag.AddCssClass("close");
+                closeButtonTag.MergeAttribute("data-dismiss", "alert");
+                closeButtonTag.SetInnerText("X");
+
+                divTag.InnerHtml += closeButtonTag.ToString(TagRenderMode.Normal);
 
                 if (typeAlert.StrongMessage != String.Empty)
                 {
                     var strongTag = new TagBuilder("strong");
 
                     strongTag.SetInnerText(typeAlert.StrongMessage);
-                    divTag.InnerHtml = strongTag.ToString(TagRenderMode.Normal) + " ";
+                    divTag.InnerHtml += strongTag.ToString(TagRenderMode.Normal) + " ";
                 }
 
                 divTag.InnerHtml += typeAlert.Message;

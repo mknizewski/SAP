@@ -1,4 +1,7 @@
 ﻿using SAP.BOL.HelperClasses;
+using SAP.Web.Models;
+using System;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 
 namespace SAP.Web.Controllers
@@ -7,7 +10,12 @@ namespace SAP.Web.Controllers
     {
         public ActionResult Index()
         {
-            TempData["Alert"] = SetAlert.Set("Testowy message", "tag", AlertType.Success);
+            string browser = Request.Browser.Browser;
+
+            //TODO: Postarać się o lepszą implementację -- odzielić do BO!
+            if (String.Equals(browser, "InternetExplorer"))
+                TempData["Alert"] = SetAlert.Set("Przeglądarka IE oraz Edge nie jest wspierana!", "Uwaga", AlertType.Warning);
+
             return View();
         }
 
@@ -20,9 +28,32 @@ namespace SAP.Web.Controllers
 
         public ActionResult Contact()
         {
-            ViewBag.Message = "Your contact page.";
+            ViewBag.Message = "Formularz kontaktowy.";
 
             return View();
         }
+
+        [HttpPost]
+        public ActionResult Contact(ContactModel model, string ReturnUrl)
+        {
+            TempData["Alert"] = SetAlert.Set("Dziękujemy za wiadomość!", "Sukces", AlertType.Success);
+
+            //TODO: Dodać obsługę formularza kontaktowego
+
+            return RedirectToLocal(ReturnUrl);
+        }
+
+        #region Helpers
+
+        private ActionResult RedirectToLocal(string returnUrl)
+        {
+            if (Url.IsLocalUrl(returnUrl))
+            {
+                return Redirect(returnUrl);
+            }
+            return RedirectToAction("Index", "Home");
+        }
+
+        #endregion
     }
 }

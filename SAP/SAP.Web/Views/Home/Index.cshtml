@@ -3,29 +3,40 @@
 }
 
 <div class="jumbotron">
-    <h1>ASP.NET</h1>
-    <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
-    <p><a href="http://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
+    <h1 class="text-center">Oficjalna strona Regionalnego Konkursu Informatycznego</h1>
+    <br />
+    <img class="center-block img-responsive" src="~/Images/rki - logo.jpg" alt="logo rki" />
+    <br />
+    <h4 class="text-center">Szanowni Państwo Dyrektorzy i Nauczyciele!</h4>
+    <h4 class="text-center">Drodzy uczniowie!</h4>
+    <br />
+    <p class="lead text-justify">Corocznie, począwszy od roku szkolnego 2000/2001, 
+    Uniwersytet w Białymstoku organizuje Regionalny Konkurs Informatyczny dla uczniów szkół średnich. 
+    Celem Konkursu jest rozwijanie wiedzy informatycznej i kreowanie młodych talentów w tej dziedzinie.</p>
+    <p class="text-right text"><i>Komisja Regionalnego Konkursu Informatycznego</i> <br />Białystok, 2016</p>
+    <p><a href="#" class="btn btn-primary btn-lg">Regulamin RKI &raquo;</a></p>
 </div>
 
 <div class="row">
     <div class="col-md-4">
-        <h2>Getting started</h2>
-        <p>
-            ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-            enables a clean separation of concerns and gives you full control over markup
-            for enjoyable, agile development.
-        </p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
+        <h4>Konkurs składa się z dwóch etapów:</h4>
+        <ul class="list-group">
+            <li class="list-group-item text-justify"><b>eliminacji</b>, polegających na rozwiązaniu w domu zadań opublikowanych w Internecie
+            i na przesłaniu w wyznaczonym terminie rozwiązań poprzez formularz zgłoszeniowy
+            </li>
+            <li class="list-group-item text-justify">
+                <b>finału</b>, polegającego na rozwiązaniu zadań w oznaczonym czasie w siedzibie Instytutu Informatyki Uniwersytetu w Białymstoku.
+            </li>
+        </ul>
     </div>
     <div class="col-md-4">
-        <h2>Get more libraries</h2>
-        <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
+        <h4>Zasady I etapu</h4>
+        <p>Aby zapoznać się ze szczegółami pierwszego etapu kliknij w poniższy przycisk.</p>
+        <p><a class="btn btn-default" href="#">Zasady &raquo;</a></p>
     </div>
     <div class="col-md-4">
-        <h2>Web Hosting</h2>
-        <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
+        <h4>Kontakt</h4>
+        <p>Wszystkie informacje o kontakcie, dojeździe a także formularz kontaktowy znajdziesz pod przyciskiem.</p>
+        <p><a class="btn btn-default" href='@Url.Action("Contact", "Home")'>Przejdź &raquo;</a></p>
     </div>
 </div>
