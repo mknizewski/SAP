@@ -1,4 +1,5 @@
 ﻿using SAP.BOL.HelperClasses;
+using SAP.BOL.LogicClasses;
 using SAP.Web.Models;
 using System;
 using System.Web.Mvc;
@@ -51,6 +52,11 @@ namespace SAP.Web.Controllers
                 return Redirect(returnUrl);
             }
             return RedirectToAction("Index", "Home");
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            base.Dispose(disposing);
         }
 
         #endregion

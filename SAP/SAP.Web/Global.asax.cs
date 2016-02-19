@@ -1,4 +1,5 @@
-﻿using SAP.Web.Infrastructrue.DbContext;
+﻿using SAP.BOL.LogicClasses;
+using SAP.Web.Infrastructrue.DbContext;
 using System.Data.Entity;
 using System.Web.Http;
 using System.Web.Mvc;
@@ -17,6 +18,12 @@ namespace SAP.Web
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             Database.SetInitializer<ApplicationDbContext>(new ApplicationDbContext.DataBaseInitializer());
+            ServerTime.Inicialize();
+        }
+
+        protected void Application_End()
+        {
+            ServerTime.Dispose();
         }
     }
 }

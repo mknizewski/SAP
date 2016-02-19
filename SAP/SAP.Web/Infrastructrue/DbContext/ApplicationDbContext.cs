@@ -10,7 +10,6 @@ namespace SAP.Web.Infrastructrue.DbContext
     {
         //tabele
         public DbSet<ApplicationRole> Role { get; set; }
-        public DbSet<test> Test { get; set; }
 
         public ApplicationDbContext()
             : base("EFDbContext", throwIfV1Schema: false)
