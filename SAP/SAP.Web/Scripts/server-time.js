@@ -1,5 +1,4 @@
 ﻿$(document).ready(function () {
-   
     if (!!window.EventSource) {
         var source = new EventSource('/api/servertime');
 
@@ -19,9 +18,7 @@
                 console.log("error!");
             }
         }, false);
-
     } else {
-        // not supported!               
+        // not supported!
     }
-
 });

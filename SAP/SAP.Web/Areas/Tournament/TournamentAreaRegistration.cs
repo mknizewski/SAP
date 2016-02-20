@@ -2,17 +2,17 @@
 
 namespace SAP.Web.Areas.Tournament
 {
-    public class TournamentAreaRegistration : AreaRegistration 
+    public class TournamentAreaRegistration : AreaRegistration
     {
-        public override string AreaName 
+        public override string AreaName
         {
-            get 
+            get
             {
                 return "Tournament";
             }
         }
 
-        public override void RegisterArea(AreaRegistrationContext context) 
+        public override void RegisterArea(AreaRegistrationContext context)
         {
             context.MapRoute(
                 "Tournament_default",

@@ -1,8 +1,9 @@
 ﻿using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
+using SAP.DAL.DbContext;
+using SAP.DAL.Tables;
 using SAP.Web.Models;
-using System;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
+using SAP.DAL.DbContext;
 using SAP.Web.Areas.User.Models;
 using SAP.Web.Controllers;
 using System.Linq;

@@ -3,8 +3,9 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security.Cookies;
 using Owin;
-using SAP.Web.Models;
-using SAP.Web.Infrastructrue.DbContext;
+using SAP.DAL.DbContext;
+using SAP.DAL.DBContext;
+using SAP.DAL.Tables;
 using System;
 
 namespace SAP.Web

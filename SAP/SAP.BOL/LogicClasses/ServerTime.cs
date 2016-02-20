@@ -1,5 +1,4 @@
 ﻿using System;
-using System.IO;
 using System.Timers;
 
 namespace SAP.BOL.LogicClasses
@@ -12,16 +11,19 @@ namespace SAP.BOL.LogicClasses
     public static class ServerTime
     {
         #region Pola
+
         private static Timer serverTimer { get; set; }
         private static DateTime serverDateTime { get; set; }
+
         public static DateTime ServerDataTime
         {
             get { return serverDateTime; }
         }
-    
-        #endregion
+
+        #endregion Pola
 
         #region Metody
+
         public static void Inicialize()
         {
             serverDateTime = DateTime.Now;
@@ -65,6 +67,7 @@ namespace SAP.BOL.LogicClasses
             serverTimer.Stop();
             serverTimer.Dispose();
         }
-        #endregion
+
+        #endregion Metody
     }
 }

@@ -1,13 +1,11 @@
 ﻿using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
-using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Data.Entity;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
-namespace SAP.Web.Models
+namespace SAP.DAL.Tables
 {
     public class ApplicationRole : IdentityRole
     {

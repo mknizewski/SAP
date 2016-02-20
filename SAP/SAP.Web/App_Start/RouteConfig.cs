@@ -15,7 +15,6 @@ namespace SAP.Web
                 namespaces: new[] { "SAP.Web.Controllers" },
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
             );
-
         }
     }
 }

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace SAP.BOL.HelperClasses
+﻿namespace SAP.BOL.HelperClasses
 {
     public class SetAlert
     {
@@ -18,18 +12,21 @@ namespace SAP.BOL.HelperClasses
 
             alert.Message = message;
             alert.StrongMessage = strongMessage;
-            
+
             switch (typeOfAlert)
             {
                 case AlertType.Success:
                     alert.TypeOfAlert = "alert-success";
                     break;
+
                 case AlertType.Danger:
                     alert.TypeOfAlert = "alert-danger";
                     break;
+
                 case AlertType.Info:
                     alert.TypeOfAlert = "alert-info";
                     break;
+
                 case AlertType.Warning:
                     alert.TypeOfAlert = "alert-warning";
                     break;

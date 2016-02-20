@@ -1,5 +1,4 @@
 ﻿using SAP.BOL.HelperClasses;
-using SAP.BOL.LogicClasses;
 using SAP.Web.Models;
 using System;
 using System.Web.Mvc;
@@ -59,6 +58,6 @@ namespace SAP.Web.Controllers
             base.Dispose(disposing);
         }
 
-        #endregion
+        #endregion Helpers
     }
 }
