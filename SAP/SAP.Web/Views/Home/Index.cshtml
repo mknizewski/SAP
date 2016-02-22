@@ -1,0 +1,42 @@
+﻿@{
+    ViewBag.Title = "Strona główna";
+}
+
+<div class="jumbotron">
+    <h1 class="text-center">Oficjalna strona Regionalnego Konkursu Informatycznego</h1>
+    <br />
+    <img class="center-block img-responsive" src="~/Images/rki - logo.jpg" alt="logo rki" />
+    <br />
+    <h4 class="text-center">Szanowni Państwo Dyrektorzy i Nauczyciele!</h4>
+    <h4 class="text-center">Drodzy uczniowie!</h4>
+    <br />
+    <p class="lead text-justify">Corocznie, począwszy od roku szkolnego 2000/2001,
+    Uniwersytet w Białymstoku organizuje Regionalny Konkurs Informatyczny dla uczniów szkół średnich.
+    Celem Konkursu jest rozwijanie wiedzy informatycznej i kreowanie młodych talentów w tej dziedzinie.</p>
+    <p class="text-right text"><i>Komisja Regionalnego Konkursu Informatycznego</i> <br />Białystok, 2016</p>
+    <p><a href="#" class="btn btn-primary btn-lg">Regulamin RKI &raquo;</a></p>
+</div>
+
+<div class="row">
+    <div class="col-md-4">
+        <h4>Konkurs składa się z dwóch etapów:</h4>
+        <ul class="list-group">
+            <li class="list-group-item text-justify"><b>eliminacji</b>, polegających na rozwiązaniu w domu zadań opublikowanych w Internecie
+            i na przesłaniu w wyznaczonym terminie rozwiązań poprzez formularz zgłoszeniowy
+            </li>
+            <li class="list-group-item text-justify">
+                <b>finału</b>, polegającego na rozwiązaniu zadań w oznaczonym czasie w siedzibie Instytutu Informatyki Uniwersytetu w Białymstoku.
+            </li>
+        </ul>
+    </div>
+    <div class="col-md-4">
+        <h4>Zasady I etapu</h4>
+        <p>Aby zapoznać się ze szczegółami pierwszego etapu kliknij w poniższy przycisk.</p>
+        <p><a class="btn btn-default" href="#">Zasady &raquo;</a></p>
+    </div>
+    <div class="col-md-4">
+        <h4>Kontakt</h4>
+        <p>Wszystkie informacje o kontakcie, dojeździe a także formularz kontaktowy znajdziesz pod przyciskiem.</p>
+        <p><a class="btn btn-default" href='@Url.Action("Contact", "Home")'>Przejdź &raquo;</a></p>
+    </div>
+</div>
