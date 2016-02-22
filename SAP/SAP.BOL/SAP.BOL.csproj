@@ -49,7 +49,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="HelperClasses\SetAlert.cs" />
+    <Compile Include="LogicClasses\Compiler.cs" />
+    <Compile Include="LogicClasses\Exceptions\CompilerExceptions.cs" />
     <Compile Include="LogicClasses\ServerTime.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="AbstractInterfaces\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

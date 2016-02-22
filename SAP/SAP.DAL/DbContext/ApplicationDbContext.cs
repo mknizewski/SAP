@@ -51,6 +51,8 @@ namespace SAP.DAL.DbContext
 
             modelBuilder.Entity<Tournament>().HasKey(x => x.Id);
 
+            modelBuilder.Entity<Contact>().HasKey(x => x.Id);
+
             modelBuilder.Entity<Phase>().HasKey(x => x.Id);
             modelBuilder.Entity<Phase>().HasRequired(x => x.Tournament).WithMany().WillCascadeOnDelete(false);
 
