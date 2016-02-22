@@ -10,14 +10,14 @@ namespace SAP.DAL.Tables
         [Key]
         public int Id { get; set; }
 
-        [ForeignKey("Tournamnet")]
+        [ForeignKey("Tournament")]
         public int TournamentId { get; set; }
 
         [ForeignKey("Task")]
         public int TaskId { get; set; }
 
         [ForeignKey("User")]
-        public int UserId { get; set; }
+        public string UserId { get; set; }
 
         [ForeignKey("Compiler")]
         public int CompilerId { get; set; }

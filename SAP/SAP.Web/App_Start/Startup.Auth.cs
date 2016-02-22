@@ -4,7 +4,6 @@ using Microsoft.Owin;
 using Microsoft.Owin.Security.Cookies;
 using Owin;
 using SAP.DAL.DbContext;
-using SAP.DAL.DBContext;
 using SAP.DAL.Tables;
 using System;
 

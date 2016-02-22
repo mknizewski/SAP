@@ -1,5 +1,5 @@
 ﻿using SAP.BOL.LogicClasses;
-using SAP.DAL.DBContext;
+using SAP.DAL.DbContext;
 using System.Data.Entity;
 using System.Web.Http;
 using System.Web.Mvc;

@@ -9,8 +9,8 @@ namespace SAP.DAL.Tables
         [Key]
         public int Id { get; set; }
 
-        [ForeignKey("Tournament")]
-        public int TournamentId { get; set; }
+        [Key, ForeignKey("Tournament")]
+        public int? TournamentId { get; set; }
 
         public string Name { get; set; }
         public int PhaseNumber { get; set; }

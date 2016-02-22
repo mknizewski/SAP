@@ -88,10 +88,11 @@
     <Reference Include="System.ComponentModel.DataAnnotations" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DbContext\ApplicationDbContext.cs" />
-    <Compile Include="DbContext\IdentityConfig.cs" />
     <Compile Include="Tables\Compilers.cs" />
     <Compile Include="Tables\FinalPhaseScores.cs" />
+    <Compile Include="Tables\HistoryFinalPhaseScores.cs" />
+    <Compile Include="Tables\HistoryScores.cs" />
+    <Compile Include="Tables\HistoryTournamentUsers.cs" />
     <Compile Include="Tables\IdentityModels.cs" />
     <Compile Include="Tables\Phase.cs" />
     <Compile Include="Tables\Scores.cs" />
