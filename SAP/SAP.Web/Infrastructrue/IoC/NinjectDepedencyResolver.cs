@@ -1,4 +1,8 @@
 ﻿using Ninject;
+using SAP.BOL.Abstract;
+using SAP.BOL.LogicClasses;
+using SAP.DAL.Abstract;
+using SAP.DAL.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Web.Mvc;
@@ -28,6 +32,8 @@ namespace SAP.Web.Infrastructrue.IoC
         //bindy do IoC
         private void AddBindings()
         {
+            _kernel.Bind<IContactRepository>().To<ContactRepository>();
+            _kernel.Bind<IContact>().To<Contact>();
         }
     }
 }

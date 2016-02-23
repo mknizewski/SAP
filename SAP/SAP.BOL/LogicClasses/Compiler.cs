@@ -1,8 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using SAP.BOL.LogicClasses.Exceptions;
 using System.Timers;
@@ -11,7 +8,7 @@ using System.Diagnostics;
 namespace SAP.BOL.LogicClasses
 {
     /// <summary>
-    /// Klasa kompilująca programy uczestników turnieju
+    /// Klasa kompilująca / uruchamiająca programy uczestników turnieju
     /// </summary>
     public class Compiler : IDisposable
     {
@@ -27,6 +24,9 @@ namespace SAP.BOL.LogicClasses
         private double maxTime;
         private Task executeTask;
         private Timer timer;
+        private string sourceFile;
+        private double memoryUsed;
+        private InputDataType inputDataType;
 
         public string TempPath { get { return tempPath; } }
         public string CompiledFile { get { return compiledFile; } }
@@ -38,6 +38,8 @@ namespace SAP.BOL.LogicClasses
         public string InputData { get { return inputData; } set { inputData = value; } }
         public bool HasError { get { return hasErrors; } }
         public double MaxTime { get { return maxTime; } set { maxTime = value; } }
+        public double MemoryUsed { get { return memoryUsed; } }
+        public InputDataType InputDataType { get { return inputDataType; } set { inputDataType = value; } }
 
         public Compiler()
         {
@@ -48,7 +50,8 @@ namespace SAP.BOL.LogicClasses
 
         public void CompileAndExecute()
         {
-            
+            Compile();
+            Execute();
         }
 
         public void Compile()
@@ -62,34 +65,52 @@ namespace SAP.BOL.LogicClasses
             //TODO: Sprawdzenie programu pod kątem niedozwolonych technik programistycznych
 
             //działanie
-            timer = new Timer();
-            timer.Interval = MaxTime;
-            timer.Elapsed += StopTask;
-
             Process compile = new Process();
             ProcessStartInfo compileInfo = new ProcessStartInfo();
 
             compileInfo.UseShellExecute = false;
             compileInfo.CreateNoWindow = true;
-            compileInfo.RedirectStandardInput = true;
             compileInfo.RedirectStandardOutput = true;
             compileInfo.RedirectStandardError = true;
-            
-            switch (language)
+
+            if (language.Value != CompilerType.Java)
             {
-                case CompilerType.C:
-                    compileInfo.FileName = CompilerInfo.CPath;
-                    compileInfo.Arguments = "-o ";
-                    break;
-                case CompilerType.Cpp:
-                    compileInfo.FileName = CompilerInfo.CppPath;
-                    break;
-                case CompilerType.Java:
-                    compileInfo.FileName = CompilerInfo.JavaPath;
-                    break;
-                case CompilerType.Pascal:
-                    compileInfo.FileName = CompilerInfo.PascalPath;
-                    break;
+                sourceFile = Path.Combine(tempPath, Path.GetRandomFileName());
+
+                switch (language.Value)
+                {
+                    case CompilerType.C:
+                        compileInfo.FileName = CompilerInfo.CPath;
+                        File.AppendAllText(sourceFile + ".c", program);
+                        compileInfo.Arguments = sourceFile + ".c -o " + sourceFile + ".exe";
+                        break;
+
+                    case CompilerType.Cpp:
+                        compileInfo.FileName = CompilerInfo.CppPath;
+                        File.AppendAllText(sourceFile + ".cpp", program);
+                        compileInfo.Arguments = sourceFile + ".cpp -o " + sourceFile + ".exe";
+                        break;
+
+                    case CompilerType.Pascal:
+                        compileInfo.FileName = CompilerInfo.PascalPath;
+                        compileInfo.Arguments = sourceFile + ".pp";
+                        break;
+                }
+
+                compile.StartInfo = compileInfo;
+                compile.Start();
+                errorInfo = compile.StandardError.ReadToEnd();
+                compile.WaitForExit();
+
+                if (errorInfo != String.Empty)
+                    hasErrors = true;
+                else
+                    compiledFile = sourceFile + ".exe";
+            }
+            else //w przypadku jezyka JAVA wystepuje inne rozwiązanie kompilacji niż w przypadku pozostałych języków
+            {
+                compileInfo.EnvironmentVariables.Add("CLASSPATH", tempPath);
+                //TODO: Opisać przypadek javy
             }
         }
 
@@ -99,7 +120,66 @@ namespace SAP.BOL.LogicClasses
             if (compiledFile == String.Empty)
                 throw new ProgramNotCompiledException("Program nie został skompilowany");
 
+            Process exec = new Process();
+            ProcessStartInfo execInfo = new ProcessStartInfo();
 
+            execInfo.UseShellExecute = false;
+            execInfo.CreateNoWindow = true;
+            execInfo.RedirectStandardError = true;
+            execInfo.RedirectStandardInput = true;
+            execInfo.RedirectStandardOutput = true;
+
+            execInfo.FileName = compiledFile;
+            exec.StartInfo = execInfo;
+
+            if (language.Value != CompilerType.Java)
+            {
+                timer = new Timer();
+                timer.Interval = maxTime;
+                timer.Elapsed += StopTask;
+
+                timer.Start();
+                executeTask = Task.Run(() =>
+                {
+                    switch (inputDataType)
+                    {
+                        case InputDataType.Arguments:
+                            exec.StartInfo.Arguments = inputData;
+                            exec.Start();
+                            break;
+                        case InputDataType.Stream:
+                            exec.Start();
+                            if (inputData != String.Empty)
+                            {
+                                StreamWriter input = exec.StandardInput;
+                                input.WriteLine(inputData);
+                                input.Close();
+                            }
+                            break;
+                        case InputDataType.None:
+                            exec.Start();
+                            break;
+                    }
+
+                    outputData = exec.StandardOutput.ReadToEnd();
+                    errorInfo = exec.StandardError.ReadToEnd();
+                    exec.WaitForExit();
+                    executedTime = exec.TotalProcessorTime.Seconds;
+                    memoryUsed = exec.NonpagedSystemMemorySize64;
+
+                    if (errorInfo != String.Empty)
+                        hasErrors = true;
+                });
+            }
+            else
+            {
+                execInfo.EnvironmentVariables.Add("CLASSPATH", tempPath);
+                //TODO: Algorytm wykonania programu javy
+            }
+
+            timer.Stop();
+            timer.Dispose();
+            executeTask.Dispose();
         }
 
         private void StopTask(object state, ElapsedEventArgs e)
@@ -107,6 +187,9 @@ namespace SAP.BOL.LogicClasses
             executeTask.Dispose();
             timer.Stop();
             timer.Dispose();
+
+            hasErrors = true;
+            errorInfo = "Program przekroczył wyznaczony czas!";
         }
 
         public void Dispose()
@@ -124,12 +207,15 @@ namespace SAP.BOL.LogicClasses
         public static string CppPath { get; set; }
         public static string JavaPath { get; set; }
         public static string PascalPath { get; set; }
-
-
     }
 
     public enum CompilerType
     {
         C, Cpp, Java, Pascal
+    }
+
+    public enum InputDataType
+    {
+        Arguments, Stream, None
     }
 }

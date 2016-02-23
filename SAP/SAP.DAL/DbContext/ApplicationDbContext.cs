@@ -12,6 +12,7 @@ namespace SAP.DAL.DbContext
         public DbSet<ApplicationRole> Role { get; set; }
         public DbSet<Tournament> Tournament { get; set; }
         public DbSet<Compilers> Compilers { get; set; }
+        public DbSet<Contact> Contacts { get; set; }
         public DbSet<FinalPhaseScores> FinalPhaseScores { get; set; }
         public DbSet<Phase> Phase { get; set; }
         public DbSet<Scores> Scores { get; set; }

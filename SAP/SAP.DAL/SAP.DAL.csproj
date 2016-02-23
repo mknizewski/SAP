@@ -88,8 +88,10 @@
     <Reference Include="System.ComponentModel.DataAnnotations" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Abstract\IContactRepository.cs" />
     <Compile Include="DbContext\ApplicationDbContext.cs" />
     <Compile Include="DbContext\IdentityConfig.cs" />
+    <Compile Include="Repositories\ContactRepository.cs" />
     <Compile Include="Tables\Compilers.cs" />
     <Compile Include="Tables\Contact.cs" />
     <Compile Include="Tables\FinalPhaseScores.cs" />
@@ -104,10 +106,7 @@
     <Compile Include="Tables\Tournament.cs" />
     <Compile Include="Tables\TournamentUsers.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Abstract\" />
-    <Folder Include="Repositories\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
