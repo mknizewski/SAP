@@ -1,13 +1,14 @@
 ﻿using SAP.BOL.Abstract;
 using SAP.DAL.Abstract;
+using System;
 
-namespace SAP.BOL.LogicClasses
+namespace SAP.BOL.LogicClasses.Managers
 {
-    public class Contact : IContact
+    public class ContactManager : IContactManager, IDisposable
     {
         private IContactRepository _contactRepository;
 
-        public Contact(IContactRepository contactRepository)
+        public ContactManager(IContactRepository contactRepository)
         {
             _contactRepository = contactRepository;
         }
@@ -25,6 +26,11 @@ namespace SAP.BOL.LogicClasses
             bool result = _contactRepository.TryAdd(modelToSave);
 
             return result;
+        }
+
+        public void Dispose()
+        {
+            _contactRepository.Dispose();
         }
     }
 }

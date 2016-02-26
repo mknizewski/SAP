@@ -46,12 +46,15 @@
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Abstract\IContact.cs" />
+    <Compile Include="Abstract\IContactManager.cs" />
+    <Compile Include="HelperClasses\Attributes\MustBeTrueAttribute.cs" />
+    <Compile Include="HelperClasses\Attributes\PolandPostalCode.cs" />
     <Compile Include="HelperClasses\SetAlert.cs" />
     <Compile Include="LogicClasses\Compiler.cs" />
-    <Compile Include="LogicClasses\Contact.cs" />
+    <Compile Include="LogicClasses\Managers\ContactManager.cs" />
     <Compile Include="LogicClasses\Exceptions\CompilerExceptions.cs" />
     <Compile Include="LogicClasses\ServerTime.cs" />
   </ItemGroup>

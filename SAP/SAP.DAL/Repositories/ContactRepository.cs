@@ -1,10 +1,11 @@
 ﻿using SAP.DAL.Abstract;
 using System.Collections.Generic;
 using SAP.DAL.Tables;
+using System;
 
 namespace SAP.DAL.Repositories
 {
-    public class ContactRepository : IContactRepository
+    public class ContactRepository : IContactRepository, IDisposable
     {
         private DbContext.ApplicationDbContext context = new DbContext.ApplicationDbContext();
 
@@ -31,5 +32,13 @@ namespace SAP.DAL.Repositories
 
             return true;
         }
+
+        #region Dispose
+        public void Dispose()
+        {
+            context.Dispose();
+        }
+
+        #endregion
     }
 }

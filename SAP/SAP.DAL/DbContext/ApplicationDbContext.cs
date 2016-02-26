@@ -19,6 +19,8 @@ namespace SAP.DAL.DbContext
         public DbSet<Tasks> Tasks { get; set; }
         public DbSet<TasksTestData> TasksTestData { get; set; }
         public DbSet<TournamentUsers> TournamentUsers { get; set; }
+        public DbSet<UsersSchools> UsersSchools { get; set; }
+        public DbSet<UsersCounselor> UsersCounselor { get; set; }
 
         //tabele -- historyczne
         public DbSet<HistoryFinalPhaseScores> HistoryFinalPhaseScores { get; set; }
@@ -56,6 +58,12 @@ namespace SAP.DAL.DbContext
 
             modelBuilder.Entity<Phase>().HasKey(x => x.Id);
             modelBuilder.Entity<Phase>().HasRequired(x => x.Tournament).WithMany().WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<UsersCounselor>().HasKey(x => x.Id);
+            modelBuilder.Entity<UsersCounselor>().HasRequired(x => x.User).WithMany().WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<UsersSchools>().HasKey(x => x.Id);
+            modelBuilder.Entity<UsersSchools>().HasRequired(x => x.User).WithMany().WillCascadeOnDelete(false);
 
             modelBuilder.Entity<Tasks>().HasKey(x => x.Id);
             modelBuilder.Entity<Tasks>().HasRequired(x => x.Phase).WithMany().WillCascadeOnDelete(false);

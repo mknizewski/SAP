@@ -1,28 +1,21 @@
 ﻿using SAP.BOL.Abstract;
 using SAP.BOL.HelperClasses;
 using SAP.Web.Models;
-using System;
 using System.Web.Mvc;
 
 namespace SAP.Web.Controllers
 {
     public class HomeController : Controller
     {
-        private IContact _contact;
+        private IContactManager _contactManager;
 
-        public HomeController(IContact contact)
+        public HomeController(IContactManager contactManager)
         {
-            _contact = contact;
+            _contactManager = contactManager;
         }
 
         public ActionResult Index()
         {
-            string browser = Request.Browser.Browser;
-
-            //TODO: Postarać się o lepszą implementację -- odzielić do BO!
-            if (String.Equals(browser, "InternetExplorer"))
-                TempData["Alert"] = SetAlert.Set("Przeglądarka IE oraz Edge nie jest wspierana!", "Uwaga", AlertType.Warning);
-
             return View();
         }
 
@@ -43,7 +36,9 @@ namespace SAP.Web.Controllers
         [HttpPost]
         public ActionResult Contact(ContactModel model, string ReturnUrl)
         {
-            if (_contact.AddNewContact(model.Name, model.Surname, model.Email, model.Message))
+            bool result = _contactManager.AddNewContact(model.Name, model.Surname, model.Email, model.Message);
+
+            if (result)
             {
                 TempData["Alert"] = SetAlert.Set("Dziękujemy za wiadomość!", "Sukces", AlertType.Success);
 
@@ -70,9 +65,10 @@ namespace SAP.Web.Controllers
 
         protected override void Dispose(bool disposing)
         {
-            base.Dispose(disposing);
+            _contactManager.Dispose();
+            _contactManager = null;
 
-            _contact = null;
+            base.Dispose(disposing);
         }
 
         #endregion Helpers

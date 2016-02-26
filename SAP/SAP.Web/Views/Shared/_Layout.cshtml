@@ -20,8 +20,9 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("O serwisie", "About", "Home")</li>
-                    <li>@Html.ActionLink("Kontakt", "Contact", "Home")</li>
+                    <li>@Html.ActionLink("Turnieje", "")</li>
+                    <li>@Html.ActionLink("O serwisie", "About", "Home", new { area = "" }, null)</li>
+                    <li>@Html.ActionLink("Kontakt", "Contact", "Home", new { area = "" }, null)</li>
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>
@@ -32,7 +33,7 @@
         @RenderBody()
         <hr />
         <footer>
-            <p id="time"></p>
+            <p id="time">Czas systemowy: @DateTime.Now.ToString("HH:mm:ss, dd.MM.yyyy")</p>
             <p>&copy; @DateTime.Now.Year - Serwis algorytmicznych potyczek - Mateusz Kniżewski</p>
         </footer>
     </div>

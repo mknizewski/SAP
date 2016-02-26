@@ -40,6 +40,16 @@ namespace SAP.DAL.Tables
         [Required]
         public string LastName { get; set; }
 
+        public string City { get; set; }
+
+        public string PostalCode { get; set; }
+
+        public string Street { get; set; }
+
+        public string HouseNumber { get; set; }
+
+        public int Phone { get; set; }
+
         public ICollection<ApplicationUserRole> UserRoles { get; set; }
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)

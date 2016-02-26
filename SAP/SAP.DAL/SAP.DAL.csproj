@@ -105,6 +105,8 @@
     <Compile Include="Tables\TasksTestData.cs" />
     <Compile Include="Tables\Tournament.cs" />
     <Compile Include="Tables\TournamentUsers.cs" />
+    <Compile Include="Tables\UsersCounselor.cs" />
+    <Compile Include="Tables\UsersShools.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

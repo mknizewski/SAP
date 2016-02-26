@@ -9,5 +9,7 @@ namespace SAP.DAL.Abstract
 
         bool TryAdd(Contact model);
         bool TryDelete(int id);
+
+        void Dispose();
     }
 }
