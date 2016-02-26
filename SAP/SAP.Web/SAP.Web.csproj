@@ -250,6 +250,7 @@
     </Compile>
     <Compile Include="HTMLHelpers\Alert.cs" />
     <Compile Include="Infrastructrue\Filters\CheckBrowserFilter.cs" />
+    <Compile Include="Infrastructrue\IoC\NinjectDepedencyResolver.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ContactModel.cs" />
     <Compile Include="Areas\User\Models\ManageViewModels.cs" />
