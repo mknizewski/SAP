@@ -110,8 +110,8 @@ namespace SAP.Web.Models
         public string UserPostalCode { get; set; }
 
         [Display(Name = "Telefon")]
-        [Phone]
-        public int UserPhone { get; set; }
+        [DataType(DataType.PhoneNumber)]
+        public string UserPhone { get; set; }
 
         //Dane szkoły
 
@@ -142,8 +142,8 @@ namespace SAP.Web.Models
         public string SchoolPostalCode { get; set; }
 
         [Display(Name = "Telefon")]
-        [Phone]
-        public int SchoolPhone { get; set; }
+        [DataType(DataType.PhoneNumber)]
+        public string SchoolPhone { get; set; }
 
         //Opiekun
 
@@ -156,7 +156,7 @@ namespace SAP.Web.Models
         public string CounselorLastName { get; set; }
 
         //Zgoda na przetwarzanie danych
-        [MustBeTrue(ErrorMessage = "Musisz zakceptować by przejśc dalej!")]
+        [MustBeTrue(ErrorMessage = "Musisz zakceptować, by móc się zarejestrować!")]
         public bool AcceptProcessingPD { get; set; }
     }
 

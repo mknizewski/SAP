@@ -11,7 +11,7 @@ using System.Web.Mvc;
 
 namespace SAP.Web.Areas.User.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "User")]
     public class ManageController : Controller
     {
         private ApplicationSignInManager _signInManager;
@@ -53,7 +53,7 @@ namespace SAP.Web.Areas.User.Controllers
 
         //
         // GET: /Manage/Index
-        public async Task<ActionResult> Index(ManageMessageId? message)
+        public ActionResult Index(ManageMessageId? message)
         {
             ViewBag.StatusMessage =
                 message == ManageMessageId.ChangePasswordSuccess ? "Your password has been changed."
@@ -64,16 +64,7 @@ namespace SAP.Web.Areas.User.Controllers
                 : message == ManageMessageId.RemovePhoneSuccess ? "Your phone number was removed."
                 : "";
 
-            var userId = User.Identity.GetUserId();
-            var model = new IndexViewModel
-            {
-                HasPassword = HasPassword(),
-                PhoneNumber = await UserManager.GetPhoneNumberAsync(userId),
-                TwoFactor = await UserManager.GetTwoFactorEnabledAsync(userId),
-                Logins = await UserManager.GetLoginsAsync(userId),
-                BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(userId)
-            };
-            return View(model);
+            return View();
         }
 
         //

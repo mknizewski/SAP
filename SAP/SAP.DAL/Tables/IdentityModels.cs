@@ -48,8 +48,6 @@ namespace SAP.DAL.Tables
 
         public string HouseNumber { get; set; }
 
-        public int Phone { get; set; }
-
         public ICollection<ApplicationUserRole> UserRoles { get; set; }
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)

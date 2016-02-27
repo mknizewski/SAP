@@ -50,12 +50,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Abstract\IContactManager.cs" />
+    <Compile Include="Abstract\IUserManager.cs" />
     <Compile Include="HelperClasses\Attributes\MustBeTrueAttribute.cs" />
     <Compile Include="HelperClasses\Attributes\PolandPostalCode.cs" />
     <Compile Include="HelperClasses\SetAlert.cs" />
+    <Compile Include="HelperClasses\UserData.cs" />
     <Compile Include="LogicClasses\Compiler.cs" />
     <Compile Include="LogicClasses\Managers\ContactManager.cs" />
     <Compile Include="LogicClasses\Exceptions\CompilerExceptions.cs" />
+    <Compile Include="LogicClasses\Managers\UserManager.cs" />
     <Compile Include="LogicClasses\ServerTime.cs" />
   </ItemGroup>
   <ItemGroup />

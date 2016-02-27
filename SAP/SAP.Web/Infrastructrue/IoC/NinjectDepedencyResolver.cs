@@ -1,8 +1,11 @@
-﻿using Ninject;
+﻿using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
+using Ninject;
 using SAP.BOL.Abstract;
 using SAP.BOL.LogicClasses.Managers;
 using SAP.DAL.Abstract;
 using SAP.DAL.Repositories;
+using SAP.DAL.Tables;
 using System;
 using System.Collections.Generic;
 using System.Web.Mvc;
@@ -34,6 +37,9 @@ namespace SAP.Web.Infrastructrue.IoC
         {
             _kernel.Bind<IContactRepository>().To<ContactRepository>();
             _kernel.Bind<IContactManager>().To<ContactManager>();
+
+            _kernel.Bind<IUserRepository>().To<UserRepository>();
+            _kernel.Bind<IUserManager>().To<UserManager>();
         }
     }
 }

@@ -20,7 +20,7 @@ namespace SAP.DAL.Tables
         public string Street { get; set; }
         public string HouseNumber { get; set; }
         public string PostalCode { get; set; }
-        public int Phone { get; set; }
+        public string Phone { get; set; }
 
         public virtual ApplicationUser User { get; set; }
     }
