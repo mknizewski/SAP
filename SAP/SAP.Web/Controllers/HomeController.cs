@@ -1,6 +1,8 @@
-﻿using SAP.BOL.Abstract;
+﻿using reCaptcha;
+using SAP.BOL.Abstract;
 using SAP.BOL.HelperClasses;
 using SAP.Web.Models;
+using System.Configuration;
 using System.Web.Mvc;
 
 namespace SAP.Web.Controllers
@@ -36,19 +38,29 @@ namespace SAP.Web.Controllers
         [HttpPost]
         public ActionResult Contact(ContactModel model, string ReturnUrl)
         {
-            bool result = _contactManager.AddNewContact(model.Name, model.Surname, model.Email, model.Message);
+            var privateKey = ConfigurationManager.AppSettings.Get("reCaptchaPrivateKey");
 
-            if (result)
+            if (ReCaptcha.Validate(privateKey))
             {
-                TempData["Alert"] = SetAlert.Set("Dziękujemy za wiadomość!", "Sukces", AlertType.Success);
+                bool result = _contactManager.AddNewContact(model.Name, model.Surname, model.Email, model.Message);
 
-                return RedirectToLocal(ReturnUrl);
+                if (result)
+                {
+                    TempData["Alert"] = SetAlert.Set("Dziękujemy za wiadomość!", "Sukces", AlertType.Success);
+
+                    return RedirectToLocal(ReturnUrl);
+                }
+                else
+                {
+                    TempData["Alert"] = SetAlert.Set("Wystąpił błąd, prosimy spróbwać ponownie później.", "Błąd", AlertType.Danger);
+
+                    return RedirectToAction("Contact");
+                }
             }
             else
             {
-                TempData["Alert"] = SetAlert.Set("Wystąpił błąd, prosimy spróbwać ponownie później.", "Błąd", AlertType.Danger);
-
-                return RedirectToAction("Contact");
+                TempData["Alert"] = SetAlert.Set("Musisz udowodnić że nie jesteś robotem poprzez captcha!", "Błąd", AlertType.Danger);
+                return View();
             }
         }
 

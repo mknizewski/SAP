@@ -35,7 +35,7 @@
         <h4>Informacje o użytkowniku.</h4>
         <hr />
         <div class="row">
-            <div class="col-md-9">
+            <div class="col-md-8">
                 <div class="form-group">
                     @Html.Label("Imię:", new { @class = "col-md-2 control-label" })
                     <div class="col-md-10">
@@ -55,7 +55,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-4">
                 <address>
                     @Model.UserPostalCode, @Model.UserCity <br />
                     ul. @Model.UserStreet @Model.UserHouseNumber <br />
@@ -68,7 +68,7 @@
         <h4>Szkoła.</h4>
         <hr />
         <div class="row">
-            <div class="col-md-9">
+            <div class="col-md-8">
                 <div class="form-group">
                     @Html.Label("Nazwa:", new { @class = "col-md-2 control-label"})
                     <div class="col-md-10">
@@ -82,7 +82,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-4">
                 <address>
                     @Model.SchoolPostalCode, @Model.SchoolCity <br />
                     ul. @Model.SchoolStreet @Model.SchoolHouseNumber <br />
@@ -115,6 +115,6 @@
 </div>
 
 <ul class="breadcrumb">
-    <li><a href="#">Główna</a></li>
+    <li><a href='@Url.Action("Index", "Home", new { area = ""})'>Główna</a></li>
     <li class="active">Użytkownik</li>
 </ul>

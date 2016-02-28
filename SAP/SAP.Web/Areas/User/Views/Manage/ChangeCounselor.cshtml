@@ -1,0 +1,72 @@
+﻿@model SAP.Web.Areas.User.Models.UserCounselorViewModel
+
+@{
+    ViewBag.Title = "Zmiana danych opiekuna";
+}
+
+<h2>Zmiana danych opiekuna.</h2>
+<h4>Wprowadź nowe dane.</h4>
+<hr />
+
+<div class="row">
+    <div class="col-md-3">
+        <div class="list-group">
+            <a href='@Url.Action("Index", "Home")' class="list-group-item">
+                <h4 class="list-group-item-heading">Główna</h4>
+                <p class="list-group-item-text">Strona główna Twojego konta.</p>
+            </a>
+            <a href='@Url.Action("Index", "Manage")' class="list-group-item active">
+                <h4 class="list-group-item-heading">Zarządzanie</h4>
+                <p class="list-group-item-text">Tu zmienisz ustawienia swojego konta.</p>
+            </a>
+            <a href="#" class="list-group-item">
+                <h4 class="list-group-item-heading">Twoje turnieje</h4>
+                <p class="list-group-item-text">Dostęp do informacji o Twoim udziale w turniejach.</p>
+            </a>
+            <a href="#" class="list-group-item">
+                <h4 class="list-group-item-heading">Powiadomienia <span class="badge">69</span></h4>
+                <p class="list-group-item-text">Twoje powiadomienia nt. truniejów, zadań oraz zasad funkcjonowania.</p>
+            </a>
+        </div>
+    </div>
+    <div class="col-md-9">
+        @using (Html.BeginForm("ChangeCounselor", "Manage", FormMethod.Post, new { @class = "form-horizontal", @role = "form" }))
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-group">
+                @Html.LabelFor(x => x.CounselorFirstName, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(x => x.CounselorFirstName, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(x => x.CounselorFirstName, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(x => x.CounselorLastName, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(x => x.CounselorLastName, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(x => x.CounselorLastName, "" , new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-3 col-md-9">
+                    <a href='@Url.Action("Index", "Manage")' class="btn btn-default">Cofnij</a>
+                    <input type="submit" class="btn btn-success" value="Zapisz zmiany" />
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+<ul class="breadcrumb">
+    <li><a href='@Url.Action("Index", "Home", new { area = "" })'>Główna</a></li>
+    <li><a href='@Url.Action("Index", "Home")'>Użytkownik</a></li>
+    <li><a href='@Url.Action("Index", "Manage")'>Zarządzanie</a></li>
+    <li class="active">Zmiana opiekuna</li>
+</ul>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

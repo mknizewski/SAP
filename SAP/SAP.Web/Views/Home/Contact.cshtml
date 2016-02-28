@@ -47,9 +47,13 @@
                         @Html.ValidationMessageFor(x => x.Message, "", new { @class = "text-danger" })
                     </div>
                 </div>
+                
+                <br />
+                @reCaptcha.ReCaptcha.GetHtml(theme: "white", lang: "PL", publicKey: "6LdqZBkTAAAAAGDDQrrcQ0-Vn5aH4T96SVry0rGH")
+                <br />
 
                 <div class="form-group">
-                    <div class="col-md-offset-2 col-md-10">
+                    <div class="col-md-offset-4 col-md-8">
                         <input type = "submit" value="Wyślij" class="btn btn-success" />
                     </div>
                 </div>
@@ -84,6 +88,13 @@
 <h3>Dojazd do Kampusu Uniwersytetu w Białymstoku</h3>
 <br />
 <img src="~/Images/mapka.png" alt="mapa" class="img-responsive center-block" />
+
+<br />
+
+<ul class="breadcrumb">
+    <li><a href='@Url.Action("Index", "Home")'>Główna</a></li>
+    <li class="active">Kontakt</li>
+</ul>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

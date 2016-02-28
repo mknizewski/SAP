@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
+using SAP.BOL.Abstract;
+using SAP.BOL.HelperClasses;
 using SAP.DAL.DbContext;
 using SAP.Web.Areas.User.Models;
 using SAP.Web.Controllers;
@@ -15,16 +17,16 @@ namespace SAP.Web.Areas.User.Controllers
     public class ManageController : Controller
     {
         private ApplicationSignInManager _signInManager;
-        private ApplicationUserManager _userManager;
+        private ApplicationUserManager _aspUserManager;
+        private IUserManager _userManager;
 
         public ManageController()
         {
         }
 
-        public ManageController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
+        public ManageController(IUserManager userManager)
         {
-            UserManager = userManager;
-            SignInManager = signInManager;
+            _userManager = userManager;
         }
 
         public ApplicationSignInManager SignInManager
@@ -39,15 +41,15 @@ namespace SAP.Web.Areas.User.Controllers
             }
         }
 
-        public ApplicationUserManager UserManager
+        public ApplicationUserManager AspUserManager
         {
             get
             {
-                return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+                return _aspUserManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
             }
             private set
             {
-                _userManager = value;
+                _aspUserManager = value;
             }
         }
 
@@ -56,13 +58,16 @@ namespace SAP.Web.Areas.User.Controllers
         public ActionResult Index(ManageMessageId? message)
         {
             ViewBag.StatusMessage =
-                message == ManageMessageId.ChangePasswordSuccess ? "Your password has been changed."
-                : message == ManageMessageId.SetPasswordSuccess ? "Your password has been set."
-                : message == ManageMessageId.SetTwoFactorSuccess ? "Your two-factor authentication provider has been set."
-                : message == ManageMessageId.Error ? "An error has occurred."
-                : message == ManageMessageId.AddPhoneSuccess ? "Your phone number was added."
-                : message == ManageMessageId.RemovePhoneSuccess ? "Your phone number was removed."
-                : "";
+                message == ManageMessageId.ChangePasswordSuccess ? SetAlert.Set("Twoje hasło zostało zmienione.", "Sukces", AlertType.Success)
+                : message == ManageMessageId.ChangeSchoolDataSuccess ? SetAlert.Set("Dane szkoły zostały zaktualizowane.", "Sukces", AlertType.Success)
+                : message == ManageMessageId.ChangeCounselorDataSuccess ? SetAlert.Set("Dane opiekuna zostały zaktualizowane.", "Sukces", AlertType.Success)
+                : message == ManageMessageId.ChangeUserDataSuccess ? SetAlert.Set("Twoje dane zostały zaktualizowane.", "Sukces", AlertType.Success)
+                : message == ManageMessageId.ChangeEmailSuccess ? SetAlert.Set("Twój email został zmieniony. Na twoją skrzynkę pocztową zostało wysłane nowe potwierdzenie adresu.", "Sukces", AlertType.Success)
+                : message == ManageMessageId.Error ? SetAlert.Set("Wystąpił nieoczekiwany błąd. Spróbuj ponownie później.", "Błąd", AlertType.Danger)
+                : null;
+
+            ViewBag.Email = AspUserManager.IsEmailConfirmed(User.Identity.GetUserId());
+            ViewBag.Phone = AspUserManager.IsPhoneNumberConfirmed(User.Identity.GetUserId());
 
             return View();
         }
@@ -74,10 +79,10 @@ namespace SAP.Web.Areas.User.Controllers
         public async Task<ActionResult> RemoveLogin(string loginProvider, string providerKey)
         {
             ManageMessageId? message;
-            var result = await UserManager.RemoveLoginAsync(User.Identity.GetUserId(), new UserLoginInfo(loginProvider, providerKey));
+            var result = await AspUserManager.RemoveLoginAsync(User.Identity.GetUserId(), new UserLoginInfo(loginProvider, providerKey));
             if (result.Succeeded)
             {
-                var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
+                var user = await AspUserManager.FindByIdAsync(User.Identity.GetUserId());
                 if (user != null)
                 {
                     await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
@@ -89,6 +94,156 @@ namespace SAP.Web.Areas.User.Controllers
                 message = ManageMessageId.Error;
             }
             return RedirectToAction("ManageLogins", new { Message = message });
+        }
+
+        public ActionResult ChangeUserData()
+        {
+            var dbModel = AspUserManager.FindById(User.Identity.GetUserId());
+            
+            UserDataViewModel viewModel = new UserDataViewModel
+            {
+                Name = dbModel.FirstName,
+                Surname = dbModel.LastName,
+                UserCity = dbModel.City,
+                UserHouseNumber = dbModel.HouseNumber,
+                UserPhone = dbModel.PhoneNumber,
+                UserPostalCode = dbModel.PostalCode,
+                UserStreet = dbModel.Street
+            };
+
+            return View(viewModel);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> ChangeUserData(UserDataViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = AspUserManager.FindById(User.Identity.GetUserId());
+
+                user.City = model.UserCity;
+                user.HouseNumber = model.UserHouseNumber;
+                user.PostalCode = model.UserPostalCode;
+                user.PhoneNumber = model.UserPhone;
+                user.Street = model.UserStreet;
+                user.FirstName = model.Name;
+                user.LastName = model.Surname;
+
+               var result = await AspUserManager.UpdateAsync(user);
+
+                if (result.Succeeded)
+                    return RedirectToAction("Index", new { Message = ManageMessageId.ChangeUserDataSuccess });
+                else
+                    return RedirectToAction("Index", new { Message = ManageMessageId.Error });
+            }
+            else
+                return View(model);
+        }
+
+        public ActionResult ChangeSchool()
+        {
+            var dbModel = _userManager.GetUserSchoolById(User.Identity.GetUserId()); 
+
+            UserSchoolViewModel viewModel = new UserSchoolViewModel
+            {
+                SchoolName = dbModel.Name,
+                SchoolCity = dbModel.City,
+                SchoolClass = dbModel.Class,
+                SchoolHouseNumber = dbModel.HouseNumber,
+                SchoolPhone = dbModel.Phone,
+                SchoolPostalCode = dbModel.PostalCode,
+                SchoolStreet = dbModel.Street
+            };
+
+            return View(viewModel);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult ChangeSchool(UserSchoolViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                bool result = _userManager.ChangeUserSchool(User.Identity.GetUserId(), model.SchoolName, model.SchoolClass, model.SchoolCity,
+                    model.SchoolHouseNumber, model.SchoolPostalCode, model.SchoolStreet, model.SchoolPhone);
+
+                if (result)
+                    return RedirectToAction("Index", new { Message = ManageMessageId.ChangeSchoolDataSuccess });
+                else
+                    return RedirectToAction("Index", new { Message = ManageMessageId.Error });
+            }
+            else
+                return View(model);
+        }
+
+        public ActionResult ChangeCounselor()
+        {
+            var dbModel = _userManager.GetUserCounselorById(User.Identity.GetUserId());
+
+            UserCounselorViewModel viewModel = new UserCounselorViewModel
+            {
+                CounselorFirstName = dbModel.FirstName,
+                CounselorLastName = dbModel.LastName
+            };
+
+            return View(viewModel);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult ChangeCounselor(UserCounselorViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                bool result = _userManager.ChangeUserCounselor(User.Identity.GetUserId(), model.CounselorFirstName, model.CounselorLastName);
+
+                if (result)
+                    return RedirectToAction("Index", new { Message = ManageMessageId.ChangeCounselorDataSuccess });
+                else
+                    return RedirectToAction("Index", new { Message = ManageMessageId.Error });
+            }
+            else
+                return View(model);
+        }
+
+        public ActionResult ChangeEmail()
+        {
+            TempData["Alert"] = SetAlert.Set("Zmieniając email będziesz musiał logować się przy pomocy nowego adresu.", "Uwaga", AlertType.Warning);
+
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> ChangeEmail(UserChangeEmailViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = AspUserManager.FindById(User.Identity.GetUserId());
+
+                user.Email = model.Email;
+                user.EmailConfirmed = false;
+                user.UserName = model.Email;
+
+                var result = await AspUserManager.UpdateAsync(user);
+
+                if (result.Succeeded)
+                {
+                    //TODO: Wysłać email z potwierdzeniem
+
+                    if (user != null)
+                    {
+                        await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+                    }
+
+                    return RedirectToAction("Index", new { Message = ManageMessageId.ChangeEmailSuccess });
+                }
+                else
+                    return RedirectToAction("Index", new { Message = ManageMessageId.Error });
+            }
+            else
+                return View();
         }
 
         //
@@ -109,15 +264,15 @@ namespace SAP.Web.Areas.User.Controllers
                 return View(model);
             }
             // Generate the token and send it
-            var code = await UserManager.GenerateChangePhoneNumberTokenAsync(User.Identity.GetUserId(), model.Number);
-            if (UserManager.SmsService != null)
+            var code = await AspUserManager.GenerateChangePhoneNumberTokenAsync(User.Identity.GetUserId(), model.Number);
+            if (AspUserManager.SmsService != null)
             {
                 var message = new IdentityMessage
                 {
                     Destination = model.Number,
                     Body = "Your security code is: " + code
                 };
-                await UserManager.SmsService.SendAsync(message);
+                await AspUserManager.SmsService.SendAsync(message);
             }
             return RedirectToAction("VerifyPhoneNumber", new { PhoneNumber = model.Number });
         }
@@ -128,8 +283,8 @@ namespace SAP.Web.Areas.User.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> EnableTwoFactorAuthentication()
         {
-            await UserManager.SetTwoFactorEnabledAsync(User.Identity.GetUserId(), true);
-            var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
+            await AspUserManager.SetTwoFactorEnabledAsync(User.Identity.GetUserId(), true);
+            var user = await AspUserManager.FindByIdAsync(User.Identity.GetUserId());
             if (user != null)
             {
                 await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
@@ -143,8 +298,8 @@ namespace SAP.Web.Areas.User.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DisableTwoFactorAuthentication()
         {
-            await UserManager.SetTwoFactorEnabledAsync(User.Identity.GetUserId(), false);
-            var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
+            await AspUserManager.SetTwoFactorEnabledAsync(User.Identity.GetUserId(), false);
+            var user = await AspUserManager.FindByIdAsync(User.Identity.GetUserId());
             if (user != null)
             {
                 await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
@@ -156,7 +311,7 @@ namespace SAP.Web.Areas.User.Controllers
         // GET: /Manage/VerifyPhoneNumber
         public async Task<ActionResult> VerifyPhoneNumber(string phoneNumber)
         {
-            var code = await UserManager.GenerateChangePhoneNumberTokenAsync(User.Identity.GetUserId(), phoneNumber);
+            var code = await AspUserManager.GenerateChangePhoneNumberTokenAsync(User.Identity.GetUserId(), phoneNumber);
             // Send an SMS through the SMS provider to verify the phone number
             return phoneNumber == null ? View("Error") : View(new VerifyPhoneNumberViewModel { PhoneNumber = phoneNumber });
         }
@@ -171,10 +326,10 @@ namespace SAP.Web.Areas.User.Controllers
             {
                 return View(model);
             }
-            var result = await UserManager.ChangePhoneNumberAsync(User.Identity.GetUserId(), model.PhoneNumber, model.Code);
+            var result = await AspUserManager.ChangePhoneNumberAsync(User.Identity.GetUserId(), model.PhoneNumber, model.Code);
             if (result.Succeeded)
             {
-                var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
+                var user = await AspUserManager.FindByIdAsync(User.Identity.GetUserId());
                 if (user != null)
                 {
                     await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
@@ -190,12 +345,12 @@ namespace SAP.Web.Areas.User.Controllers
         // GET: /Manage/RemovePhoneNumber
         public async Task<ActionResult> RemovePhoneNumber()
         {
-            var result = await UserManager.SetPhoneNumberAsync(User.Identity.GetUserId(), null);
+            var result = await AspUserManager.SetPhoneNumberAsync(User.Identity.GetUserId(), null);
             if (!result.Succeeded)
             {
                 return RedirectToAction("Index", new { Message = ManageMessageId.Error });
             }
-            var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
+            var user = await AspUserManager.FindByIdAsync(User.Identity.GetUserId());
             if (user != null)
             {
                 await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
@@ -220,18 +375,22 @@ namespace SAP.Web.Areas.User.Controllers
             {
                 return View(model);
             }
-            var result = await UserManager.ChangePasswordAsync(User.Identity.GetUserId(), model.OldPassword, model.NewPassword);
+            var result = await AspUserManager.ChangePasswordAsync(User.Identity.GetUserId(), model.OldPassword, model.NewPassword);
             if (result.Succeeded)
             {
-                var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
+                var user = await AspUserManager.FindByIdAsync(User.Identity.GetUserId());
                 if (user != null)
                 {
                     await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
                 }
                 return RedirectToAction("Index", new { Message = ManageMessageId.ChangePasswordSuccess });
             }
-            AddErrors(result);
-            return View(model);
+            else
+            {
+                TempData["Alert"] = SetAlert.Set("Wprowadzone hasło jest niepoprawne!", "Błąd", AlertType.Danger);
+                return View(model);
+            }
+            
         }
 
         //
@@ -249,10 +408,10 @@ namespace SAP.Web.Areas.User.Controllers
         {
             if (ModelState.IsValid)
             {
-                var result = await UserManager.AddPasswordAsync(User.Identity.GetUserId(), model.NewPassword);
+                var result = await AspUserManager.AddPasswordAsync(User.Identity.GetUserId(), model.NewPassword);
                 if (result.Succeeded)
                 {
-                    var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
+                    var user = await AspUserManager.FindByIdAsync(User.Identity.GetUserId());
                     if (user != null)
                     {
                         await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
@@ -274,12 +433,12 @@ namespace SAP.Web.Areas.User.Controllers
                 message == ManageMessageId.RemoveLoginSuccess ? "The external login was removed."
                 : message == ManageMessageId.Error ? "An error has occurred."
                 : "";
-            var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
+            var user = await AspUserManager.FindByIdAsync(User.Identity.GetUserId());
             if (user == null)
             {
                 return View("Error");
             }
-            var userLogins = await UserManager.GetLoginsAsync(User.Identity.GetUserId());
+            var userLogins = await AspUserManager.GetLoginsAsync(User.Identity.GetUserId());
             var otherLogins = AuthenticationManager.GetExternalAuthenticationTypes().Where(auth => userLogins.All(ul => auth.AuthenticationType != ul.LoginProvider)).ToList();
             ViewBag.ShowRemoveButton = user.PasswordHash != null || userLogins.Count > 1;
             return View(new ManageLoginsViewModel
@@ -308,7 +467,7 @@ namespace SAP.Web.Areas.User.Controllers
             {
                 return RedirectToAction("ManageLogins", new { Message = ManageMessageId.Error });
             }
-            var result = await UserManager.AddLoginAsync(User.Identity.GetUserId(), loginInfo.Login);
+            var result = await AspUserManager.AddLoginAsync(User.Identity.GetUserId(), loginInfo.Login);
             return result.Succeeded ? RedirectToAction("ManageLogins") : RedirectToAction("ManageLogins", new { Message = ManageMessageId.Error });
         }
 
@@ -316,6 +475,8 @@ namespace SAP.Web.Areas.User.Controllers
         {
             if (disposing && _userManager != null)
             {
+                AspUserManager.Dispose();
+                AspUserManager = null;
                 _userManager.Dispose();
                 _userManager = null;
             }
@@ -346,7 +507,7 @@ namespace SAP.Web.Areas.User.Controllers
 
         private bool HasPassword()
         {
-            var user = UserManager.FindById(User.Identity.GetUserId());
+            var user = AspUserManager.FindById(User.Identity.GetUserId());
             if (user != null)
             {
                 return user.PasswordHash != null;
@@ -356,7 +517,7 @@ namespace SAP.Web.Areas.User.Controllers
 
         private bool HasPhoneNumber()
         {
-            var user = UserManager.FindById(User.Identity.GetUserId());
+            var user = AspUserManager.FindById(User.Identity.GetUserId());
             if (user != null)
             {
                 return user.PhoneNumber != null;
@@ -368,6 +529,10 @@ namespace SAP.Web.Areas.User.Controllers
         {
             AddPhoneSuccess,
             ChangePasswordSuccess,
+            ChangeSchoolDataSuccess,
+            ChangeUserDataSuccess,
+            ChangeEmailSuccess,
+            ChangeCounselorDataSuccess,
             SetTwoFactorSuccess,
             SetPasswordSuccess,
             RemoveLoginSuccess,

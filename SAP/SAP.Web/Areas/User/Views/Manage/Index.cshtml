@@ -2,6 +2,9 @@
 
 @{
     ViewBag.Title = "Zarządzanie kontem";
+
+    var phone = ViewBag.Phone == true ? "TAK" : "NIE";
+    var email = ViewBag.Email == true ? "TAK" : "NIE";
 }
 
 <h2>Twoje konto.</h2>
@@ -33,26 +36,106 @@
 
     <div class="col-md-9">
 
-        <div class="row">
-            <div class="col-md-6 text-center">
-                <a href="#" class="btn btn-info btn-lg">Aktualizacja <br /> danych</a>
+        @SAP.Web.HTMLHelpers.Alert.GetAlert(ViewBag.StatusMessage)
+
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">Wybierz typ ustawień</h3>
             </div>
-            <div class="col-md-6 text-center">
-                <a href="#" class="btn btn-info btn-lg">Aktualizacja <br /> danych szkoły</a>
+            <div class="panel-body">
+                
+                <div class="row">
+                    <div class="col-md-8">
+                        Aktualizacja danych osobowych
+                    </div>
+                    <div class="col-md-4">
+                        <a href='@Url.Action("ChangeUserData", "Manage")' class="btn btn-info">Przejdź &raquo;</a>
+                    </div>
+                </div>
+
+                <br />
+
+                <div class="row">
+                    <div class="col-md-8">
+                        Aktualizacja danych szkoły
+                    </div>
+                    <div class="col-md-4">
+                        <a href='@Url.Action("ChangeSchool", "Manage")' class="btn btn-info">Przejdź &raquo;</a>
+                    </div>
+                </div>
+
+                <br />
+
+                <div class="row">
+                    <div class="col-md-8">
+                        Aktualizacja danych opiekuna
+                    </div>
+                    <div class="col-md-4">
+                        <a href='@Url.Action("ChangeCounselor", "Manage")' class="btn btn-info">Przejdź &raquo;</a>
+                    </div>
+                </div>
+
+                <br />
+
+                <div class="row">
+                    <div class="col-md-8">
+                        Zmiana adresu email
+                    </div>
+                    <div class="col-md-4">
+                        <a href='@Url.Action("ChangeEmail", "Manage")' class="btn btn-info">Przejdź &raquo;</a>
+                    </div>
+                </div>
+
+                <br />
+
+                <div class="row">
+                    <div class="col-md-8">
+                        Zmiana hasła
+                    </div>
+                    <div class="col-md-4">
+                        <a href='@Url.Action("ChangePassword", "Manage")' class="btn btn-info">Przejdź &raquo;</a>
+                    </div>
+                </div>
+
             </div>
         </div>
 
-        <br />
-        <br />
-        <br />
-        <br />
-
-        <div class="row">
-            <div class="col-md-6 text-center">
-                <a href="#" class="btn btn-info btn-lg">Zmiana hasła</a>
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <h3 class="panel-title">Autoryzacja konta</h3>
             </div>
-            <div class="col-md-6 text-center">
-                <a href="#" class="btn btn-info btn-lg">Aktualizacja <br /> danych opiekuna</a>
+            <div class="panel-body">
+                
+                <div class="row">
+                    <div class="col-md-8">
+                        Email potwierdzony: @email
+                    </div>
+                    <div class="col-md-4">
+                        @{ 
+                            if (ViewBag.Email == false)
+                            {
+                                <a href="#" class="btn btn-success text-center">Wyślij ponownie</a>
+                            }
+                        }
+                    </div>
+                </div>
+
+                <br />
+
+                <div class="row">
+                    <div class="col-md-8">
+                        Telefon potwierdzony: @phone
+                    </div>
+                    <div class="col-md-4">
+                        @{ 
+                            if (ViewBag.Phone == false)
+                            {
+                                <a href="#" class="btn btn-success text-center">Wyślij ponownie</a>
+                            }
+                        }
+                    </div>
+                </div>
+
             </div>
         </div>
 
@@ -61,7 +144,7 @@
 </div>
 
 <ul class="breadcrumb">
-    <li><a href="#">Główna</a></li>
-    <li><a href="#">Użytkownik</a></li>
+    <li><a href='@Url.Action("Index", "Home", new { area = "" })'>Główna</a></li>
+    <li><a href='@Url.Action("Index", "Home")'>Użytkownik</a></li>
     <li class="active">Zarządzanie</li>
 </ul>

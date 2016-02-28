@@ -288,6 +288,11 @@
     <Content Include="Areas\Tournament\Views\web.config" />
     <Content Include="Areas\User\Views\Manage\Index.cshtml" />
     <Content Include="Areas\User\Views\Home\Index.cshtml" />
+    <Content Include="Areas\User\Views\Manage\ChangePassword.cshtml" />
+    <Content Include="Areas\User\Views\Manage\ChangeSchool.cshtml" />
+    <Content Include="Areas\User\Views\Manage\ChangeCounselor.cshtml" />
+    <Content Include="Areas\User\Views\Manage\ChangeUserData.cshtml" />
+    <Content Include="Areas\User\Views\Manage\ChangeEmail.cshtml" />
     <None Include="Scripts\jquery-2.2.0.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
