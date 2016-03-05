@@ -6,7 +6,7 @@ namespace SAP.DAL.Tables
     {
         [Key]
         public int Id { get; set; }
-
+        public int SystemId { get; set; }
         public string CompilerName { get; set; }
         public string FullPath { get; set; }
     }

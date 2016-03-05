@@ -4,13 +4,14 @@ using System.Threading.Tasks;
 using SAP.BOL.LogicClasses.Exceptions;
 using System.Timers;
 using System.Diagnostics;
+using SAP.BOL.Abstract;
 
 namespace SAP.BOL.LogicClasses
 {
     /// <summary>
     /// Klasa kompilująca / uruchamiająca programy uczestników turnieju
     /// </summary>
-    public class Compiler : IDisposable
+    public class ProgramManager : IProgramManager, IDisposable
     {
         private string tempPath;
         private string compiledFile;
@@ -41,7 +42,7 @@ namespace SAP.BOL.LogicClasses
         public double MemoryUsed { get { return memoryUsed; } }
         public InputDataType InputDataType { get { return inputDataType; } set { inputDataType = value; } }
 
-        public Compiler()
+        public ProgramManager()
         {
             string tempDirectory = Path.GetRandomFileName();
             tempPath = Path.Combine(Path.GetTempPath(), tempDirectory);
@@ -51,8 +52,10 @@ namespace SAP.BOL.LogicClasses
         public void CompileAndExecute()
         {
             Compile();
-            Execute();
-        }
+
+            if (!hasErrors)
+                Execute();
+          }
 
         public void Compile()
         {
@@ -93,7 +96,8 @@ namespace SAP.BOL.LogicClasses
 
                     case CompilerType.Pascal:
                         compileInfo.FileName = CompilerInfo.PascalPath;
-                        compileInfo.Arguments = sourceFile + ".pp";
+                        File.AppendAllText(sourceFile + ".pas", program);
+                        compileInfo.Arguments = sourceFile + ".pas";
                         break;
                 }
 
@@ -138,38 +142,37 @@ namespace SAP.BOL.LogicClasses
                 timer.Interval = maxTime;
                 timer.Elapsed += StopTask;
 
-                timer.Start();
-                executeTask = Task.Run(() =>
+                //timer.Start();
+                switch (inputDataType)
                 {
-                    switch (inputDataType)
-                    {
-                        case InputDataType.Arguments:
-                            exec.StartInfo.Arguments = inputData;
-                            exec.Start();
-                            break;
-                        case InputDataType.Stream:
-                            exec.Start();
-                            if (inputData != String.Empty)
-                            {
-                                StreamWriter input = exec.StandardInput;
-                                input.WriteLine(inputData);
-                                input.Close();
-                            }
-                            break;
-                        case InputDataType.None:
-                            exec.Start();
-                            break;
-                    }
+                    case InputDataType.Arguments:
+                        exec.StartInfo.Arguments = inputData;
+                        exec.Start();
+                        break;
+                    case InputDataType.Stream:
+                        string[] arguments = inputData.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries); // rozdzielanie spacją
+                        exec.Start();
 
-                    outputData = exec.StandardOutput.ReadToEnd();
-                    errorInfo = exec.StandardError.ReadToEnd();
-                    exec.WaitForExit();
-                    executedTime = exec.TotalProcessorTime.Seconds;
-                    memoryUsed = exec.NonpagedSystemMemorySize64;
+                        StreamWriter writer = exec.StandardInput;
+                        foreach(string arg in arguments)
+                            writer.WriteLine(arg);
 
-                    if (errorInfo != String.Empty)
-                        hasErrors = true;
-                });
+                        break;
+                    case InputDataType.None:
+                        exec.Start();
+                        break;
+                }
+
+                memoryUsed = (exec.PrivateMemorySize64 / 1024f) / 1024f;
+                outputData = exec.StandardOutput.ReadToEnd();
+                errorInfo = exec.StandardError.ReadToEnd();
+
+                exec.WaitForExit();
+                exec.Refresh();
+                executedTime = exec.TotalProcessorTime.Milliseconds;
+
+                if (errorInfo != String.Empty)
+                    hasErrors = true;
             }
             else
             {
@@ -177,19 +180,21 @@ namespace SAP.BOL.LogicClasses
                 //TODO: Algorytm wykonania programu javy
             }
 
-            timer.Stop();
-            timer.Dispose();
-            executeTask.Dispose();
+           // timer.Stop();
+           // timer.Dispose();
         }
 
         private void StopTask(object state, ElapsedEventArgs e)
         {
-            executeTask.Dispose();
-            timer.Stop();
-            timer.Dispose();
+            if (executeTask.Status == TaskStatus.Faulted)
+            {
+                executeTask.Dispose();
+                timer.Stop();
+                timer.Dispose();
 
-            hasErrors = true;
-            errorInfo = "Program przekroczył wyznaczony czas!";
+                hasErrors = true;
+                errorInfo = "Program przekroczył wyznaczony czas!";
+            }
         }
 
         public void Dispose()

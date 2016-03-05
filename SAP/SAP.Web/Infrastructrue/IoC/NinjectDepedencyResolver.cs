@@ -2,6 +2,7 @@
 using Microsoft.AspNet.Identity.EntityFramework;
 using Ninject;
 using SAP.BOL.Abstract;
+using SAP.BOL.LogicClasses;
 using SAP.BOL.LogicClasses.Managers;
 using SAP.DAL.Abstract;
 using SAP.DAL.Repositories;
@@ -35,6 +36,9 @@ namespace SAP.Web.Infrastructrue.IoC
         //bindy do IoC
         private void AddBindings()
         {
+            _kernel.Bind<ICompilerRespository>().To<CompilerRepository>();
+            _kernel.Bind<IProgramManager>().To<ProgramManager>();
+            
             _kernel.Bind<IContactRepository>().To<ContactRepository>();
             _kernel.Bind<IContactManager>().To<ContactManager>();
 

@@ -1,0 +1,125 @@
+﻿@model SAP.Web.Areas.Admin.Models.AdminDataViewModel
+
+@{
+    ViewBag.Title = "Zmiana danych konta";
+}
+
+<h2>Zmiana danych konta.</h2>
+<h4>Zmień dotychczasowe ustawienia.</h4>
+<hr />
+
+<!-- Modal -->
+<div id="myModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Wybierz jedną z poniższych opcji</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-4">
+                        Zmiana ustawień konta
+                    </div>
+                    <div class="col-md-8">
+                        <a href='@Url.Action("ChangeData", "ManageUser")' class="btn btn-info">Przejdź &raquo;</a>
+                    </div>
+                </div>
+
+                <br />
+
+                <div class="row">
+                    <div class="col-md-4">
+                        Zmiana hasła
+                    </div>
+                    <div class="col-md-8">
+                        <a href='@Url.Action("ChangePassword", "ManageUser")' class="btn btn-info">Przejdź &raquo;</a>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Zamknij</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-3">
+        <div class="list-group">
+            <a href='@Url.Action("Index", "Home")' class="list-group-item">
+                <h4 class="list-group-item-heading">Główna</h4>
+                <p class="list-group-item-text">Strona główna Twojego konta.</p>
+            </a>
+            <a href="#" data-toggle="modal" data-target="#myModal" class="list-group-item active">
+                <h4 class="list-group-item-heading">Ustawienia</h4>
+                <p class="list-group-item-text">Zmiana ustawień konta.</p>
+            </a>
+            <a href="#" class="list-group-item">
+                <h4 class="list-group-item-heading">Zarządzanie kontami</h4>
+                <p class="list-group-item-text">Dostęp do zarządzania kontami użytkowników serwisu.</p>
+            </a>
+            <a href="#" class="list-group-item">
+                <h4 class="list-group-item-heading">Zarządzanie turniejami</h4>
+                <p class="list-group-item-text">Dostęp do zarządzania turniejami i zadaniami.</p>
+            </a>
+            <a href="#" class="list-group-item">
+                <h4 class="list-group-item-heading">Zarządzanie kompilatorami</h4>
+                <p class="list-group-item-text">Dostęp do ustawień kompilatorów.</p>
+            </a>
+        </div>
+    </div>
+    <div class="col-md-9">
+        @using (Html.BeginForm("ChangeData", "ManageUser", FormMethod.Post, new { @class = "form-horizontal", @role = "form" }))
+        {
+            @Html.AntiForgeryToken()
+
+            <h4>Dane o koncie.</h4>
+            <hr />
+            
+            <div class="form-group">
+                @Html.LabelFor(x => x.FirstName, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(x => x.FirstName, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(x => x.FirstName, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(x => x.LastName, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(x => x.LastName, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(x => x.LastName, "" , new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(x => x.Email, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(x => x.Email, new { @class = "form-control "})
+                    @Html.ValidationMessageFor(x => x.Email, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-3 col-md-9">
+                    <a href='@Url.Action("Index", "Home")' class="btn btn-default">Cofnij</a>
+                    <input type="submit" class="btn btn-success" value="Zapisz zmiany" />
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+<ul class="breadcrumb">
+    <li><a href='@Url.Action("Index", "Home", new { area = "" })'>Główna</a></li>
+    <li><a href='@Url.Action("Index", "Home")'>Administrator</a></li>
+    <li class="active">Zmiana danych</li>
+</ul>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
