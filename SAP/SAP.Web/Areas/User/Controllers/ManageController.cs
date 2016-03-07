@@ -143,18 +143,24 @@ namespace SAP.Web.Areas.User.Controllers
 
         public ActionResult ChangeSchool()
         {
-            var dbModel = _userManager.GetUserSchoolById(User.Identity.GetUserId()); 
+            var dbModel = _userManager.GetUserSchoolById(User.Identity.GetUserId());
+            UserSchoolViewModel viewModel;
 
-            UserSchoolViewModel viewModel = new UserSchoolViewModel
+            if (dbModel != null)
             {
-                SchoolName = dbModel.Name,
-                SchoolCity = dbModel.City,
-                SchoolClass = dbModel.Class,
-                SchoolHouseNumber = dbModel.HouseNumber,
-                SchoolPhone = dbModel.Phone,
-                SchoolPostalCode = dbModel.PostalCode,
-                SchoolStreet = dbModel.Street
-            };
+                viewModel = new UserSchoolViewModel
+                {
+                    SchoolName = dbModel.Name,
+                    SchoolCity = dbModel.City,
+                    SchoolClass = dbModel.Class,
+                    SchoolHouseNumber = dbModel.HouseNumber,
+                    SchoolPhone = dbModel.Phone,
+                    SchoolPostalCode = dbModel.PostalCode,
+                    SchoolStreet = dbModel.Street
+                };
+            }
+            else
+                viewModel = new UserSchoolViewModel();
 
             return View(viewModel);
         }
@@ -180,12 +186,18 @@ namespace SAP.Web.Areas.User.Controllers
         public ActionResult ChangeCounselor()
         {
             var dbModel = _userManager.GetUserCounselorById(User.Identity.GetUserId());
+            UserCounselorViewModel viewModel;
 
-            UserCounselorViewModel viewModel = new UserCounselorViewModel
+            if (dbModel != null)
             {
-                CounselorFirstName = dbModel.FirstName,
-                CounselorLastName = dbModel.LastName
-            };
+                viewModel = new UserCounselorViewModel
+                {
+                    CounselorFirstName = dbModel.FirstName,
+                    CounselorLastName = dbModel.LastName
+                };
+            }
+            else
+                viewModel = new UserCounselorViewModel();
 
             return View(viewModel);
         }

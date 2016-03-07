@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNet.Identity;
+﻿using Microsoft.Ajax.Utilities;
+using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using SAP.BOL.HelperClasses;
 using SAP.DAL.DbContext;
@@ -99,6 +100,48 @@ namespace SAP.Web.Areas.Admin.Controllers
                 return View(model);
             }
 
+        }
+
+        public ActionResult ManageAccounts()
+        {
+            bool isRoot = AspUserManager.IsInRole(User.Identity.GetUserId(), "Root");
+            List<UsersViewModel> viewModel = new List<UsersViewModel>();
+            string userId = User.Identity.GetUserId();
+
+            if (isRoot) // gdy root zwracamy wszystkie konta istniejace w sytstemie oprocz roota
+            {
+               var items = AspUserManager
+                    .Users
+                    .Where(x => x.Id != userId);
+
+                foreach(var x in items)
+                {
+                    viewModel.Add(new UsersViewModel
+                    {
+                        Id = x.Id,
+                        FirstName = x.FirstName,
+                        LastName = x.LastName,
+                        Email = x.Email,
+                        Role = AspUserManager.GetRoles(x.Id).FirstOrDefault()
+                    });
+                }
+            }
+            else // zwyczajny admin na dostęp tylko do kont użytkowników
+            {
+                AspUserManager
+                    .Users
+                    .Where(x => x.Id != userId || AspUserManager.IsInRole(x.Id, "User"))
+                    .ForEach(x => viewModel.Add(new UsersViewModel
+                    {
+                        Id = x.Id,
+                        FirstName = x.FirstName,
+                        LastName = x.LastName,
+                        Email = x.Email,
+                        Role = "User"
+                    }));
+            }
+
+            return View(viewModel);
         }
 
         #region Helpers

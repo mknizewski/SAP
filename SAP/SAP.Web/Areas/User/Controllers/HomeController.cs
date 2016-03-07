@@ -37,7 +37,7 @@ namespace SAP.Web.Areas.User.Controllers
             var user = await AspUserManager.FindByNameAsync(User.Identity.Name);
             var data = _userManager.GetUserDataById(user.Id);
 
-            var modelView = new UserDataModels
+            UserDataModels modelView = new UserDataModels
             {
                 UserId = user.Id,
                 UserEmail = user.Email,
@@ -56,11 +56,14 @@ namespace SAP.Web.Areas.User.Controllers
                 SchoolPhone = data.School.Phone,
                 SchoolPostalCode = data.School.PostalCode,
                 SchoolStreet = data.School.Street,
-
-                CounselorFirstName = data.Counselor.FirstName,
-                CounselorLastName = data.Counselor.LastName
             };
 
+            if (data.Counselor != null)
+            {
+                modelView.CounselorFirstName = data.Counselor.FirstName;
+                modelView.CounselorLastName = data.Counselor.LastName;
+            }
+            
             return View(modelView);
         }
 
