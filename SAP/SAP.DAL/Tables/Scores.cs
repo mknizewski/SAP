@@ -2,7 +2,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-//TODO: Dorobic historczyne tabele
 namespace SAP.DAL.Tables
 {
     public class Scores
@@ -24,6 +23,8 @@ namespace SAP.DAL.Tables
 
         public decimal Score { get; set; }
         public string Program { get; set; }
+        public double MemoryUsage { get; set; }
+        public double ExecutedTime { get; set; }
         public DateTime InsertTime { get; set; }
 
         public virtual Tournament Tournament { get; set; }

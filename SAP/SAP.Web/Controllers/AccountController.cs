@@ -8,6 +8,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using reCaptcha;
+using System.Configuration;
+using SAP.Web.HTMLHelpers;
+using SAP.BOL.HelperClasses;
 
 namespace SAP.Web.Controllers
 {
@@ -169,27 +173,41 @@ namespace SAP.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Register(RegisterViewModel model)
         {
-            if (ModelState.IsValid)
+            var privateKey = ConfigurationManager.AppSettings.Get("reCaptchaPrivateKey");
+
+            //sprawdzanie poprawności
+            if (ReCaptcha.Validate(privateKey))
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, FirstName = model.Name, LastName = model.Surname };
-                var result = await UserManager.CreateAsync(user, model.Password);
-                if (result.Succeeded)
+                if (ModelState.IsValid)
                 {
-                    await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+                    //rejestracja
+                    var user = new ApplicationUser { UserName = model.Email, Email = model.Email, FirstName = model.Name, LastName = model.Surname,
+                        PhoneNumber = model.UserPhone, City = model.UserCity, HouseNumber = model.UserHouseNumber, PostalCode = model.UserPostalCode,
+                        Street = model.UserStreet  };
+                    var result = await UserManager.CreateAsync(user, model.Password);
                     await UserManager.AddToRoleAsync(user.Id, "User");
+                    UserManager.CreateSchool(user.Id, model.SchoolName, model.SchoolClass, model.SchoolCity, model.SchoolHouseNumber,
+                            model.SchoolPostalCode, model.CounselorFirstName, model.CounselorLastName, model.SchoolStreet, model.SchoolPhone);
 
-                    // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
-                    // Send an email with this link
-                    string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                    var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                    await UserManager.SendEmailAsync(user.Id, "Potwierdzenie rejestracji konta w SAP", "Potwierdź swój email klikająć <a href=\"" + callbackUrl + "\">tutaj</a>");
+                    //operacje po rejestracji
+                    if (result.Succeeded)
+                    {
+                        await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
 
-                    return RedirectToLocal(callbackUrl);
+                        TempData["Alert"] = SetAlert.Set("Dziękujemy za rejestrację w serwisie! Aby dokończyć w pełni rejestrację na Twoj email wysłaliśmy potwierdzenie.", "Sukces", AlertType.Success);
+
+                        // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
+                        // Send an email with this link
+                        string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                        var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                        await UserManager.SendEmailAsync(user.Id, "Potwierdzenie rejestracji konta w SAP", "Potwierdź swój email klikająć <a href=\"" + callbackUrl + "\">tutaj</a>");
+
+                        return RedirectToLocal(callbackUrl);
+                    }
+                    AddErrors(result);
                 }
-                AddErrors(result);
             }
 
-            // If we got this far, something failed, redisplay form
             return View(model);
         }
 

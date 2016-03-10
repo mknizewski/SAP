@@ -4,49 +4,198 @@
 }
 
 <h2>@ViewBag.Title.</h2>
+<h4>Stwórz nowe konto.</h4>
+<br />
 
 @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
 {
     @Html.AntiForgeryToken()
-    <h4>Stwórz nowe konto.</h4>
+
+    <h5>Użytkownik.</h5>
     <hr />
-    @Html.ValidationSummary("", new { @class = "text-danger" })
-    <div class="form-group">
-        @Html.LabelFor(m => m.Name, new { @class = "col-md-2 control-label"})
-        <div class="col-md-10">
-            @Html.TextBoxFor(m => m.Name, new { @class = "form-control"})
+
+    <div class="row">
+        <div class="col-md-6">
+            <h6>Dane wymagane.</h6>
+            <div class="form-group">
+                @Html.LabelFor(m => m.Name, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(x => x.Name, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.Surname, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(m => m.Surname, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(x => x.Surname, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(x => x.Email, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(x => x.Password, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group text">
+                @Html.LabelFor(m => m.ConfirmPassword, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(x => x.ConfirmPassword, "", new { @class = "text-danger"})
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <h6>Dane opcjonalne.</h6>
+            <div class="form-group">
+                @Html.LabelFor(x => x.UserCity, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(x => x.UserCity, new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(x => x.UserStreet, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(x => x.UserStreet, new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(x => x.UserHouseNumber, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(x => x.UserHouseNumber, new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(x => x.UserPostalCode, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(x => x.UserPostalCode, new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(x => x.UserPhone, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(x => x.UserPhone, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(x => x.UserPhone, "", new { @class = "text-danger" })
+                </div>
+            </div>
         </div>
     </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.Surname, new { @class = "col-md-2 control-label"})
-        <div class="col-md-10">
-            @Html.TextBoxFor(m => m.Surname, new { @class = "form-control"})
+
+    <h5>Szkoła.</h5>
+    <hr />
+
+    <div class="row">
+        <div class="col-md-6">
+            <h6>Dane wymagane.</h6>
+            <div class="form-group">
+                @Html.LabelFor(x => x.SchoolName, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(x => x.SchoolName, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(x => x.SchoolName, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(x => x.SchoolClass, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(x => x.SchoolClass, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(x => x.SchoolClass, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(x => x.SchoolCity, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(x => x.SchoolCity, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(x => x.SchoolCity, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <h6>Dane opcjonalne.</h6>
+            <div class="form-group">
+                @Html.LabelFor(x => x.SchoolStreet, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(x => x.SchoolStreet, new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(x => x.SchoolHouseNumber, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(x => x.SchoolHouseNumber, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(x => x.SchoolHouseNumber, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(x => x.SchoolPostalCode, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(x => x.SchoolPostalCode, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(x => x.SchoolPostalCode, "", new { @class = "text-danger"})
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(x => x.SchoolPhone, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(x => x.SchoolPhone, new { @class = "form-control" })
+                </div>
+            </div>
         </div>
     </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+
+    <h5>Opiekun.</h5>
+    <hr />
+
+    <div class="row">
+        <div class="col-md-6">
+            <h6>Dane opcjonalne.</h6>
+            <div class="form-group">
+                @Html.LabelFor(x => x.CounselorFirstName, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(x => x.CounselorFirstName, new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(x => x.CounselorLastName, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(x => x.CounselorLastName, new { @class = "form-control" })
+                </div>
+            </div>
         </div>
     </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
-        </div>
+
+    <br />
+
+    <div class="checkbox">
+        <label>
+            @Html.CheckBoxFor(x => x.AcceptProcessingPD)
+            <text class="text-info">
+                Wyrażam zgodę na przetwarzanie moich danych osobowych dla potrzeb niezbędnych w ramach 
+                Regionalnego Konkursu Informatycznego. (zgodnie z ustawą z dn. 29.08.97 r. o Ochronie danych Osobowych Dz. Ust. nr 133 poz. 883)
+            </text>
+        </label>
+        @Html.ValidationMessageFor(x => x.AcceptProcessingPD, "", new { @class = "text-danger" })
     </div>
+
+    <br />
+    @reCaptcha.ReCaptcha.GetHtml(theme: "white", lang: "PL", publicKey: "6LdqZBkTAAAAAGDDQrrcQ0-Vn5aH4T96SVry0rGH")
+
     <div class="form-group">
-        @Html.LabelFor(m => m.ConfirmPassword, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
-        </div>
-    </div>
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <input type="submit" class="btn btn-default" value="Rejestracja" />
+        <div class="col-md-offset-9 col-md-3">
+            <input type="submit" class="btn btn-success" value="Rejestracja" />
         </div>
     </div>
 }
+
+<ul class="breadcrumb">
+    <li><a href='@Url.Action("Index", "Home")'>Główna</a></li>
+    <li class="active">Rejestracja</li>
+</ul>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

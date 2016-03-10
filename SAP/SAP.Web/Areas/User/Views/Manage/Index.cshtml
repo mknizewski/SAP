@@ -2,6 +2,149 @@
 
 @{
     ViewBag.Title = "Zarządzanie kontem";
+
+    var phone = ViewBag.Phone == true ? "TAK" : "NIE";
+    var email = ViewBag.Email == true ? "TAK" : "NIE";
 }
 
-<h2>Index</h2>
+<h2>Twoje konto.</h2>
+<h4>Zarządzanie kontem.</h4>
+<hr />
+
+<div class="row">
+
+    <div class="col-md-3">
+        <div class="list-group">
+            <a href='@Url.Action("Index", "Home")' class="list-group-item">
+                <h4 class="list-group-item-heading">Główna</h4>
+                <p class="list-group-item-text">Strona główna Twojego konta.</p>
+            </a>
+            <a href='@Url.Action("Index", "Manage")' class="list-group-item active">
+                <h4 class="list-group-item-heading">Zarządzanie</h4>
+                <p class="list-group-item-text">Tu zmienisz ustawienia swojego konta.</p>
+            </a>
+            <a href="#" class="list-group-item">
+                <h4 class="list-group-item-heading">Twoje turnieje</h4>
+                <p class="list-group-item-text">Dostęp do informacji o Twoim udziale w turniejach.</p>
+            </a>
+            <a href="#" class="list-group-item">
+                <h4 class="list-group-item-heading">Powiadomienia <span class="badge">69</span></h4>
+                <p class="list-group-item-text">Twoje powiadomienia nt. truniejów, zadań oraz zasad funkcjonowania.</p>
+            </a>
+        </div>
+    </div>
+
+    <div class="col-md-9">
+
+        @SAP.Web.HTMLHelpers.Alert.GetAlert(ViewBag.StatusMessage)
+
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">Wybierz typ ustawień</h3>
+            </div>
+            <div class="panel-body">
+                
+                <div class="row">
+                    <div class="col-md-8">
+                        Aktualizacja danych osobowych
+                    </div>
+                    <div class="col-md-4">
+                        <a href='@Url.Action("ChangeUserData", "Manage")' class="btn btn-info">Przejdź &raquo;</a>
+                    </div>
+                </div>
+
+                <br />
+
+                <div class="row">
+                    <div class="col-md-8">
+                        Aktualizacja danych szkoły
+                    </div>
+                    <div class="col-md-4">
+                        <a href='@Url.Action("ChangeSchool", "Manage")' class="btn btn-info">Przejdź &raquo;</a>
+                    </div>
+                </div>
+
+                <br />
+
+                <div class="row">
+                    <div class="col-md-8">
+                        Aktualizacja danych opiekuna
+                    </div>
+                    <div class="col-md-4">
+                        <a href='@Url.Action("ChangeCounselor", "Manage")' class="btn btn-info">Przejdź &raquo;</a>
+                    </div>
+                </div>
+
+                <br />
+
+                <div class="row">
+                    <div class="col-md-8">
+                        Zmiana adresu email
+                    </div>
+                    <div class="col-md-4">
+                        <a href='@Url.Action("ChangeEmail", "Manage")' class="btn btn-info">Przejdź &raquo;</a>
+                    </div>
+                </div>
+
+                <br />
+
+                <div class="row">
+                    <div class="col-md-8">
+                        Zmiana hasła
+                    </div>
+                    <div class="col-md-4">
+                        <a href='@Url.Action("ChangePassword", "Manage")' class="btn btn-info">Przejdź &raquo;</a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <h3 class="panel-title">Autoryzacja konta</h3>
+            </div>
+            <div class="panel-body">
+                
+                <div class="row">
+                    <div class="col-md-8">
+                        Email potwierdzony: @email
+                    </div>
+                    <div class="col-md-4">
+                        @{ 
+                            if (ViewBag.Email == false)
+                            {
+                                <a href="#" class="btn btn-success text-center">Wyślij ponownie</a>
+                            }
+                        }
+                    </div>
+                </div>
+
+                <br />
+
+                <div class="row">
+                    <div class="col-md-8">
+                        Telefon potwierdzony: @phone
+                    </div>
+                    <div class="col-md-4">
+                        @{ 
+                            if (ViewBag.Phone == false)
+                            {
+                                <a href="#" class="btn btn-success text-center">Wyślij ponownie</a>
+                            }
+                        }
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+<ul class="breadcrumb">
+    <li><a href='@Url.Action("Index", "Home", new { area = "" })'>Główna</a></li>
+    <li><a href='@Url.Action("Index", "Home")'>Użytkownik</a></li>
+    <li class="active">Zarządzanie</li>
+</ul>

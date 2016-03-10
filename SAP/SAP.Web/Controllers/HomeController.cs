@@ -1,20 +1,23 @@
-﻿using SAP.BOL.HelperClasses;
+﻿using reCaptcha;
+using SAP.BOL.Abstract;
+using SAP.BOL.HelperClasses;
 using SAP.Web.Models;
-using System;
+using System.Configuration;
 using System.Web.Mvc;
 
 namespace SAP.Web.Controllers
 {
     public class HomeController : Controller
     {
+        private IContactManager _contactManager;
+
+        public HomeController(IContactManager contactManager)
+        {
+            _contactManager = contactManager;
+        }
+
         public ActionResult Index()
         {
-            string browser = Request.Browser.Browser;
-
-            //TODO: Postarać się o lepszą implementację -- odzielić do BO!
-            if (String.Equals(browser, "InternetExplorer"))
-                TempData["Alert"] = SetAlert.Set("Przeglądarka IE oraz Edge nie jest wspierana!", "Uwaga", AlertType.Warning);
-
             return View();
         }
 
@@ -35,11 +38,30 @@ namespace SAP.Web.Controllers
         [HttpPost]
         public ActionResult Contact(ContactModel model, string ReturnUrl)
         {
-            TempData["Alert"] = SetAlert.Set("Dziękujemy za wiadomość!", "Sukces", AlertType.Success);
+            var privateKey = ConfigurationManager.AppSettings.Get("reCaptchaPrivateKey");
 
-            //TODO: Dodać obsługę formularza kontaktowego
+            if (ReCaptcha.Validate(privateKey))
+            {
+                bool result = _contactManager.AddNewContact(model.Name, model.Surname, model.Email, model.Message);
 
-            return RedirectToLocal(ReturnUrl);
+                if (result)
+                {
+                    TempData["Alert"] = SetAlert.Set("Dziękujemy za wiadomość!", "Sukces", AlertType.Success);
+
+                    return RedirectToLocal(ReturnUrl);
+                }
+                else
+                {
+                    TempData["Alert"] = SetAlert.Set("Wystąpił błąd, prosimy spróbwać ponownie później.", "Błąd", AlertType.Danger);
+
+                    return RedirectToAction("Contact");
+                }
+            }
+            else
+            {
+                TempData["Alert"] = SetAlert.Set("Musisz udowodnić że nie jesteś robotem poprzez captcha!", "Błąd", AlertType.Danger);
+                return View();
+            }
         }
 
         #region Helpers
@@ -55,6 +77,9 @@ namespace SAP.Web.Controllers
 
         protected override void Dispose(bool disposing)
         {
+            _contactManager.Dispose();
+            _contactManager = null;
+
             base.Dispose(disposing);
         }
 

@@ -46,11 +46,24 @@
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Abstract\IContactManager.cs" />
+    <Compile Include="Abstract\IProgramManager.cs" />
+    <Compile Include="Abstract\IUserManager.cs" />
+    <Compile Include="HelperClasses\Attributes\MustBeTrueAttribute.cs" />
+    <Compile Include="HelperClasses\Attributes\PolandPostalCode.cs" />
     <Compile Include="HelperClasses\SetAlert.cs" />
+    <Compile Include="HelperClasses\UserData.cs" />
+    <Compile Include="LogicClasses\ProgramManager.cs" />
+    <Compile Include="LogicClasses\Managers\ContactManager.cs" />
+    <Compile Include="LogicClasses\Exceptions\CompilerExceptions.cs" />
+    <Compile Include="LogicClasses\Managers\UserManager.cs" />
+    <Compile Include="LogicClasses\ServerConfig.cs" />
     <Compile Include="LogicClasses\ServerTime.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

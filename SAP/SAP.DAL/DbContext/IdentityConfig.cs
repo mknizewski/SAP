@@ -95,6 +95,41 @@ namespace SAP.DAL.DbContext
         {
         }
 
+        public void CreateSchool(string userId, string schoolName, string schoolClass, string schoolCity, string houseNumber, string postalCode,
+            string counselorFirstName, string counselorLastName, string schoolStreet, string schoolPhone)
+        {
+            ApplicationDbContext context = new ApplicationDbContext();
+
+            UsersSchools modelSchool = new UsersSchools
+            {
+                UserId = userId,
+                Name = schoolName,
+                Class = schoolClass,
+                City = schoolCity,
+                PostalCode = postalCode,
+                HouseNumber = houseNumber,
+                Street = schoolStreet,
+                Phone = schoolPhone
+            };
+
+            context.UsersSchools.Add(modelSchool);
+
+            if (!String.IsNullOrEmpty(counselorFirstName))
+            {
+                UsersCounselor modelCounselor = new UsersCounselor
+                {
+                    UserId = userId,
+                    FirstName = counselorFirstName,
+                    LastName = counselorLastName
+                };
+
+                context.UsersCounselor.Add(modelCounselor);
+            }
+
+            context.SaveChanges();
+            context.Dispose();
+        }
+
         public static ApplicationUserManager Create(IdentityFactoryOptions<ApplicationUserManager> options, IOwinContext context)
         {
             var manager = new ApplicationUserManager(new UserStore<ApplicationUser>(context.Get<ApplicationDbContext>()));

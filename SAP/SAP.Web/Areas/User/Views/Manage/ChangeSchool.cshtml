@@ -1,0 +1,119 @@
+﻿@model SAP.Web.Areas.User.Models.UserSchoolViewModel
+
+@{
+    ViewBag.Title = "Zmień dane szkoły";
+}
+
+<h2>Zmiana danych szkoły.</h2>
+<h4>Wprowadź nowe dane.</h4>
+<hr />
+
+<div class="row">
+    <div class="col-md-3">
+        <div class="list-group">
+            <a href='@Url.Action("Index", "Home")' class="list-group-item">
+                <h4 class="list-group-item-heading">Główna</h4>
+                <p class="list-group-item-text">Strona główna Twojego konta.</p>
+            </a>
+            <a href='@Url.Action("Index", "Manage")' class="list-group-item active">
+                <h4 class="list-group-item-heading">Zarządzanie</h4>
+                <p class="list-group-item-text">Tu zmienisz ustawienia swojego konta.</p>
+            </a>
+            <a href="#" class="list-group-item">
+                <h4 class="list-group-item-heading">Twoje turnieje</h4>
+                <p class="list-group-item-text">Dostęp do informacji o Twoim udziale w turniejach.</p>
+            </a>
+            <a href="#" class="list-group-item">
+                <h4 class="list-group-item-heading">Powiadomienia <span class="badge">69</span></h4>
+                <p class="list-group-item-text">Twoje powiadomienia nt. truniejów, zadań oraz zasad funkcjonowania.</p>
+            </a>
+        </div>
+    </div>
+    <div class="col-md-9">
+        @using (Html.BeginForm("ChangeSchool", "Manage", FormMethod.Post, new { @class = "form-horizontal", @role = "form" }))
+        {
+            @Html.AntiForgeryToken()
+
+            <h5>Dane obowiązkowe.</h5>
+            <hr />
+
+            <div class="form-group">
+                @Html.LabelFor(x => x.SchoolName, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(x => x.SchoolName, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(x => x.SchoolName, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(x => x.SchoolClass, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(x => x.SchoolClass, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(x => x.SchoolClass, "", new {  @class = "text-danger "})
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(x => x.SchoolCity, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(x => x.SchoolCity, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(x => x.SchoolCity, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <h5>Dane opcjonalne.</h5>
+            <hr />
+
+            <div class="form-group">
+                @Html.LabelFor(x => x.SchoolStreet, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(x => x.SchoolStreet, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(x => x.SchoolStreet, "" , new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(x => x.SchoolHouseNumber, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(x => x.SchoolHouseNumber, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(x => x.SchoolHouseNumber, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(x => x.SchoolPostalCode, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(x => x.SchoolPostalCode, new { @class = "form-control "})
+                    @Html.ValidationMessageFor(x => x.SchoolPostalCode, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(x => x.SchoolPhone, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(x => x.SchoolPhone, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(x => x.SchoolPhone, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-3 col-md-9">
+                    <a href='@Url.Action("Index", "Manage")' class="btn btn-default">Cofnij</a>
+                    <input type="submit" class="btn btn-success" value="Zapisz zmiany" />
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+<ul class="breadcrumb">
+    <li><a href='@Url.Action("Index", "Home", new { area = "" })'>Główna</a></li>
+    <li><a href='@Url.Action("Index", "Home")'>Użytkownik</a></li>
+    <li><a href='@Url.Action("Index", "Manage")'>Zarządzanie</a></li>
+    <li class="active">Zmiana danych szkoły</li>
+</ul>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+

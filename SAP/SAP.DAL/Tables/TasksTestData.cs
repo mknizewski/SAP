@@ -10,7 +10,7 @@ namespace SAP.DAL.Tables
 
         [ForeignKey("Task")]
         public int TaskId { get; set; }
-
+        public int SystemInputDataTypeId { get; set; } // sprawdzanie typu wprowadzania danych do skompilowanego programu
         public string InputData { get; set; }
         public string OutputData { get; set; }
         public string ExampleProgram { get; set; }
