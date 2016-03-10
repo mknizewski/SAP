@@ -1,10 +1,16 @@
 ﻿@model System.Web.Mvc.HandleErrorInfo
 
 @{
-    ViewBag.Title = "Blokada";
+    ViewBag.Title = "Blokada konta";
 }
 
-<hgroup>
-    <h1 class="text-danger">Blokada.</h1>
-    <h2 class="text-danger">Dane konto zostało zablokowane, spróbuj ponownie później.</h2>
-</hgroup>
+<div class="jumbotron">
+    <h1 class="text-center">Twoje konto zostało zablokowane.</h1>
+    <p class="text-justify">Jeżeli nie wiesz dlaczego Twoje konto zostało zablokowane, skontaktuj się z administratorem systemu lub skontaktuj się z nami za pomocą formularza kontaktowego.</p>
+    <p><a href='@Url.Action("Index", "Home", new { area = "" })' class="btn btn-primary btn-lg">Strona Główna</a></p>
+</div>
+
+<ul class="breadcrumb">
+    <li><a href='@Url.Action("Index", "Home", new { area = "" })'>Główna</a></li>
+    <li class="active">Blokada</li>
+</ul>

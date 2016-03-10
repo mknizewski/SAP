@@ -11,6 +11,7 @@
 <h2>Zarządzanie kontami.</h2>
 <hr />
 
+@* Menu modal *@
 <div id="myModal" class="modal fade" role="dialog">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -61,11 +62,11 @@
                 <h4 class="list-group-item-heading">Ustawienia</h4>
                 <p class="list-group-item-text">Zmiana ustawień konta.</p>
             </a>
-            <a href='@Url.Action("ManageAccounts", "Manage")' class="list-group-item active">
+            <a href='@Url.Action("ManageAccounts", "ManageUser")' class="list-group-item active">
                 <h4 class="list-group-item-heading">Zarządzanie kontami</h4>
                 <p class="list-group-item-text">Dostęp do zarządzania kontami użytkowników serwisu.</p>
             </a>
-            <a href="#" class="list-group-item">
+            <a href='@Url.Action("Index", "ManageTournaments")' class="list-group-item">
                 <h4 class="list-group-item-heading">Zarządzanie turniejami</h4>
                 <p class="list-group-item-text">Dostęp do zarządzania turniejami i zadaniami.</p>
             </a>
@@ -75,18 +76,19 @@
             </a>
         </div>
     </div>
-    <div class="col-md-9">      
+    <div class="col-md-9" id="col"> 
         <div class="panel panel-primary">
             <div class="panel-heading">
                 Konta zarejestrowane w systemie SAP
             </div>
             <div class="panel-body">
-                <table class="display" id="users" cellspacing="0">
+                <table class="display" id="users" cellspacing="5">
                     <thead>
                         <tr>
                             <th>Imię i nazwisko</th>
                             <th>Email</th>
                             <th>Rola</th>
+                            <th>Czy zablokowane</th>
                             <th>Opcje</th>
                         </tr>
                     </thead>
@@ -97,17 +99,30 @@
                                 <td>@user.FirstName @user.LastName</td>
                                 <td>@user.Email</td>
                                 <td>@user.Role</td>
+                                @{ 
+                                    string lok = user.IsLocked ? "Tak" : "Nie";
+
+                                    <td>@lok</td>
+                                }
                                 <td>
                                     <div class="btn-group text-center">
                                         <a href="#" class="btn btn-info">Opcje</a>
                                         <a href="#" class="btn btn-info dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></a>
                                         <ul class="dropdown-menu">
-                                            <li><a href="#">Szczegóły</a></li>
-                                            <li><a href="#">Another action</a></li>
-                                            <li><a href="#">Something else here</a></li>
+                                            <li><a href="#" data-toggle="modal" data-target="#detailModal" onclick="showDetail('@user.Email')">Szczegóły</a></li>
+                                            <li><a href="#">Wyślij wiadomość</a></li>
                                             <li class="divider"></li>
-                                            <li><a href="#">Ban</a></li>
-                                            <li><a href="#">Usuń</a></li>
+                                            @{
+                                                if (user.IsLocked)
+                                                {
+                                                    <li><a href="#" onclick="unBan('@user.Email')">Odblokuj konto</a></li>
+                                                }
+                                                else
+                                                {
+                                                    <li><a href="#" data-toggle="modal" data-target="#banModal" onclick="showModalBan('@user.Email')">Blokada konta</a></li>
+                                                }
+                                            }
+                                            <li><a href="#">Usuń konto</a></li>
                                         </ul>
                                     </div>
                                 </td>
@@ -117,6 +132,39 @@
                 </table>
             </div>
         </div>
+
+        <div class="panel-group">
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" href="#collapse1">Dodatkowe opcje zarządzania kontami<span class="caret"></span></a>
+                    </h4>
+                </div>
+                <div id="collapse1" class="panel-collapse collapse">
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="btn-group center-block">
+                                    <a href="#" class="btn btn-primary btn-lg">Dodaj konto</a>
+                                    <a href="#" class="btn btn-primary btn-lg dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></a>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="#">Użytkownik</a></li>
+                                       @if (Context.User.IsInRole("Root"))
+                                       {
+                                        <li><a href="#">Administrator</a></li>
+                                       }
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
 </div>
 
@@ -126,7 +174,281 @@
     <li class="active">Zarządzanie kontami</li>
 </ul>
 
+@* Ban modal *@
+<div id="banModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title" id="banTitle"></h4>
+            </div>
+
+            <div class="modal-body">             
+                <form class="form-horizontal" role="form">
+                    <div class="form-group">
+                        <label for="banDate" class="col-md-2 control-label">Data do:  </label>
+                        <div class="col-md-10">
+                            <input type="date" class="form-control" id="banDate">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="banTime" class="col-md-2 control-label">Godzina do:  </label>
+                        <div class="col-md-10">
+                            <input type="time" class="form-control" id="banTime">
+                        </div>
+                    </div>
+                    <div class="checkbox">
+                        <label><input type="checkbox" id="isPernament" onchange="pernamentRead()">Blokada pernamentna</label>
+                    </div>
+                </form>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Zamknij</button>
+                <button type="button" class="btn btn-success" data-dismiss="modal" id="banBtn">Blokuj</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@* Detail modal *@
+<div id="detailModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title" id="detailTitle"></h4>
+            </div>
+
+            <div class="modal-body form-horizontal">
+                <h6>Dane kontaktowe</h6>
+                <hr />
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="userName" class="control-label col-md-3">Imię i nazwisko:</label>
+                            <div class="col-md-9">
+                                <p class="form-control" id="userName"></p>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="userEmail" class="control-label col-md-3">Email:</label>
+                            <div class="col-md-9">
+                                <p class="form-control" id="userEmail"></p>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="userCity" class="control-label col-md-3">Miejscowość:</label>
+                            <div class="col-md-9">
+                                <p class="form-control" id="userCity"></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="userStreet" class="control-label col-md-3">Ulica:</label>
+                            <div class="col-md-9">
+                                <p class="form-control" id="userStreet"></p>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="userPostalCode" class="control-label col-md-3">Kod pocztowy:</label>
+                            <div class="col-md-9">
+                                <p class="form-control" id="userPostalCode"></p>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="userPhone" class="control-label col-md-3">Telefon:</label>
+                            <div class="col-md-9">
+                                <p class="form-control" id="userPhone"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button data-toggle="collapse" data-target="#moreInfo" class="btn btn-danger btn-group-justified">Więcej info</button>
+                <div class="collapse" id="moreInfo">
+                    <h6>Dane szkoły</h6>
+                    <hr />
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="userSchoolName" class="control-label col-md-3">Nazwa:</label>
+                                <div class="col-md-9">
+                                    <div class="form-control" id="userSchoolName"></div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="userSchoolClass" class="control-label col-md-3">Klasa:</label>
+                                <div class="col-md-9">
+                                    <p class="form-control" id="userSchoolClass"></p>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="userSchoolCity" class="control-label col-md-3">Miejscowość:</label>
+                                <div class="col-md-9">
+                                    <p class="form-control" id="userSchoolCity"></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="userSchoolStreet" class="control-label col-md-3">Ulica:</label>
+                                <div class="col-md-9">
+                                    <p class="form-control" id="userSchoolStreet"></p>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="userSchoolPostalCode" class="control-label col-md-3">Kod pocztowy:</label>
+                                <div class="col-md-9">
+                                    <p class="form-control" id="userSchoolPostalCode"></p>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="userSchoolPhone" class="control-label col-md-3">Telefon:</label>
+                                <div class="col-md-9">
+                                    <p class="form-control" id="userSchoolPhone"></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <h6>Dane opiekuna</h6>
+                    <hr />
+                    <div class="row">
+                        <div class="col-md-offset-0 col-md-6">
+                            <div class="form-group">
+                                <label for="counselorData" class="control-label col-md-3">Imię i nazwisko:</label>
+                                <div class="col-md-9">
+                                    <p class="form-control" id="counselorData"></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <h6>Dodatkowe informacje</h6>
+                    <hr />
+                    <div class="row">
+                        <div class="col-md-offset-0 col-md-6">
+                            <div class="form-group">
+                                <label for="userBan" class="control-label col-md-3">Ban:</label>
+                                <div class="col-md-9">
+                                    <p class="form-control" id="userBan"></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Zamknij</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
 <script type="text/javascript">
+
+    var currentEmail = "";
+ 
+    function pernamentRead()
+    {
+        var isCheck = document.getElementById("isPernament").checked;
+
+        if (isCheck)
+        {
+            document.getElementById("banTime").disabled = true;
+            document.getElementById("banDate").disabled = true;
+        }
+        else
+        {
+            document.getElementById("banTime").disabled = false;
+            document.getElementById("banDate").disabled = false;
+        }
+    }
+
+    function unBan(email)
+    {
+        $.post('@Url.Action("UnBan", "ManageUser")',
+            {
+                name: email
+            },
+            function (data) {
+
+                var col = document.getElementById("col");
+                var object = document.createElement("DIV");
+
+                object.innerHTML = data.Message;
+                col.insertBefore(object, col.childNodes[0]);
+
+            });
+    }
+
+    function showModalBan(email)
+    {
+        currentEmail = email;
+        document.getElementById("banTitle").innerText = "Blokada konta " + currentEmail;
+    }
+    
+    $("#banBtn").click(function(){
+        var banT = document.getElementById("banTime").value;
+        var banD = document.getElementById("banDate").value;
+        var isPern = document.getElementById("isPernament").checked; 
+
+        $.post('@Url.Action("Ban", "ManageUser")',
+            {
+                name: currentEmail,
+                banTime: banT,
+                banDate: banD,
+                isPernament: isPern
+            },
+            function (data) {
+                var col = document.getElementById("col");
+                var object = document.createElement("DIV");
+
+                object.innerHTML = data.Message;
+                col.insertBefore(object, col.childNodes[0]);
+            });
+
+    });
+
+    function showDetail(email) {
+
+        $.post('@Url.Action("GetDetail", "ManageUser")',
+            {
+                name: email
+            },
+            function (data) {
+                
+                //Tytuł
+                document.getElementById("detailTitle").innerText = "Szczegóły konta " + data.UserEmail;
+                
+                //Użytkownik
+                document.getElementById("userName").innerText = data.UserFirstName + " " + data.UserLastName;
+                document.getElementById("userEmail").innerText = data.UserEmail;
+                document.getElementById("userCity").innerText = data.UserCity;
+                document.getElementById("userStreet").innerText = data.UserStreet;
+                document.getElementById("userPostalCode").innerText = data.UserPostalCode;
+                document.getElementById("userPhone").innerText = data.UserPhone;
+
+                //Szkoła
+                document.getElementById("userSchoolName").innerText = data.SchoolName;
+                document.getElementById("userSchoolClass").innerText = data.SchoolClass;
+                document.getElementById("userSchoolCity").innerText = data.SchoolCity;
+                document.getElementById("userSchoolStreet").innerText = data.SchoolStreet;
+                document.getElementById("userSchoolPostalCode").innerText = data.SchoolPostalCode;
+                document.getElementById("userSchoolPhone").innerText = data.SchoolPhone;
+
+                //Opiekun
+                document.getElementById("counselorData").innerText = data.CounselorData;
+
+                //Ban
+                document.getElementById("userBan").innerText = data.UserBan;
+            });
+
+    }
 
     $(document).ready(function () {
         $('#users').DataTable({

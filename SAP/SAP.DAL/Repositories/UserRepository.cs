@@ -43,6 +43,21 @@ namespace SAP.DAL.Repositories
 
         }
 
+        public bool AddUserCounselor(UsersCounselor model)
+        {
+            try
+            {
+                _context.UsersCounselor.Add(model);
+                _context.SaveChanges();
+
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
         public void Dispose()
         {
             _context.Dispose();
@@ -85,6 +100,7 @@ namespace SAP.DAL.Repositories
                 dbModel.HouseNumber = model.HouseNumber;
                 dbModel.Phone = model.Phone;
                 dbModel.Street = model.Street;
+                dbModel.PostalCode = model.PostalCode;
 
                 _context.SaveChanges();
                 return true;

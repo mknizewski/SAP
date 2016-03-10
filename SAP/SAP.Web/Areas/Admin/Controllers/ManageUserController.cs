@@ -1,11 +1,14 @@
 ﻿using Microsoft.Ajax.Utilities;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
+using SAP.BOL.Abstract;
 using SAP.BOL.HelperClasses;
 using SAP.DAL.DbContext;
 using SAP.Web.Areas.Admin.Models;
+using SAP.Web.HTMLHelpers;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
@@ -13,6 +16,7 @@ using System.Web.Mvc;
 
 namespace SAP.Web.Areas.Admin.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class ManageUserController : Controller
     {
         public ApplicationUserManager AspUserManager
@@ -29,6 +33,13 @@ namespace SAP.Web.Areas.Admin.Controllers
             {
                 return HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
             }
+        }
+
+        private IUserManager _userManager;
+
+        public ManageUserController(IUserManager userManager)
+        {
+            _userManager = userManager;
         }
 
         public async Task<ActionResult> ChangeData()
@@ -122,9 +133,11 @@ namespace SAP.Web.Areas.Admin.Controllers
                         FirstName = x.FirstName,
                         LastName = x.LastName,
                         Email = x.Email,
-                        Role = AspUserManager.GetRoles(x.Id).FirstOrDefault()
+                        Role = AspUserManager.GetRoles(x.Id).FirstOrDefault(),
+                        IsLocked = AspUserManager.IsLockedOut(x.Id)
                     });
                 }
+                
             }
             else // zwyczajny admin na dostęp tylko do kont użytkowników
             {
@@ -137,11 +150,91 @@ namespace SAP.Web.Areas.Admin.Controllers
                         FirstName = x.FirstName,
                         LastName = x.LastName,
                         Email = x.Email,
-                        Role = "User"
+                        Role = "User",
+                        IsLocked = AspUserManager.IsLockedOut(x.Id)
                     }));
             }
 
             return View(viewModel);
+        }
+
+        [HttpPost]
+        public ActionResult Ban(string name, string banTime, string banDate, bool isPernament)
+        {
+            MvcHtmlString alert = null;
+
+            if (isPernament)
+            {
+                var user = AspUserManager.FindByEmail(name);
+                AspUserManager.SetLockoutEndDate(user.Id, DateTimeOffset.MaxValue);
+
+                alert = Alert.GetAlert(SetAlert.Set("Pernamentnie zbanowano" + name, "Sukces", AlertType.Success));
+            }
+            else
+            {
+                DateTime endDate;
+                string dateAndTime = banDate + " " + banTime;
+                bool parseResult = DateTime.TryParse(dateAndTime, out endDate);
+
+                if (parseResult)
+                {
+                    if (endDate >= DateTime.Now)
+                    {
+                        var user = AspUserManager.FindByEmail(name);
+                        AspUserManager.SetLockoutEndDate(user.Id, endDate);
+
+                        alert = Alert.GetAlert(SetAlert.Set("Poprawnie zablokowano " + name, "Sukces", AlertType.Success));
+                    }
+                    else
+                        alert = Alert.GetAlert(SetAlert.Set("Musisz podać datę większą od dnia dzisiejszego", "Błąd", AlertType.Danger));
+                }
+                else
+                    alert = Alert.GetAlert(SetAlert.Set("Data lub godzina została podana błędnie. Schemat: dd-mm-rrrr hh:ss", "Błąd", AlertType.Danger));
+            }
+
+            return Json(new { Message = alert.ToHtmlString() });
+        }
+
+        [HttpPost]
+        public ActionResult UnBan(string name)
+        {
+            var userId = AspUserManager.FindByEmail(name).Id;
+            AspUserManager.SetLockoutEndDate(userId, DateTimeOffset.MinValue);
+
+            MvcHtmlString returnValue = Alert.GetAlert(SetAlert.Set("Poprawnie odblokowano " + name, "Sukces", AlertType.Success));
+
+            return Json(new { Message = returnValue.ToHtmlString() });
+        }
+
+        [HttpPost]
+        public ActionResult GetDetail(string name)
+        {
+            var user = AspUserManager.FindByEmail(name);
+            var userData = _userManager.GetUserDataById(user.Id);
+
+            var jsonData = new
+            {
+                UserFirstName = user.FirstName,
+                UserLastName = user.LastName,
+                UserEmail = user.Email,
+                UserCity = user.City,
+                UserStreet = user.Street + " " + user.HouseNumber,
+                UserPostalCode = user.PostalCode,
+                UserPhone = user.PhoneNumber,
+
+                CounselorData = userData.Counselor != null ? userData.Counselor.FirstName + " " + userData.Counselor.LastName : "Brak wpisu",
+
+                SchoolName = userData.School.Name,
+                SchoolClass = userData.School.Class,
+                SchoolCity = userData.School.City,
+                SchoolStreet = userData.School.Street + " " + userData.School.HouseNumber,
+                SchoolPostalCode = userData.School.PostalCode,
+                SchoolPhone = userData.School.Phone,
+
+                UserBan = user.LockoutEndDateUtc.HasValue ? user.LockoutEndDateUtc.Value.ToString("HH:mm:ss, dd.MM.yyyy") : "Nie zablokowany"
+            };
+
+            return Json(jsonData);
         }
 
         #region Helpers
@@ -151,6 +244,7 @@ namespace SAP.Web.Areas.Admin.Controllers
             {
                 AspUserManager.Dispose();
                 SignInManager.Dispose();
+                _userManager.Dispose();
 
                 base.Dispose(disposing);
             }

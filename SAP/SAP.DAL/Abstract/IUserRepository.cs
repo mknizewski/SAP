@@ -9,6 +9,7 @@ namespace SAP.DAL.Abstract
         IEnumerable<UsersSchools> Schools { get; }
         IEnumerable<UsersCounselor> Counselors { get; }
 
+        bool AddUserCounselor(UsersCounselor model);
         bool EditUserSchool(UsersSchools model);
         bool EditUserCounselor(UsersCounselor model);
         void Dispose();

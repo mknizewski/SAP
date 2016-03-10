@@ -208,12 +208,16 @@ namespace SAP.Web.Areas.User.Controllers
         {
             if (ModelState.IsValid)
             {
-                bool result = _userManager.ChangeUserCounselor(User.Identity.GetUserId(), model.CounselorFirstName, model.CounselorLastName);
+                string userId = User.Identity.GetUserId();
+                bool editResult = _userManager.ChangeUserCounselor(userId, model.CounselorFirstName, model.CounselorLastName);
 
-                if (result)
+                if (editResult)
+                    return RedirectToAction("Index", new { Message = ManageMessageId.ChangeCounselorDataSuccess });
+                else if (_userManager.AddUserCounselot(userId, model.CounselorFirstName, model.CounselorLastName))
                     return RedirectToAction("Index", new { Message = ManageMessageId.ChangeCounselorDataSuccess });
                 else
                     return RedirectToAction("Index", new { Message = ManageMessageId.Error });
+
             }
             else
                 return View(model);

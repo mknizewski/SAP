@@ -8,6 +8,7 @@ namespace SAP.BOL.Abstract
         UserData GetUserDataById(string userId);
         bool ChangeUserSchool(string userId, string name, string sclass, string city, string houseNumber, string postalCode, string street, string phone);
         bool ChangeUserCounselor(string userId, string firstName, string lastName);
+        bool AddUserCounselot(string userId, string firstName, string lastName);
         UsersSchools GetUserSchoolById(string userId);
         UsersCounselor GetUserCounselorById(string userId);
         void Dispose();

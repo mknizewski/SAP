@@ -238,6 +238,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Admin\Controllers\HomeController.cs" />
+    <Compile Include="Areas\Admin\Controllers\ManageTournamentsController.cs" />
     <Compile Include="Areas\Admin\Controllers\ManageUserController.cs" />
     <Compile Include="Areas\Admin\Models\ChangePasswordViewModel.cs" />
     <Compile Include="Areas\Admin\Models\AdminDataViewModel.cs" />
@@ -696,6 +697,7 @@
     <Content Include="Content\data_tables\datatables-responsive\bower.json" />
     <Content Include="Content\data_tables\datatables-responsive\make.sh" />
     <Content Include="Content\data_tables\datatables-responsive\Readme.md" />
+    <Content Include="Areas\Admin\Views\ManageTournaments\Index.cshtml" />
     <None Include="Scripts\jquery-2.2.0.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />

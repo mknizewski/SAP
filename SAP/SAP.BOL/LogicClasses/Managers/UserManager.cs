@@ -88,5 +88,19 @@ namespace SAP.BOL.LogicClasses.Managers
                 .Where(x => x.UserId == userId)
                 .FirstOrDefault();
         }
+
+        public bool AddUserCounselot(string userId, string firstName, string lastName)
+        {
+            UsersCounselor userCounselorModel = new UsersCounselor
+            {
+                UserId = userId,
+                FirstName = firstName,
+                LastName = lastName
+            };
+
+            bool result = _userRepository.AddUserCounselor(userCounselorModel);
+
+            return result;
+        }
     }
 }
