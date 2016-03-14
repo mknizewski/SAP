@@ -168,7 +168,7 @@ namespace SAP.Web.Areas.Admin.Controllers
                 var user = AspUserManager.FindByEmail(name);
                 AspUserManager.SetLockoutEndDate(user.Id, DateTimeOffset.MaxValue);
 
-                alert = Alert.GetAlert(SetAlert.Set("Pernamentnie zbanowano" + name, "Sukces", AlertType.Success));
+                alert = Alert.GetAlert(SetAlert.Set("Pernamentnie zbanowano " + name, "Sukces", AlertType.Success));
             }
             else
             {

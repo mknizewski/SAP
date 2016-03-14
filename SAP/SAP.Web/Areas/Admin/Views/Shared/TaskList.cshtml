@@ -1,0 +1,67 @@
+﻿@model List<SAP.Web.Areas.Admin.Models.PhaseTaskContainer>
+
+@for (int i = 0; i < Model.Count; i++)
+{
+    <h4>Zadania z fazy @i</h4>
+    for (int j = 0; j < Model[i].Tasks.Count; j++)
+    {
+        <h6>Zadanie nr @j</h6>
+        <hr />
+        @Html.HiddenFor(x => Model[i].Tasks[j].PhaseId, new { @name = "TaskContainer[" + i + "].Tasks[" + j + "].PhaseId" })
+        <div class="form-group">
+            @Html.LabelFor(x => Model[i].Tasks[j].Title, new { @class = "control-label col-md-3"} )
+            <div class="col-md-9">
+                @Html.EditorFor(x => Model[i].Tasks[j].Title, "", "TaskContainer[" + i + "].Tasks[" + j + "].Title", new { @class = "form-control"})
+                @Html.ValidationMessage("TaskContainer[" + i + "].Tasks[" + j + "].Title", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(x => Model[i].Tasks[j].Description, new { @class = "control-label col-md-3" })
+            <div class="col-md-9">
+                @Html.EditorFor(x => Model[i].Tasks[j].Description, "", "TaskContainer[" + i + "].Tasks[" + j + "].Description", new { @class = "form-control" })
+                @Html.ValidationMessage("TaskContainer[" + i + "].Tasks[" + j + "].Description", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(x => Model[i].Tasks[j].StartDate, new { @class = "control-label col-md-3" })
+            <div class="col-md-9">
+                @Html.EditorFor(x => Model[i].Tasks[j].StartDate, "", "TaskContainer[" + i + "].Tasks[" + j + "].StartDate", new { @class = "form-control" })
+                @Html.ValidationMessage("TaskContainer[" + i + "].Tasks[" + j + "].StartDate", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(x => Model[i].Tasks[j].EndDate, new { @class = "control-label col-md-3" })
+            <div class="col-md-9">
+                @Html.EditorFor(x => Model[i].Tasks[j].EndDate, "", "TaskContainer[" + i + "].Tasks[" + j + "].EndDate", new { @class = "form-control" })
+                @Html.ValidationMessage("TaskContainer[" + i + "].Tasks[" + j + "].EndDate", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(x => Model[i].Tasks[j].Order, new { @class = "control-label col-md-3" })
+            <div class="col-md-9">
+                @Html.EditorFor(x => Model[i].Tasks[j].Order, "", "TaskContainer[" + i + "].Tasks[" + j + "].Order", new { @class = "form-control" })
+                @Html.ValidationMessage("TaskContainer[" + i + "].Tasks[" + j + "].Order", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(x => Model[i].Tasks[j].ExampleInput, new { @class = "control-label col-md-3" })
+            <div class="col-md-9">
+                @Html.EditorFor(x => Model[i].Tasks[j].ExampleInput, "", "TaskContainer[" + i + "].Tasks[" + j + "].ExampleInput", new { @class = "form-control" })
+                @Html.ValidationMessage("TaskContainer[" + i + "].Tasks[" + j + "].ExampleInput", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(x => Model[i].Tasks[j].ExampleOutput, new { @class = "control-label col-md-3" })
+            <div class="col-md-9">
+                @Html.EditorFor(x => Model[i].Tasks[j].ExampleOutput, "", "TaskContainer[" + i + "].Tasks[" + j + "].ExampleOutput", new { @class = "form-control" })
+                @Html.ValidationMessage("TaskContainer[" + i + "].Tasks[" + j + "].ExampleOutput", new { @class = "text-danger" })
+            </div>
+        </div>
+    }
+}
+<div class="form-group">
+    <div class="col-md-offset-8 col-md-4">
+        <button data-toggle="collapse" data-parent="#accordion" href="#collapse2" class="btn btn-default">Cofnij</button>
+        <input type="submit" class="btn btn-success" value="Zapisz" />
+    </div>
+</div>

@@ -36,6 +36,9 @@ namespace SAP.Web.Infrastructrue.IoC
         //bindy do IoC
         private void AddBindings()
         {
+            _kernel.Bind<ITournamentRepository>().To<TournamentRepository>();
+            _kernel.Bind<ITournamentManager>().To<TournamentManager>();
+
             _kernel.Bind<ICompilerRespository>().To<CompilerRepository>();
             _kernel.Bind<IProgramManager>().To<ProgramManager>();
             

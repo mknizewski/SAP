@@ -25,7 +25,7 @@ namespace SAP.Web
 
         protected void Application_End()
         {
-            ServerTime.Dispose();
+            //ServerTime.Dispose();
         }
     }
 }

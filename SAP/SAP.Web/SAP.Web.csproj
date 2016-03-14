@@ -240,8 +240,10 @@
     <Compile Include="Areas\Admin\Controllers\HomeController.cs" />
     <Compile Include="Areas\Admin\Controllers\ManageTournamentsController.cs" />
     <Compile Include="Areas\Admin\Controllers\ManageUserController.cs" />
+    <Compile Include="Areas\Admin\Models\AddTournamentViewModels.cs" />
     <Compile Include="Areas\Admin\Models\ChangePasswordViewModel.cs" />
     <Compile Include="Areas\Admin\Models\AdminDataViewModel.cs" />
+    <Compile Include="Areas\Admin\Models\TestDataViewModel.cs" />
     <Compile Include="Areas\Admin\Models\UsersViewModel.cs" />
     <Compile Include="Areas\Tournament\TournamentAreaRegistration.cs" />
     <Compile Include="Areas\User\Controllers\HomeController.cs" />
@@ -267,6 +269,7 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\loading.gif" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
@@ -698,6 +701,11 @@
     <Content Include="Content\data_tables\datatables-responsive\make.sh" />
     <Content Include="Content\data_tables\datatables-responsive\Readme.md" />
     <Content Include="Areas\Admin\Views\ManageTournaments\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\ManageTournaments\AddTournament.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\PhaseList.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\TaskList.cshtml" />
+    <Content Include="Areas\Admin\Views\ManageTournaments\AddTestDataTask.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\TestDataModel.cshtml" />
     <None Include="Scripts\jquery-2.2.0.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -750,7 +758,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Areas\Admin\Views\Shared\" />
     <Folder Include="Areas\Tournament\Controllers\" />
     <Folder Include="Areas\Tournament\Models\" />
     <Folder Include="Areas\Tournament\Views\Shared\" />

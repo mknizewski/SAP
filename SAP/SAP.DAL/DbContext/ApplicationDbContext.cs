@@ -14,14 +14,15 @@ namespace SAP.DAL.DbContext
         public DbSet<Tournament> Tournament { get; set; }
         public DbSet<Compilers> Compilers { get; set; }
         public DbSet<Contact> Contacts { get; set; }
-        public DbSet<FinalPhaseScores> FinalPhaseScores { get; set; }
-        public DbSet<Phase> Phase { get; set; }
         public DbSet<Scores> Scores { get; set; }
+        public DbSet<Phase> Phase { get; set; }
+        public DbSet<UserSolutions> UserSolutions { get; set; }
         public DbSet<Tasks> Tasks { get; set; }
         public DbSet<TasksTestData> TasksTestData { get; set; }
         public DbSet<TournamentUsers> TournamentUsers { get; set; }
         public DbSet<UsersSchools> UsersSchools { get; set; }
         public DbSet<UsersCounselor> UsersCounselor { get; set; }
+        public DbSet<News> News { get; set; }
 
         //tabele -- historyczne
         public DbSet<HistoryFinalPhaseScores> HistoryFinalPhaseScores { get; set; }
@@ -56,6 +57,7 @@ namespace SAP.DAL.DbContext
             modelBuilder.Entity<Tournament>().HasKey(x => x.Id);
 
             modelBuilder.Entity<Contact>().HasKey(x => x.Id);
+            modelBuilder.Entity<News>().HasKey(x => x.Id);
 
             modelBuilder.Entity<Phase>().HasKey(x => x.Id);
             modelBuilder.Entity<Phase>().HasRequired(x => x.Tournament).WithMany().WillCascadeOnDelete(false);
@@ -78,17 +80,18 @@ namespace SAP.DAL.DbContext
             modelBuilder.Entity<TournamentUsers>().HasRequired(x => x.User).WithMany().WillCascadeOnDelete(false);
 
             modelBuilder.Entity<Compilers>().HasKey(x => x.Id);
-
-            modelBuilder.Entity<FinalPhaseScores>().HasKey(x => x.Id);
-            modelBuilder.Entity<FinalPhaseScores>().HasRequired(x => x.Phase).WithMany().WillCascadeOnDelete(false);
-            modelBuilder.Entity<FinalPhaseScores>().HasRequired(x => x.Tournament).WithMany().WillCascadeOnDelete(false);
-            modelBuilder.Entity<FinalPhaseScores>().HasRequired(x => x.User).WithMany().WillCascadeOnDelete(false);
+            modelBuilder.Entity<Tables.TaskStatus>().HasKey(x => x.Id);
 
             modelBuilder.Entity<Scores>().HasKey(x => x.Id);
-            modelBuilder.Entity<Scores>().HasRequired(x => x.Task).WithMany().WillCascadeOnDelete(false);
+            modelBuilder.Entity<Scores>().HasRequired(x => x.Phase).WithMany().WillCascadeOnDelete(false);
             modelBuilder.Entity<Scores>().HasRequired(x => x.Tournament).WithMany().WillCascadeOnDelete(false);
             modelBuilder.Entity<Scores>().HasRequired(x => x.User).WithMany().WillCascadeOnDelete(false);
-            modelBuilder.Entity<Scores>().HasRequired(x => x.Compiler).WithMany().WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<UserSolutions>().HasKey(x => x.Id);
+            modelBuilder.Entity<UserSolutions>().HasRequired(x => x.Task).WithMany().WillCascadeOnDelete(false);
+            modelBuilder.Entity<UserSolutions>().HasRequired(x => x.Tournament).WithMany().WillCascadeOnDelete(false);
+            modelBuilder.Entity<UserSolutions>().HasRequired(x => x.User).WithMany().WillCascadeOnDelete(false);
+            modelBuilder.Entity<UserSolutions>().HasRequired(x => x.Compiler).WithMany().WillCascadeOnDelete(false);
 
             modelBuilder.Entity<HistoryFinalPhaseScores>().HasKey(x => x.Id);
             modelBuilder.Entity<HistoryScores>().HasKey(x => x.Id);
@@ -121,9 +124,9 @@ namespace SAP.DAL.DbContext
                 EmailConfirmed = true            
             };
 
-             _userManager.CreateAsync(root, "Admin123!");
-             _userManager.AddToRoleAsync(root.Id, "Root");
-             _userManager.AddToRoleAsync(root.Id, "Admin");
+            _userManager.CreateAsync(root, "Admin123!");
+            _roleManager.AddUserToRole(_userManager, root.Id, "Root");
+            _roleManager.AddUserToRole(_userManager, root.Id, "Admin");
 
             //deafultowa inicjalizacja sciezek kompilatora
             context.Compilers.Add(new Tables.Compilers

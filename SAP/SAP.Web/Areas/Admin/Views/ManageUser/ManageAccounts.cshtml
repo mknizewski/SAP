@@ -352,7 +352,7 @@
 <script type="text/javascript">
 
     var currentEmail = "";
- 
+
     function pernamentRead()
     {
         var isCheck = document.getElementById("isPernament").checked;
@@ -391,11 +391,11 @@
         currentEmail = email;
         document.getElementById("banTitle").innerText = "Blokada konta " + currentEmail;
     }
-    
+
     $("#banBtn").click(function(){
         var banT = document.getElementById("banTime").value;
         var banD = document.getElementById("banDate").value;
-        var isPern = document.getElementById("isPernament").checked; 
+        var isPern = document.getElementById("isPernament").checked;
 
         $.post('@Url.Action("Ban", "ManageUser")',
             {
@@ -421,10 +421,10 @@
                 name: email
             },
             function (data) {
-                
+
                 //Tytuł
                 document.getElementById("detailTitle").innerText = "Szczegóły konta " + data.UserEmail;
-                
+
                 //Użytkownik
                 document.getElementById("userName").innerText = data.UserFirstName + " " + data.UserLastName;
                 document.getElementById("userEmail").innerText = data.UserEmail;
@@ -454,7 +454,7 @@
         $('#users').DataTable({
             responsive: true,
             select: true,
-            "language": {             
+            "language": {
                     processing:     "Przetwarzanie...",
                     search:         "Szukaj:",
                     lengthMenu:     "Pokaż _MENU_ pozycji",
@@ -480,3 +480,4 @@
     });
 
 </script>
+  

@@ -1,0 +1,23 @@
+﻿@model SAP.Web.Areas.Admin.Models.TestDataViewModel
+
+<h4>Wypełnij dane testowe do zadania.</h4>
+@Html.HiddenFor(x => x.TaskId)
+<div class="form-group">
+    @Html.LabelFor(x => x.InputData, new { @class = "control-label col-md-3" })
+    <div class="col-md-9">
+        @Html.EditorFor(x => x.InputData, new { @class = "control-label col-md-3" })
+        @Html.ValidationMessageFor(x => x.InputData, "", new { @class = "text-danger" })
+    </div>
+</div>
+<div class="form-group">
+    @Html.LabelFor(x => x.OutputData, new { @class = "control-label col-md-3" })
+    <div class="col-md-9">
+        @Html.EditorFor(x => x.OutputData, new { @class = "control-label col-md-3" })
+        @Html.ValidationMessageFor(x => x.OutputData, "", new { @class = "text-danger" })
+    </div>
+</div>
+<div class="form-group">
+    <div class="col-md-offset-10 col-md-2">
+        <input type="submit" class="btn btn-success" value="Zapisz" />
+    </div>
+</div>
