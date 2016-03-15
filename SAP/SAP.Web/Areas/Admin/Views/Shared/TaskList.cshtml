@@ -24,15 +24,17 @@
         </div>
         <div class="form-group">
             @Html.LabelFor(x => Model[i].Tasks[j].StartDate, new { @class = "control-label col-md-3" })
-            <div class="col-md-9">
+            <div class="col-md-9 form-inline">
                 @Html.EditorFor(x => Model[i].Tasks[j].StartDate, "", "TaskContainer[" + i + "].Tasks[" + j + "].StartDate", new { @class = "form-control" })
+                @Html.EditorFor(x => Model[i].Tasks[j].StartTime, "", "TaskContainer[" + i + "].Tasks[" + j + "].StartTime", new { @class = "form-control" })
                 @Html.ValidationMessage("TaskContainer[" + i + "].Tasks[" + j + "].StartDate", new { @class = "text-danger" })
             </div>
         </div>
         <div class="form-group">
             @Html.LabelFor(x => Model[i].Tasks[j].EndDate, new { @class = "control-label col-md-3" })
-            <div class="col-md-9">
+            <div class="col-md-9 form-inline">
                 @Html.EditorFor(x => Model[i].Tasks[j].EndDate, "", "TaskContainer[" + i + "].Tasks[" + j + "].EndDate", new { @class = "form-control" })
+                @Html.EditorFor(x => Model[i].Tasks[j].EndTime, "", "TaskContainer[" + i + "].Tasks[" + j + "].EndTime", new { @class = "form-control" })
                 @Html.ValidationMessage("TaskContainer[" + i + "].Tasks[" + j + "].EndDate", new { @class = "text-danger" })
             </div>
         </div>
@@ -55,6 +57,12 @@
             <div class="col-md-9">
                 @Html.EditorFor(x => Model[i].Tasks[j].ExampleOutput, "", "TaskContainer[" + i + "].Tasks[" + j + "].ExampleOutput", new { @class = "form-control" })
                 @Html.ValidationMessage("TaskContainer[" + i + "].Tasks[" + j + "].ExampleOutput", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(x => Model[i].Tasks[j].InputData, new { @class = "control-label col-md-3" })
+            <div class="col-md-9">
+                @Html.DropDownListFor(x => Model[i].Tasks[j].InputDataId, Model[i].Tasks[j].InputData, new { @class = "form-control" })
             </div>
         </div>
     }

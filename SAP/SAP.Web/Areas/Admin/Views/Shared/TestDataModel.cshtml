@@ -1,21 +1,28 @@
-﻿@model SAP.Web.Areas.Admin.Models.TestDataViewModel
+﻿@model List<SAP.Web.Areas.Admin.Models.TestDataViewModel>
 
 <h4>Wypełnij dane testowe do zadania.</h4>
-@Html.HiddenFor(x => x.TaskId)
-<div class="form-group">
-    @Html.LabelFor(x => x.InputData, new { @class = "control-label col-md-3" })
-    <div class="col-md-9">
-        @Html.EditorFor(x => x.InputData, new { @class = "control-label col-md-3" })
-        @Html.ValidationMessageFor(x => x.InputData, "", new { @class = "text-danger" })
+
+@for (int i = 0; i < Model.Count(); i++)
+{
+    <h6>Dane testowe nr: @i</h6>
+    <hr />
+    @Html.Hidden("viewModel[" + i + "].TaskId", Model[i].TaskId)
+    <div class="form-group">
+        @Html.LabelFor(x => Model[i].InputData, new { @class = "control-label col-md-3" })
+        <div class="col-md-9">
+            @Html.EditorFor(x => Model[i].InputData, "", "viewModel[" + i + "].InputData", new { @class = "control-label col-md-3" })
+            @Html.ValidationMessageFor(x => Model[i].InputData, "", new { @class = "text-danger" })
+        </div>
     </div>
-</div>
-<div class="form-group">
-    @Html.LabelFor(x => x.OutputData, new { @class = "control-label col-md-3" })
-    <div class="col-md-9">
-        @Html.EditorFor(x => x.OutputData, new { @class = "control-label col-md-3" })
-        @Html.ValidationMessageFor(x => x.OutputData, "", new { @class = "text-danger" })
+    <div class="form-group">
+        @Html.LabelFor(x => Model[i].OutputData, new { @class = "control-label col-md-3" })
+        <div class="col-md-9">
+            @Html.EditorFor(x => Model[i].OutputData, "", "viewModel[" + i + "].OutputData", new { @class = "control-label col-md-3" })
+            @Html.ValidationMessageFor(x => Model[i].OutputData, "", new { @class = "text-danger" })
+        </div>
     </div>
-</div>
+}
+
 <div class="form-group">
     <div class="col-md-offset-10 col-md-2">
         <input type="submit" class="btn btn-success" value="Zapisz" />

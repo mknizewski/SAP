@@ -100,15 +100,17 @@
                             </div>
                             <div class="form-group">
                                 @Html.LabelFor(x => x.Tournament.StartDate, new { @class = "control-label col-md-3" })
-                                <div class="col-md-9">
+                                <div class="col-md-9 form-inline">
                                     @Html.EditorFor(x => x.Tournament.StartDate, new { @class = "form-control" })
+                                    @Html.EditorFor(x => x.Tournament.StartTime, new { @class = "form-control" })
                                     @Html.ValidationMessageFor(x => x.Tournament.StartDate, "", new { @class = "text-danger" })
                                 </div>
                             </div>
                             <div class="form-group">
                                 @Html.LabelFor(x => x.Tournament.EndDate, new { @class = "control-label col-md-3" })
-                                <div class="col-md-9">
+                                <div class="col-md-9 form-inline">
                                     @Html.EditorFor(x => x.Tournament.EndDate, new { @class = "form-control" })
+                                    @Html.EditorFor(x => x.Tournament.EndTime, new { @class = "form-control" })
                                     @Html.ValidationMessageFor(x => x.Tournament.EndDate, "", new { @class = "text-danger" })
                                 </div>
                             </div>

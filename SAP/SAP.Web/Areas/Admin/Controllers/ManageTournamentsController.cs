@@ -1,5 +1,6 @@
 ﻿using SAP.BOL.Abstract;
 using SAP.BOL.HelperClasses;
+using SAP.BOL.LogicClasses;
 using SAP.DAL.Tables;
 using SAP.Web.Areas.Admin.Models;
 using System;
@@ -45,8 +46,8 @@ namespace SAP.Web.Areas.Admin.Controllers
                 {
                     Title = viewModel.Tournament.Title,
                     Description = viewModel.Tournament.Description,
-                    StartDate = viewModel.Tournament.StartDate,
-                    EndDate = viewModel.Tournament.EndDate,
+                    StartDate = viewModel.Tournament.StartDate.Add(viewModel.Tournament.StartTime),
+                    EndDate = viewModel.Tournament.EndDate.Add(viewModel.Tournament.EndTime),
                     MaxExecuteMemory = viewModel.Tournament.MaxExecutedMemory,
                     MaxExecuteTime = viewModel.Tournament.MaxExecutedTime,
                     MaxUsers = viewModel.Tournament.MaxUsers
@@ -75,8 +76,8 @@ namespace SAP.Web.Areas.Admin.Controllers
                             Title = y.Title,
                             Order = y.Order,
                             Description = y.Description,
-                            EndDate = y.EndDate,
-                            StartDate = y.StartDate,
+                            EndDate = y.EndDate.Add(y.EndTime),
+                            StartDate = y.StartDate.Add(y.StartTime),
                             ExampleInput = y.ExampleInput,
                             ExampleOutput = y.ExampleOutput
                         });
@@ -87,7 +88,7 @@ namespace SAP.Web.Areas.Admin.Controllers
 
                 if (result)
                 {
-                    TempData["Alert"] = SetAlert.Set("Poprawnie dodano turniej! Teraz skonfiguruj dane testowe do poszczególnych zadań, by system mógł poprawnie aktywować turniej.", "Sukces", AlertType.Info);
+                    TempData["Alert"] = SetAlert.Set("Poprawnie dodano turniej! Teraz skonfiguruj dane testowe do poszczególnych zadań, by móc poprawnie aktywować turniej.", "Sukces", AlertType.Info);
                     return RedirectToAction("Index");
                 }
                 else
@@ -117,13 +118,15 @@ namespace SAP.Web.Areas.Admin.Controllers
         public ActionResult ConfigureTask(int[] taskCount)
         {
             var taskContainer = new List<PhaseTaskContainer>();
+            TimeSpan timeNow = TimeSpan.MinValue;
+            DateTime dateNow = DateTime.Now;
 
             for (int i = 0; i < taskCount.Length; i++)
             {
                 var taskList = new List<TaskViewModel>();
 
                 for (int j = 0; j < taskCount[i]; j++)
-                    taskList.Add(new TaskViewModel { PhaseId = i });
+                    taskList.Add(new TaskViewModel { PhaseId = i, InputData = GetDataInputList(), StartTime = timeNow, EndTime = timeNow, StartDate = dateNow, EndDate = dateNow });
 
                 taskContainer.Add(new PhaseTaskContainer { Tasks = taskList });
             }
@@ -147,7 +150,7 @@ namespace SAP.Web.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult AddTestDataTask(TestDataViewModel viewModel)
+        public ActionResult AddTestDataTask(List<TestDataViewModel> viewModel)
         {
             return View();
         }
@@ -181,12 +184,12 @@ namespace SAP.Web.Areas.Admin.Controllers
             return Json(jsonList, JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult GetTestDataModel(int taskId)
+        public ActionResult GetTestDataModel(int taskId, int taskCount)
         {
-            var viewModel = new TestDataViewModel
-            {
-                TaskId = taskId
-            };
+            var viewModel = new List<TestDataViewModel>();
+
+            for (int i = 0; i < taskCount; i++)
+                viewModel.Add(new TestDataViewModel { TaskId = taskId });
 
             return PartialView("~/Areas/Admin/Views/Shared/TestDataModel.cshtml", viewModel);
         }
@@ -202,6 +205,16 @@ namespace SAP.Web.Areas.Admin.Controllers
             }
         }
 
+        private IEnumerable<SelectListItem> GetDataInputList()
+        {
+            List<SelectListItem> dataList = new List<SelectListItem>();
+
+            dataList.Add(new SelectListItem { Text = "Argumenty wywołania", Value = InputDataType.Arguments.ToString() });
+            dataList.Add(new SelectListItem { Text = "Strumień danych", Value = InputDataType.Stream.ToString() });
+            dataList.Add(new SelectListItem { Text = "Brak", Value = InputDataType.None.ToString() });
+
+            return dataList;
+        }
         #endregion
     }
 }

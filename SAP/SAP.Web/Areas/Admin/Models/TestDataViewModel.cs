@@ -9,7 +9,6 @@ namespace SAP.Web.Areas.Admin.Models
     public class TestDataViewModel
     {
         public int TaskId { get; set; }
-        public int SystemInputDataId { get; set; }
 
         [Required]
         [DataType(DataType.MultilineText)]

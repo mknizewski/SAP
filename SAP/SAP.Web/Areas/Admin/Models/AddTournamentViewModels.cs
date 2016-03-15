@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 
 namespace SAP.Web.Areas.Admin.Models
 {
@@ -18,14 +19,22 @@ namespace SAP.Web.Areas.Admin.Models
         public string Description { get; set; }
 
         [Required]
-        [DataType(DataType.DateTime)]
+        [DataType(DataType.Date)]
         [Display(Name = "Start turnieju")]
         public DateTime StartDate { get; set; }
 
         [Required]
-        [DataType(DataType.DateTime)]
+        [DataType(DataType.Time)]
+        public TimeSpan StartTime { get; set; }
+
+        [Required]
+        [DataType(DataType.Date)]
         [Display(Name = "Koniec turnieju")]
         public DateTime EndDate { get; set; }
+
+        [Required]
+        [DataType(DataType.Time)]
+        public TimeSpan EndTime { get; set; }
 
         [Required]
         [Display(Name = "Max czas programu (s)")]
@@ -90,17 +99,31 @@ namespace SAP.Web.Areas.Admin.Models
 
         [Required]
         [Display(Name = "Start zadania")]
-        [DataType(DataType.DateTime)]
+        [DataType(DataType.Date)]
         public DateTime StartDate { get; set; }
 
         [Required]
+        [DataType(DataType.Time)]
+        public TimeSpan StartTime { get; set; }
+
+        [Required]
         [Display(Name = "Koniec zadania")]
-        [DataType(DataType.DateTime)]
+        [DataType(DataType.Date)]
         public DateTime EndDate { get; set; }
+
+        [Required]
+        [DataType(DataType.Time)]
+        public TimeSpan EndTime { get; set; }
 
         [Required]
         [Display(Name = "Kolejność")]
         public int Order { get; set; }
+
+        [Required]
+        public int InputDataId { get; set;}
+
+        [Display(Name = "Typ wprowadzania danych")]
+        public IEnumerable<SelectListItem> InputData { get; set; }
     }
 
     public class PhaseTaskContainer
