@@ -23,6 +23,7 @@ namespace SAP.DAL.Tables
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public bool IsActive { get; set; }
+        public int InputDataTypeId { get; set; }
 
         public virtual Tournament Tournament { get; set; }
         public virtual Phase Phase { get; set; }

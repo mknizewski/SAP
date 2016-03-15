@@ -110,5 +110,19 @@ namespace SAP.DAL.Repositories
                 return false;
             }
         }
+
+
+        public bool SendMessage(Messages model)
+        {
+            try 
+            {
+                _context.Messages.Add(model);
+                _context.SaveChanges();
+
+                return true;
+            }
+            catch
+            { return false; }
+        }
     }
 }

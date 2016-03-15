@@ -23,6 +23,7 @@ namespace SAP.DAL.DbContext
         public DbSet<UsersSchools> UsersSchools { get; set; }
         public DbSet<UsersCounselor> UsersCounselor { get; set; }
         public DbSet<News> News { get; set; }
+        public DbSet<Messages> Messages { get; set; }
 
         //tabele -- historyczne
         public DbSet<HistoryFinalPhaseScores> HistoryFinalPhaseScores { get; set; }
@@ -58,6 +59,9 @@ namespace SAP.DAL.DbContext
 
             modelBuilder.Entity<Contact>().HasKey(x => x.Id);
             modelBuilder.Entity<News>().HasKey(x => x.Id);
+
+            modelBuilder.Entity<Messages>().HasKey(x => x.Id);
+            modelBuilder.Entity<Messages>().HasRequired(x => x.User).WithMany().WillCascadeOnDelete(false);
 
             modelBuilder.Entity<Phase>().HasKey(x => x.Id);
             modelBuilder.Entity<Phase>().HasRequired(x => x.Tournament).WithMany().WillCascadeOnDelete(false);
@@ -98,7 +102,7 @@ namespace SAP.DAL.DbContext
             modelBuilder.Entity<HistoryTournamentUsers>().HasKey(x => x.Id);
         }
 
-        public bool Seed(ApplicationDbContext context)
+        public async Task<bool> Seed(ApplicationDbContext context)
         {
             bool success = false;
 
@@ -121,10 +125,10 @@ namespace SAP.DAL.DbContext
                 LastName = "Administrator",
                 UserName = "admin@sap.pl",
                 Email = "admin@sap.pl",
-                EmailConfirmed = true            
+                EmailConfirmed = true,
             };
 
-            _userManager.CreateAsync(root, "Admin123!");
+            await _userManager.CreateAsync(root, "Admin123!");
             _roleManager.AddUserToRole(_userManager, root.Id, "Root");
             _roleManager.AddUserToRole(_userManager, root.Id, "Admin");
 
@@ -166,9 +170,9 @@ namespace SAP.DAL.DbContext
         /// </summary>
         public class DataBaseInitializer : CreateDatabaseIfNotExists<ApplicationDbContext>
         {
-            protected override void Seed(ApplicationDbContext context)
+            protected override async void Seed(ApplicationDbContext context)
             {
-                context.Seed(context);
+                await context.Seed(context);
                 base.Seed(context);
             }
         }

@@ -102,5 +102,19 @@ namespace SAP.BOL.LogicClasses.Managers
 
             return result;
         }
+
+        public bool SendMessage(string userId, string title, string desc)
+        {
+            Messages messageRow = new Messages 
+            {
+                UserId = userId,
+                Title = title,
+                Description = desc,
+                SendTime = DateTime.Now
+            };
+
+            bool result = _userRepository.SendMessage(messageRow);
+            return result;
+        }
     }
 }

@@ -237,6 +237,20 @@ namespace SAP.Web.Areas.Admin.Controllers
             return Json(jsonData);
         }
 
+        public ActionResult SendMessageToUser(string name, string title, string desc)
+        {
+            var user = AspUserManager.FindByName(name);
+            bool result = _userManager.SendMessage(user.Id, title, desc);
+            MvcHtmlString jsonData = null;
+
+            if (result)
+                jsonData = Alert.GetAlert(SetAlert.Set("Poprawnie wysłano wiadomość do " + name, "Sukces", AlertType.Success));
+            else
+                jsonData = Alert.GetAlert(SetAlert.Set("Wystąpił bład. Spróbuj ponownie później.", "Błąd", AlertType.Danger));
+
+            return Json(new { Message = jsonData.ToHtmlString() });
+        }
+
         #region Helpers
         protected override void Dispose(bool disposing)
         {

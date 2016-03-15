@@ -12,6 +12,7 @@ namespace SAP.DAL.Abstract
         bool AddUserCounselor(UsersCounselor model);
         bool EditUserSchool(UsersSchools model);
         bool EditUserCounselor(UsersCounselor model);
+        bool SendMessage(Messages model);
         void Dispose();
     }
 }
