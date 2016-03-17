@@ -1,9 +1,9 @@
 ﻿using SAP.BOL.Abstract;
-using System;
-using System.Linq;
 using SAP.BOL.HelperClasses;
 using SAP.DAL.Abstract;
 using SAP.DAL.Tables;
+using System;
+using System.Linq;
 
 namespace SAP.BOL.LogicClasses.Managers
 {
@@ -105,7 +105,7 @@ namespace SAP.BOL.LogicClasses.Managers
 
         public bool SendMessage(string userId, string title, string desc)
         {
-            Messages messageRow = new Messages 
+            Messages messageRow = new Messages
             {
                 UserId = userId,
                 Title = title,

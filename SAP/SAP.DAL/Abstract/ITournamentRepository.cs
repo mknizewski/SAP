@@ -1,8 +1,5 @@
 ﻿using SAP.DAL.Tables;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace SAP.DAL.Abstract
@@ -15,9 +12,20 @@ namespace SAP.DAL.Abstract
         IEnumerable<TasksTestData> TasksTestData { get; }
         IEnumerable<TournamentUsers> TournamentsUsers { get; }
 
+        void SetPhaseActiveFlag(int Id, bool flag);
+
+        void SetTaskActiveFlag(int Id, bool flag);
+
+        void SetTournamentActiveFlag(int Id, bool flag);
+
+        Task<bool> AddTestDataAsync(List<TasksTestData> testData);
+
         Task<bool> AddTournamentAsync(Tournament tour, List<Phase> phases, List<Tasks> tasks, int[] taskMetadata);
+
         bool AddTaskTestingData(TasksTestData testData);
+
         bool DeleteTournament(int tournamentId);
+
         void Dispose();
     }
 }

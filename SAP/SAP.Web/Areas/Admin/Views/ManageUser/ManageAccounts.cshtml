@@ -46,7 +46,6 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Zamknij</button>
             </div>
-
         </div>
     </div>
 </div>
@@ -76,7 +75,7 @@
             </a>
         </div>
     </div>
-    <div class="col-md-9" id="col"> 
+    <div class="col-md-9" id="col">
         <div class="panel panel-primary">
             <div class="panel-heading">
                 Konta zarejestrowane w systemie SAP
@@ -99,7 +98,7 @@
                                 <td>@user.FirstName @user.LastName</td>
                                 <td>@user.Email</td>
                                 <td>@user.Role</td>
-                                @{ 
+                                @{
                                     string lok = user.IsLocked ? "Tak" : "Nie";
 
                                     <td>@lok</td>
@@ -157,14 +156,12 @@
                                 </div>
                             </div>
                             <div class="col-md-6">
-
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-
     </div>
 </div>
 
@@ -184,7 +181,7 @@
                 <h4 class="modal-title" id="banTitle"></h4>
             </div>
 
-            <div class="modal-body">             
+            <div class="modal-body">
                 <form class="form-horizontal" role="form">
                     <div class="form-group">
                         <label for="banDate" class="col-md-2 control-label">Data do:  </label>
@@ -208,7 +205,6 @@
                 <button type="button" class="btn btn-default" data-dismiss="modal">Zamknij</button>
                 <button type="button" class="btn btn-success" data-dismiss="modal" id="banBtn">Blokuj</button>
             </div>
-
         </div>
     </div>
 </div>
@@ -344,7 +340,6 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Zamknij</button>
             </div>
-
         </div>
     </div>
 </div>
@@ -379,11 +374,9 @@
                 <button type="button" class="btn btn-default" data-dismiss="modal">Zamknij</button>
                 <button type="button" class="btn btn-success" data-dismiss="modal" id="sendBtn">Wyślij</button>
             </div>
-
         </div>
     </div>
 </div>
-
 
 <script type="text/javascript">
 
@@ -514,7 +507,6 @@
 
     }
 
-
     $(document).ready(function () {
         $('#users').DataTable({
             responsive: true,
@@ -543,6 +535,4 @@
             }
         });
     });
-
 </script>
-  

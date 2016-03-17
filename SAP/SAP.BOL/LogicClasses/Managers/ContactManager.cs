@@ -15,7 +15,7 @@ namespace SAP.BOL.LogicClasses.Managers
 
         public bool AddNewContact(string firstName, string lastName, string email, string message)
         {
-            DAL.Tables.Contact  modelToSave = new DAL.Tables.Contact
+            DAL.Tables.Contact modelToSave = new DAL.Tables.Contact
             {
                 Name = firstName,
                 Surname = lastName,

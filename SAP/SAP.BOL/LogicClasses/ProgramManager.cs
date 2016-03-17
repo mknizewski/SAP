@@ -1,10 +1,10 @@
-﻿using System;
+﻿using SAP.BOL.Abstract;
+using SAP.BOL.LogicClasses.Exceptions;
+using System;
+using System.Diagnostics;
 using System.IO;
 using System.Threading.Tasks;
-using SAP.BOL.LogicClasses.Exceptions;
 using System.Timers;
-using System.Diagnostics;
-using SAP.BOL.Abstract;
 
 namespace SAP.BOL.LogicClasses
 {
@@ -55,7 +55,7 @@ namespace SAP.BOL.LogicClasses
 
             if (!hasErrors)
                 Execute();
-          }
+        }
 
         public void Compile()
         {
@@ -149,15 +149,17 @@ namespace SAP.BOL.LogicClasses
                         exec.StartInfo.Arguments = inputData;
                         exec.Start();
                         break;
+
                     case InputDataType.Stream:
                         string[] arguments = inputData.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries); // rozdzielanie spacją
                         exec.Start();
 
                         StreamWriter writer = exec.StandardInput;
-                        foreach(string arg in arguments)
+                        foreach (string arg in arguments)
                             writer.WriteLine(arg);
 
                         break;
+
                     case InputDataType.None:
                         exec.Start();
                         break;
@@ -180,8 +182,8 @@ namespace SAP.BOL.LogicClasses
                 //TODO: Algorytm wykonania programu javy
             }
 
-           // timer.Stop();
-           // timer.Dispose();
+            // timer.Stop();
+            // timer.Dispose();
         }
 
         private void StopTask(object state, ElapsedEventArgs e)

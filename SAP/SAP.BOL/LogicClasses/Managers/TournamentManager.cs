@@ -1,11 +1,9 @@
 ﻿using SAP.BOL.Abstract;
+using SAP.DAL.Abstract;
+using SAP.DAL.Tables;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using SAP.DAL.Tables;
-using SAP.DAL.Abstract;
 
 namespace SAP.BOL.LogicClasses.Managers
 {
@@ -42,6 +40,13 @@ namespace SAP.BOL.LogicClasses.Managers
             }
         }
 
+        public async Task<bool> AddTestDataAsync(List<TasksTestData> testData)
+        {
+            bool result = await _tournamentRepository.AddTestDataAsync(testData);
+
+            return result;
+        }
+
         public async Task<bool> AddTournamnetAsync(Tournament tour, List<Phase> phases, List<Tasks> tasks, int[] taskPerPhaseCount)
         {
             //konfiguracja aktywności
@@ -57,6 +62,21 @@ namespace SAP.BOL.LogicClasses.Managers
         public void Dispose()
         {
             _tournamentRepository.Dispose();
+        }
+
+        public void SetPhaseActiveFlag(int Id, bool flag)
+        {
+            _tournamentRepository.SetPhaseActiveFlag(Id, flag);
+        }
+
+        public void SetTaskActiveFlag(int Id, bool flag)
+        {
+            _tournamentRepository.SetTaskActiveFlag(Id, flag);
+        }
+
+        public void SetTournamentActiveFlag(int Id, bool flag)
+        {
+            _tournamentRepository.SetTournamentActiveFlag(Id, flag);
         }
     }
 }

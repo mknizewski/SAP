@@ -7,6 +7,7 @@ namespace SAP.DAL.Tables
     {
         [Key]
         public int Id { get; set; }
+
         public int OldId { get; set; }
         public int TournamentId { get; set; }
         public int TaskId { get; set; }
@@ -15,6 +16,5 @@ namespace SAP.DAL.Tables
         public decimal Score { get; set; }
         public string Program { get; set; }
         public DateTime InsertTime { get; set; }
-
     }
 }

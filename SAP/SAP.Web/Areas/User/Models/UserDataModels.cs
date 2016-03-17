@@ -4,6 +4,7 @@
     {
         //User
         public string UserId { get; set; }
+
         public string UserEmail { get; set; }
         public string UserFirstName { get; set; }
         public string UserLastName { get; set; }
@@ -15,6 +16,7 @@
 
         //Szkoła
         public string SchoolName { get; set; }
+
         public string SchoolClass { get; set; }
         public string SchoolCity { get; set; }
         public string SchoolStreet { get; set; }
@@ -24,6 +26,7 @@
 
         //Opiekun
         public string CounselorFirstName { get; set; }
+
         public string CounselorLastName { get; set; }
     }
 }

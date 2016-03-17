@@ -6,6 +6,7 @@ namespace SAP.DAL.Tables
     {
         [Key]
         public int Id { get; set; }
+
         public int OldId { get; set; }
         public int TournamentId { get; set; }
         public string UserId { get; set; }

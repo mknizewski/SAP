@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
-namespace SAP.Web.Models
+﻿namespace SAP.Web.Models
 {
     public class ProgramViewModel
     {

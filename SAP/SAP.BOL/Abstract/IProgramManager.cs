@@ -12,14 +12,17 @@ namespace SAP.BOL.Abstract
         string ErrorInfo { get; }
         string OutputData { get; }
         string InputData { get; set; }
-        bool HasError { get;  }
+        bool HasError { get; }
         double MaxTime { get; set; }
         double MemoryUsed { get; }
         InputDataType InputDataType { get; set; }
 
         void CompileAndExecute();
+
         void Compile();
+
         void Execute();
+
         void Dispose();
     }
 }

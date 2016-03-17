@@ -1,9 +1,9 @@
 ﻿using SAP.DAL.Abstract;
+using SAP.DAL.DbContext;
+using SAP.DAL.Tables;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using SAP.DAL.Tables;
-using SAP.DAL.DbContext;
 
 namespace SAP.DAL.Repositories
 {

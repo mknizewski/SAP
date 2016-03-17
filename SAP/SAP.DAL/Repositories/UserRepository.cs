@@ -1,8 +1,8 @@
 ﻿using SAP.DAL.Abstract;
+using SAP.DAL.DbContext;
+using SAP.DAL.Tables;
 using System;
 using System.Collections.Generic;
-using SAP.DAL.Tables;
-using SAP.DAL.DbContext;
 using System.Linq;
 
 namespace SAP.DAL.Repositories
@@ -22,7 +22,6 @@ namespace SAP.DAL.Repositories
             {
                 return _context.UsersCounselor;
             }
-
         }
 
         public IEnumerable<UsersSchools> Schools
@@ -31,7 +30,6 @@ namespace SAP.DAL.Repositories
             {
                 return _context.UsersSchools;
             }
-
         }
 
         public IEnumerable<ApplicationUser> Users
@@ -40,7 +38,6 @@ namespace SAP.DAL.Repositories
             {
                 return _context.Users;
             }
-
         }
 
         public bool AddUserCounselor(UsersCounselor model)
@@ -111,10 +108,9 @@ namespace SAP.DAL.Repositories
             }
         }
 
-
         public bool SendMessage(Messages model)
         {
-            try 
+            try
             {
                 _context.Messages.Add(model);
                 _context.SaveChanges();

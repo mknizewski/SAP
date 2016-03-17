@@ -43,7 +43,7 @@
                 <h3 class="panel-title">Wybierz typ ustawień</h3>
             </div>
             <div class="panel-body">
-                
+
                 <div class="row">
                     <div class="col-md-8">
                         Aktualizacja danych osobowych
@@ -96,7 +96,6 @@
                         <a href='@Url.Action("ChangePassword", "Manage")' class="btn btn-info">Przejdź &raquo;</a>
                     </div>
                 </div>
-
             </div>
         </div>
 
@@ -105,13 +104,13 @@
                 <h3 class="panel-title">Autoryzacja konta</h3>
             </div>
             <div class="panel-body">
-                
+
                 <div class="row">
                     <div class="col-md-8">
                         Email potwierdzony: @email
                     </div>
                     <div class="col-md-4">
-                        @{ 
+                        @{
                             if (ViewBag.Email == false)
                             {
                                 <a href="#" class="btn btn-success text-center">Wyślij ponownie</a>
@@ -127,7 +126,7 @@
                         Telefon potwierdzony: @phone
                     </div>
                     <div class="col-md-4">
-                        @{ 
+                        @{
                             if (ViewBag.Phone == false)
                             {
                                 <a href="#" class="btn btn-success text-center">Wyślij ponownie</a>
@@ -135,12 +134,9 @@
                         }
                     </div>
                 </div>
-
             </div>
         </div>
-
     </div>
-
 </div>
 
 <ul class="breadcrumb">

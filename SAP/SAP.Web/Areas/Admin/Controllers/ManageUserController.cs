@@ -8,7 +8,6 @@ using SAP.Web.Areas.Admin.Models;
 using SAP.Web.HTMLHelpers;
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
@@ -103,14 +102,13 @@ namespace SAP.Web.Areas.Admin.Controllers
                 {
                     await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
                 }
-                return RedirectToAction("Index", new { Message = Message.ChagnePasswordSuccess});
+                return RedirectToAction("Index", new { Message = Message.ChagnePasswordSuccess });
             }
             else
             {
                 TempData["Alert"] = SetAlert.Set("Wprowadzone hasło jest niepoprawne!", "Błąd", AlertType.Danger);
                 return View(model);
             }
-
         }
 
         public ActionResult ManageAccounts()
@@ -121,11 +119,11 @@ namespace SAP.Web.Areas.Admin.Controllers
 
             if (isRoot) // gdy root zwracamy wszystkie konta istniejace w sytstemie oprocz roota
             {
-               var items = AspUserManager
-                    .Users
-                    .Where(x => x.Id != userId);
+                var items = AspUserManager
+                     .Users
+                     .Where(x => x.Id != userId);
 
-                foreach(var x in items)
+                foreach (var x in items)
                 {
                     viewModel.Add(new UsersViewModel
                     {
@@ -137,7 +135,6 @@ namespace SAP.Web.Areas.Admin.Controllers
                         IsLocked = AspUserManager.IsLockedOut(x.Id)
                     });
                 }
-                
             }
             else // zwyczajny admin na dostęp tylko do kont użytkowników
             {
@@ -252,6 +249,7 @@ namespace SAP.Web.Areas.Admin.Controllers
         }
 
         #region Helpers
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)
@@ -263,6 +261,7 @@ namespace SAP.Web.Areas.Admin.Controllers
                 base.Dispose(disposing);
             }
         }
-        #endregion
+
+        #endregion Helpers
     }
 }

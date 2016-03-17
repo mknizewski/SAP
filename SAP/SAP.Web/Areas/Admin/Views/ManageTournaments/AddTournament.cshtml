@@ -191,7 +191,7 @@
                             <div id="taskList">
                                 <img src="~/Content/loading.gif" id="load2" class="center-block" style="display:none;" />
                             </div>
-                            @{ 
+                            @{
                                 try
                                 {
                                     @Html.Partial("~/Areas/Admin/Views/Shared/TaskList.cshtml", Model.TaskContainer)
@@ -201,7 +201,6 @@
                         </div>
                     </div>
                 </div>
-
             </div>
         }
     </div>
@@ -215,7 +214,7 @@
 </ul>
 
 @section Scripts {
-    
+
     <script type="text/javascript">
 
         function configurePhase()
@@ -265,7 +264,6 @@
                     $("#taskList").append(data);
                 });
         }
-
     </script>
-        
+
 }

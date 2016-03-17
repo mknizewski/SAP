@@ -63,7 +63,7 @@ namespace SAP.Web.Areas.User.Controllers
                 modelView.CounselorFirstName = data.Counselor.FirstName;
                 modelView.CounselorLastName = data.Counselor.LastName;
             }
-            
+
             return View(modelView);
         }
 
@@ -83,6 +83,6 @@ namespace SAP.Web.Areas.User.Controllers
             base.Dispose(disposing);
         }
 
-        #endregion
+        #endregion Helpers
     }
 }

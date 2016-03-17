@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using SAP.DAL.Tables;
+﻿using SAP.DAL.Tables;
+using System.Collections.Generic;
 
 namespace SAP.DAL.Abstract
 {
@@ -8,6 +8,7 @@ namespace SAP.DAL.Abstract
         IEnumerable<Contact> Contact { get; }
 
         bool TryAdd(Contact model);
+
         bool TryDelete(int id);
 
         void Dispose();

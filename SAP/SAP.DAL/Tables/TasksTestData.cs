@@ -10,9 +10,9 @@ namespace SAP.DAL.Tables
 
         [ForeignKey("Task")]
         public int TaskId { get; set; }
+
         public string InputData { get; set; }
         public string OutputData { get; set; }
-        public string ExampleProgram { get; set; }
 
         public virtual Tasks Task { get; set; }
     }

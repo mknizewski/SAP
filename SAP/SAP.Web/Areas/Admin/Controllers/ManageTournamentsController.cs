@@ -7,7 +7,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Web;
 using System.Web.Mvc;
 
 namespace SAP.Web.Areas.Admin.Controllers
@@ -55,21 +54,22 @@ namespace SAP.Web.Areas.Admin.Controllers
 
                 List<Phase> phases = new List<Phase>();
 
-                viewModel.Phases.ForEach(x => 
+                viewModel.Phases.ForEach(x =>
                 {
                     phases.Add(new Phase
                     {
                         MaxUsers = x.MaxUsers,
                         Name = x.Name,
-                        Order= x.Order
+                        Order = x.Order,
+                        MaxTasks = x.TaskCount
                     });
                 });
 
                 List<Tasks> tasks = new List<Tasks>();
 
-                viewModel.TaskContainer.ForEach(x => 
+                viewModel.TaskContainer.ForEach(x =>
                 {
-                    x.Tasks.ForEach(y => 
+                    x.Tasks.ForEach(y =>
                     {
                         tasks.Add(new Tasks
                         {
@@ -84,7 +84,7 @@ namespace SAP.Web.Areas.Admin.Controllers
                     });
                 });
 
-                bool result = await _tournamentManager.AddTournamnetAsync(tour, phases, tasks, taskCountPerPhase); 
+                bool result = await _tournamentManager.AddTournamnetAsync(tour, phases, tasks, taskCountPerPhase);
 
                 if (result)
                 {
@@ -96,7 +96,6 @@ namespace SAP.Web.Areas.Admin.Controllers
                     TempData["Alert"] = SetAlert.Set("Wystąpił błąd z bazą danych. Spróbuj ponownie później.", "Błąd", AlertType.Danger);
                     return View(viewModel);
                 }
-                
             }
             else
             {
@@ -150,9 +149,48 @@ namespace SAP.Web.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult AddTestDataTask(List<TestDataViewModel> viewModel)
+        public async Task<ActionResult> AddTestDataTask(List<TestDataViewModel> viewModel)
         {
-            return View();
+            if (ModelState.IsValid)
+            {
+                List<TasksTestData> listData = new List<TasksTestData>();
+
+                foreach (var item in viewModel)
+                {
+                    listData.Add(new TasksTestData
+                    {
+                        InputData = item.InputData,
+                        OutputData = item.OutputData,
+                        TaskId = item.TaskId
+                    });
+                }
+
+                bool result = await _tournamentManager.AddTestDataAsync(listData);
+
+                if (result)
+                {
+                    TempData["Alert"] = SetAlert.Set("Poprawnie wprowadzono dane testowe!", "Sukces", AlertType.Success);
+                    return RedirectToAction("AddTestDataTask");
+                }
+                else
+                {
+                    TempData["Alert"] = SetAlert.Set("Wystąpił błąd. Spróbuj ponownie później", "Błąd", AlertType.Danger);
+                    return RedirectToAction("AddTestDataTask");
+                }
+            }
+            else
+            {
+                var tournamnets = _tournamentManager.Tournaments
+                .Select(x => x)
+                .Where(x => x.IsConfigured == false); //zwraca nieskonfigurowane turnieje
+
+                List<SelectListItem> tourList = new List<SelectListItem>();
+                foreach (var item in tournamnets)
+                    tourList.Add(new SelectListItem { Value = item.Id.ToString(), Text = item.Title });
+
+                TempData["Alert"] = SetAlert.Set("Sprawdź poprawnośc danych!", "Błąd", AlertType.Danger);
+                return View(viewModel);
+            }
         }
 
         public ActionResult GetPhaseById(int tournamentId)
@@ -215,6 +253,7 @@ namespace SAP.Web.Areas.Admin.Controllers
 
             return dataList;
         }
-        #endregion
+
+        #endregion Helpers
     }
 }

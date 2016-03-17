@@ -65,6 +65,5 @@ editAreaLoader.load_syntax["basic"] = {
 			}
 		,'OPERATORS' : 'color: #FF0000;'
 		,'DELIMITERS' : 'color: #0000FF;'
-
 	}
 };

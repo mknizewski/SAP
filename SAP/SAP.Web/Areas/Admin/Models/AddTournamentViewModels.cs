@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace SAP.Web.Areas.Admin.Models
@@ -120,7 +118,7 @@ namespace SAP.Web.Areas.Admin.Models
         public int Order { get; set; }
 
         [Required]
-        public int InputDataId { get; set;}
+        public int InputDataId { get; set; }
 
         [Display(Name = "Typ wprowadzania danych")]
         public IEnumerable<SelectListItem> InputData { get; set; }

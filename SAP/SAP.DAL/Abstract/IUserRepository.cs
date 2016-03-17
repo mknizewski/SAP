@@ -10,9 +10,13 @@ namespace SAP.DAL.Abstract
         IEnumerable<UsersCounselor> Counselors { get; }
 
         bool AddUserCounselor(UsersCounselor model);
+
         bool EditUserSchool(UsersSchools model);
+
         bool EditUserCounselor(UsersCounselor model);
+
         bool SendMessage(Messages model);
+
         void Dispose();
     }
 }

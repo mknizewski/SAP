@@ -2,9 +2,6 @@
 using SAP.BOL.HelperClasses;
 using SAP.DAL.DbContext;
 using SAP.Web.Areas.Admin.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
@@ -44,6 +41,7 @@ namespace SAP.Web.Areas.Admin.Controllers
         }
 
         #region Helpers
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)
@@ -53,7 +51,8 @@ namespace SAP.Web.Areas.Admin.Controllers
                 base.Dispose(disposing);
             }
         }
-        #endregion
+
+        #endregion Helpers
     }
 
     public enum Message

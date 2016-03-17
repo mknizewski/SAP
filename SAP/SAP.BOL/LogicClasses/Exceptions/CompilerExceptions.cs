@@ -9,7 +9,6 @@ namespace SAP.BOL.LogicClasses.Exceptions
     {
         public ProgramNotFoundException(string message) : base(message)
         {
-
         }
     }
 
@@ -20,7 +19,6 @@ namespace SAP.BOL.LogicClasses.Exceptions
     {
         public LanguageNotFoundException(string message) : base(message)
         {
-
         }
     }
 

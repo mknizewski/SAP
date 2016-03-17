@@ -1,11 +1,9 @@
 ﻿using SAP.DAL.Abstract;
+using SAP.DAL.DbContext;
+using SAP.DAL.Tables;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using SAP.DAL.Tables;
-using SAP.DAL.DbContext;
 
 namespace SAP.DAL.Repositories
 {
@@ -73,6 +71,22 @@ namespace SAP.DAL.Repositories
             }
         }
 
+        public async Task<bool> AddTestDataAsync(List<TasksTestData> testData)
+        {
+            try
+            {
+                foreach (var item in testData)
+                    _context.TasksTestData.Add(item);
+
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
         public async Task<bool> AddTournamentAsync(Tournament tour, List<Phase> phases, List<Tasks> tasks, int[] taskMetadata)
         {
             try
@@ -121,6 +135,30 @@ namespace SAP.DAL.Repositories
         public void Dispose()
         {
             _context.Dispose();
+        }
+
+        public void SetPhaseActiveFlag(int Id, bool flag)
+        {
+            var phase = _context.Phase.Find(Id);
+            phase.IsActive = flag;
+
+            _context.SaveChanges();
+        }
+
+        public void SetTaskActiveFlag(int Id, bool flag)
+        {
+            var task = _context.Tasks.Find(Id);
+            task.IsActive = flag;
+
+            _context.SaveChanges();
+        }
+
+        public void SetTournamentActiveFlag(int Id, bool flag)
+        {
+            var tour = _context.Tournament.Find(Id);
+            tour.IsActive = flag;
+
+            _context.SaveChanges();
         }
     }
 }

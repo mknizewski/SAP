@@ -99,7 +99,7 @@ namespace SAP.Web.Areas.User.Controllers
         public ActionResult ChangeUserData()
         {
             var dbModel = AspUserManager.FindById(User.Identity.GetUserId());
-            
+
             UserDataViewModel viewModel = new UserDataViewModel
             {
                 Name = dbModel.FirstName,
@@ -130,7 +130,7 @@ namespace SAP.Web.Areas.User.Controllers
                 user.FirstName = model.Name;
                 user.LastName = model.Surname;
 
-               var result = await AspUserManager.UpdateAsync(user);
+                var result = await AspUserManager.UpdateAsync(user);
 
                 if (result.Succeeded)
                     return RedirectToAction("Index", new { Message = ManageMessageId.ChangeUserDataSuccess });
@@ -217,7 +217,6 @@ namespace SAP.Web.Areas.User.Controllers
                     return RedirectToAction("Index", new { Message = ManageMessageId.ChangeCounselorDataSuccess });
                 else
                     return RedirectToAction("Index", new { Message = ManageMessageId.Error });
-
             }
             else
                 return View(model);
@@ -406,7 +405,6 @@ namespace SAP.Web.Areas.User.Controllers
                 TempData["Alert"] = SetAlert.Set("Wprowadzone hasło jest niepoprawne!", "Błąd", AlertType.Danger);
                 return View(model);
             }
-            
         }
 
         //

@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNet.Identity.EntityFramework;
-using SAP.DAL.DbContext;
 using SAP.DAL.Tables;
 using System;
 using System.Data.Entity;
@@ -11,6 +10,7 @@ namespace SAP.DAL.DbContext
     {
         //tabele -- zwykle
         public DbSet<ApplicationRole> Role { get; set; }
+
         public DbSet<Tournament> Tournament { get; set; }
         public DbSet<Compilers> Compilers { get; set; }
         public DbSet<Contact> Contacts { get; set; }
@@ -27,6 +27,7 @@ namespace SAP.DAL.DbContext
 
         //tabele -- historyczne
         public DbSet<HistoryFinalPhaseScores> HistoryFinalPhaseScores { get; set; }
+
         public DbSet<HistoryScores> HistoryScores { get; set; }
         public DbSet<HistoryTournamentUsers> HistoryTournamentUsers { get; set; }
 

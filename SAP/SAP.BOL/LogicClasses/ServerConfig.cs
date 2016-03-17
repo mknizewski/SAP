@@ -5,6 +5,13 @@ namespace SAP.BOL.LogicClasses
 {
     public static class ServerConfig
     {
+        public static bool SynchronizeData;
+
+        static ServerConfig()
+        {
+            SynchronizeData = false;
+        }
+
         public static void Inicialize()
         {
             CompilersSetup();
@@ -26,12 +33,15 @@ namespace SAP.BOL.LogicClasses
                     case CompilerType.C:
                         CompilerInfo.CPath = item.FullPath;
                         break;
+
                     case CompilerType.Cpp:
                         CompilerInfo.CppPath = item.FullPath;
                         break;
+
                     case CompilerType.Java:
                         CompilerInfo.JavaPath = item.FullPath;
                         break;
+
                     case CompilerType.Pascal:
                         CompilerInfo.PascalPath = item.FullPath;
                         break;

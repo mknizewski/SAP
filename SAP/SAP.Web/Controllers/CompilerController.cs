@@ -1,10 +1,6 @@
-﻿using SAP.BOL.Abstract;
-using SAP.BOL.LogicClasses;
+﻿using SAP.BOL.LogicClasses;
 using SAP.Web.Models;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace SAP.Web.Controllers
@@ -45,7 +41,6 @@ namespace SAP.Web.Controllers
             return View(modelToReturn);
         }
 
-
         #region Helpers
 
         private List<SelectListItem> GetCompilersList()
@@ -58,6 +53,6 @@ namespace SAP.Web.Controllers
             return list;
         }
 
-        #endregion
+        #endregion Helpers
     }
 }
