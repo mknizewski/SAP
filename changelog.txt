@@ -1,0 +1,18 @@
+Wersja 0.01
+- zbudowanie fundamentów aplikacji
+- stworzenie odpowiednich warstw aplikacji
+- budowa struktur bazodanowych
+- dodawanie odpowiednich bibliotek do warstw
+- konfiguracja ninject
+
+Wersja 0.02
+- stworzenie bazy danych v. 1.0
+- tworzenie repozytoriów 
+- utworzenie ról
+- wstêpna konfiguracja kompilatorów
+- stworzenie logiki procesów
+- wstêpna konfiguracja timera
+- podzia³ na areny
+- utworzenie danych testowych
+
+Wersja 0.30
