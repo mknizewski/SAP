@@ -22,6 +22,8 @@ namespace SAP.DAL.Abstract
 
         Task<bool> AddTournamentAsync(Tournament tour, List<Phase> phases, List<Tasks> tasks, int[] taskMetadata);
 
+        bool ConfigureSet(int Id, bool flag);
+
         bool AddTaskTestingData(TasksTestData testData);
 
         bool DeleteTournament(int tournamentId);

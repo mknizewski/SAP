@@ -232,6 +232,72 @@ namespace SAP.Web.Areas.Admin.Controllers
             return PartialView("~/Areas/Admin/Views/Shared/TestDataModel.cshtml", viewModel);
         }
 
+        public ActionResult TodaySystemTask()
+        {
+            var todayTask = TodoList.todayTasks;
+
+            List<TodaySystemTaskViewModel> viewModel = new List<TodaySystemTaskViewModel>();
+
+            todayTask.ForEach(x => 
+            {
+                TodaySystemTaskViewModel task = new TodaySystemTaskViewModel();
+                task.Id = x.Id;
+                task.ExecuteTime = x.ExecuteTime;
+                task.IsRealized = x.IsRealized;
+                task.TypeOfTask = x.TaskType == TaskType.StartPhase ? "Start fazy"
+                : x.TaskType == TaskType.EndPhase ? "Koniec fazy"
+                : x.TaskType == TaskType.StartTask ? "Start zadania"
+                : x.TaskType == TaskType.EndTask ? "Koniec zadania"
+                : x.TaskType == TaskType.StartTournament ? "Początek turnieju"
+                : x.TaskType == TaskType.EndTournament ? "Koniec turnieju"
+                : String.Empty;
+
+                viewModel.Add(task);
+            });
+
+            ViewBag.LastSynchro = TodoList.LastSynchronized;
+
+            return View(viewModel);
+        }
+
+        public ActionResult Configuration()
+        {
+            List<TournamentsViewModel> viewModel = new List<TournamentsViewModel>();
+            var tournamentsList = _tournamentManager.Tournaments
+                .Where(x => !x.IsConfigured)
+                .ToList();
+
+            tournamentsList.ForEach(x => viewModel.Add(new TournamentsViewModel
+            {
+                Id = x.Id,
+                Title = x.Title,
+                StartDate = x.StartDate
+            }));
+
+            return View(viewModel);
+        }
+
+        public ActionResult Synchronize()
+        {
+            TodoList.InicializeTodayTasks();
+
+            return RedirectToAction("TodaySystemTask");
+        }
+
+        public JsonResult ValidateTournament(int Id)
+        {
+            var errorList = _tournamentManager.ValidateTournament(Id);
+            return Json(errorList, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult SetConfigure(int Id)
+        {
+            bool result = _tournamentManager.ConfigureSet(Id, true);
+
+            TempData["Alert"] = SetAlert.Set("Turniej o id: " + Id + " został skonfigurowany.", "Sukcess", AlertType.Success);
+            return Json(result);
+        }
+
         #region Helpers
 
         protected override void Dispose(bool disposing)

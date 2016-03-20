@@ -127,6 +127,20 @@ namespace SAP.DAL.Repositories
             catch { return false; }
         }
 
+        public bool ConfigureSet(int Id, bool flag)
+        {
+            try
+            {
+                var tour = _context.Tournament.Find(Id);
+                tour.IsConfigured = flag;
+                _context.SaveChanges();
+
+                return true;
+            }
+            catch
+            { return false; }
+        }
+
         public bool DeleteTournament(int tournamentId)
         {
             throw new NotImplementedException();

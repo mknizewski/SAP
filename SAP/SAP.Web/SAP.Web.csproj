@@ -238,12 +238,15 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Admin\Controllers\HomeController.cs" />
+    <Compile Include="Areas\Admin\Controllers\ManageCompilersController.cs" />
     <Compile Include="Areas\Admin\Controllers\ManageTournamentsController.cs" />
     <Compile Include="Areas\Admin\Controllers\ManageUserController.cs" />
     <Compile Include="Areas\Admin\Models\AddTournamentViewModels.cs" />
     <Compile Include="Areas\Admin\Models\ChangePasswordViewModel.cs" />
     <Compile Include="Areas\Admin\Models\AdminDataViewModel.cs" />
     <Compile Include="Areas\Admin\Models\TestDataViewModel.cs" />
+    <Compile Include="Areas\Admin\Models\TodaySystemTaskViewModel.cs" />
+    <Compile Include="Areas\Admin\Models\TournamentsViewModel.cs" />
     <Compile Include="Areas\Admin\Models\UsersViewModel.cs" />
     <Compile Include="Areas\Tournament\TournamentAreaRegistration.cs" />
     <Compile Include="Areas\User\Controllers\HomeController.cs" />
@@ -707,6 +710,14 @@
     <Content Include="Areas\Admin\Views\Shared\TaskList.cshtml" />
     <Content Include="Areas\Admin\Views\ManageTournaments\AddTestDataTask.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\TestDataModel.cshtml" />
+    <Content Include="Areas\Admin\Views\ManageTournaments\TodaySystemTask.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\UserList.cshtml" />
+    <Content Include="Areas\Tournament\Views\_ViewStart.cshtml" />
+    <Content Include="Areas\Admin\Views\ManageTournaments\Configuration.cshtml" />
+    <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\jquery-1.10.2.js" />
+    <Content Include="Scripts\jquery-1.10.2.min.js" />
+    <Content Include="Scripts\jquery-1.10.2.min.map" />
     <None Include="Scripts\jquery-2.2.0.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -717,6 +728,7 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.matchmedia.addListener.js" />
@@ -760,6 +772,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Areas\Admin\Views\ManageCompilers\" />
     <Folder Include="Areas\Tournament\Controllers\" />
     <Folder Include="Areas\Tournament\Models\" />
     <Folder Include="Areas\Tournament\Views\Shared\" />

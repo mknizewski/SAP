@@ -1,5 +1,4 @@
-﻿@model IEnumerable<SAP.Web.Areas.Admin.Models.UsersViewModel>
-@{
+﻿@{
     ViewBag.Title = "Zarządzanie kontami użytkowników";
 }
 
@@ -52,6 +51,25 @@
 
 <div class="row">
     <div class="col-md-3">
+        <div class="panel-group">
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" href="#collapse1">Opcje dodatkowe<span class="caret"></span></a>
+                    </h4>
+                </div>
+                <div id="collapse1" class="panel-collapse collapse">
+                    <div class="panel-body">
+                        <h4><span class="glyphicon glyphicon-edit"></span> Stwórz konto</h4>
+                        <hr />
+                        <ul>
+                            <li><a href="#">Administrator</a></li>
+                            <li><a href="#">Użytkownik</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="list-group">
             <a href='@Url.Action("Index", "Home")' class="list-group-item">
                 <h4 class="list-group-item-heading">Główna</h4>
@@ -76,6 +94,32 @@
         </div>
     </div>
     <div class="col-md-9" id="col">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Filtracja wyników
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h4><span class="glyphicon glyphicon-user"></span> Typ konta</h4>
+                        <hr />
+                        <ul>
+                            <li><a href="#" onclick="getData(0)">Administratorzy</a></li>
+                            <li><a href="#" onclick="getData(1)">Użytkownicy</a></li>
+                            <li><a href="#" onclick="getData(2)">Wszyscy</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-md-6">
+                        <h4><span class="glyphicon glyphicon-ban-circle"></span> Typ blokady</h4>
+                        <hr />
+                        <ul>
+                            <li><a href="#" onclick="getData(3)">Niezbanowani</a></li>
+                            <li><a href="#" onclick="getData(4)">Zbanowani</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="panel panel-primary">
             <div class="panel-heading">
                 Konta zarejestrowane w systemie SAP
@@ -91,75 +135,10 @@
                             <th>Opcje</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        @foreach(var user in Model)
-                        {
-                            <tr>
-                                <td>@user.FirstName @user.LastName</td>
-                                <td>@user.Email</td>
-                                <td>@user.Role</td>
-                                @{
-                                    string lok = user.IsLocked ? "Tak" : "Nie";
-
-                                    <td>@lok</td>
-                                }
-                                <td>
-                                    <div class="btn-group text-center">
-                                        <a href="#" class="btn btn-info">Opcje</a>
-                                        <a href="#" class="btn btn-info dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></a>
-                                        <ul class="dropdown-menu">
-                                            <li><a href="#" data-toggle="modal" data-target="#detailModal" onclick="showDetail('@user.Email')">Szczegóły</a></li>
-                                            <li><a href="#" data-toggle="modal" data-target="#sendModal" onclick="mail('@user.Email')">Wyślij wiadomość</a></li>
-                                            <li class="divider"></li>
-                                            @{
-                                                if (user.IsLocked)
-                                                {
-                                                    <li><a href="#" onclick="unBan('@user.Email')">Odblokuj konto</a></li>
-                                                }
-                                                else
-                                                {
-                                                    <li><a href="#" data-toggle="modal" data-target="#banModal" onclick="showModalBan('@user.Email')">Blokada konta</a></li>
-                                                }
-                                            }
-                                            <li><a href="#">Usuń konto</a></li>
-                                        </ul>
-                                    </div>
-                                </td>
-                            </tr>
-                        }
+                    <tbody id="tableBody">
+                        
                     </tbody>
                 </table>
-            </div>
-        </div>
-
-        <div class="panel-group">
-            <div class="panel panel-info">
-                <div class="panel-heading">
-                    <h4 class="panel-title">
-                        <a data-toggle="collapse" href="#collapse1">Dodatkowe opcje zarządzania kontami<span class="caret"></span></a>
-                    </h4>
-                </div>
-                <div id="collapse1" class="panel-collapse collapse">
-                    <div class="panel-body">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="btn-group center-block">
-                                    <a href="#" class="btn btn-primary btn-lg">Dodaj konto</a>
-                                    <a href="#" class="btn btn-primary btn-lg dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></a>
-                                    <ul class="dropdown-menu">
-                                        <li><a href="#">Użytkownik</a></li>
-                                       @if (Context.User.IsInRole("Root"))
-                                       {
-                                        <li><a href="#">Administrator</a></li>
-                                       }
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
     </div>
@@ -396,6 +375,21 @@
             document.getElementById("banTime").disabled = false;
             document.getElementById("banDate").disabled = false;
         }
+    }
+
+    function getData(id)
+    {
+        $.post('@Url.Action("GetUserData")',
+            {
+                typeToReturn: id
+            },
+            function (data) {
+                var table = $("#users").DataTable();
+                table.destroy();
+                $("#tableBody").empty();
+                $("#tableBody").append(data);
+                table = $("#users").DataTable();
+            });
     }
 
     function mail(name)

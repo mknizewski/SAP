@@ -17,10 +17,16 @@ namespace SAP.BOL.LogicClasses
         private TaskType taskType;
         private int id;
         private bool flag;
-
+        private bool isRealized = false;
         #endregion PrivateFields
 
         #region PublicFields
+
+        public bool IsRealized
+        {
+            get { return isRealized; }
+            set { isRealized = value; }
+        }
 
         public DateTime ExecuteTime
         {
@@ -52,9 +58,13 @@ namespace SAP.BOL.LogicClasses
 
         public bool Execute(DateTime nowTime)
         {
-            if (executeTime <= nowTime)
+            nowTime = nowTime.AddTicks(-nowTime.Ticks % 10000000); //usuwamy milisekundy
+            int compare = DateTime.Compare(executeTime, nowTime);
+            
+            if (compare == 0)
             {
                 ExecuteTask(id, flag);
+                isRealized = true;
                 return true;
             }
             else
@@ -64,8 +74,9 @@ namespace SAP.BOL.LogicClasses
 
     public static class TodoList
     {
-        private static List<TodaySystemTask> todayTasks;
+        public static List<TodaySystemTask> todayTasks;
         private static ITournamentRepository _tournamentRepo;
+        public static DateTime LastSynchronized;
 
         static TodoList()
         {
@@ -75,12 +86,15 @@ namespace SAP.BOL.LogicClasses
 
         public static void InicializeTodayTasks()
         {
+            _tournamentRepo = new TournamentRepository(ApplicationDbContext.Create());
             ServerConfig.SynchronizeData = true;
             todayTasks = new List<TodaySystemTask>();
             DateTime today = DateTime.Now;
+            LastSynchronized = today;
 
-            //TURNIEJE
+            //TURNIEJE START
             var startTour = _tournamentRepo.Tournaments
+                .Where(x => !x.IsActive)
                 .Where(x => x.StartDate.Date == today.Date && x.IsConfigured)
                 .Where(x => x.StartDate.TimeOfDay > today.TimeOfDay);
 
@@ -100,10 +114,11 @@ namespace SAP.BOL.LogicClasses
                 }
             }
 
+            //TURNIEJE STOP
             var endTour = _tournamentRepo.Tournaments
                 .Where(x => x.EndDate.Date == today.Date && x.IsConfigured)
                 .Where(x => x.EndDate.TimeOfDay > today.TimeOfDay)
-                .Where(x => x.IsActive == true);
+                .Where(x => x.IsActive);
 
             if (endTour != null)
             {
@@ -121,6 +136,90 @@ namespace SAP.BOL.LogicClasses
                 }
             }
 
+            //ZADANIA START
+            var startTasks = _tournamentRepo.Tasks
+                .Where(x => x.StartDate.Date == today.Date)
+                .Where(x => x.Tournament.IsActive);
+
+            foreach (var item in startTasks)
+            {
+                if (item.Order == 1)
+                {
+                    var activePhase = new TodaySystemTask();
+                    var activeTask = new TodaySystemTask();
+
+                    activeTask.Id = item.Id;
+                    activeTask.Flag = true;
+                    activeTask.ExecuteTime = item.StartDate;
+                    activeTask.ExecuteTask += SetTask;
+                    activeTask.TaskType = TaskType.StartTask;
+
+                    activePhase.Id = item.PhaseId;
+                    activePhase.Flag = true;
+                    activePhase.ExecuteTime = item.StartDate;
+                    activePhase.ExecuteTask += SetPhase;
+                    activePhase.TaskType = TaskType.StartPhase;
+
+                    todayTasks.Add(activeTask);
+                    todayTasks.Add(activePhase);
+                }
+                else
+                {
+                    var activeTask = new TodaySystemTask();
+
+                    activeTask.Id = item.Id;
+                    activeTask.Flag = true;
+                    activeTask.ExecuteTime = item.StartDate;
+                    activeTask.ExecuteTask += SetTask;
+                    activeTask.TaskType = TaskType.StartTask;
+
+                    todayTasks.Add(activeTask);
+                }
+            }
+
+            //ZADANIA STOP
+            var endTask = _tournamentRepo.Tasks
+                .Where(x => x.EndDate.Date == today.Date)
+                .Where(x => x.Tournament.IsActive);
+
+            foreach (var item in endTask)
+            {
+                if (item.Order == item.Phase.MaxTasks)
+                {
+                    var disableTask = new TodaySystemTask();
+                    var disablePhase = new TodaySystemTask();
+
+                    disableTask.Id = item.Id;
+                    disableTask.ExecuteTime = item.EndDate;
+                    disableTask.Flag = false;
+                    disableTask.ExecuteTask += SetTask;
+                    disableTask.TaskType = TaskType.EndTask;
+
+                    disablePhase.Id = item.PhaseId;
+                    disablePhase.ExecuteTime = item.EndDate;
+                    disablePhase.Flag = false;
+                    disablePhase.ExecuteTask += SetPhase;
+                    disablePhase.TaskType = TaskType.EndPhase;
+                    
+                    //TODO: Opracować algorytm zliczania puntków na koniec fazy
+
+                    todayTasks.Add(disablePhase);
+                    todayTasks.Add(disableTask);
+                }
+                else
+                {
+                    var disableTask = new TodaySystemTask();
+
+                    disableTask.Id = item.Id;
+                    disableTask.ExecuteTime = item.EndDate;
+                    disableTask.Flag = false;
+                    disableTask.ExecuteTask += SetTask;
+                    disableTask.TaskType = TaskType.EndTask;
+
+                    todayTasks.Add(disableTask);
+                }
+            }
+
             ServerConfig.SynchronizeData = false;
         }
 
@@ -128,12 +227,9 @@ namespace SAP.BOL.LogicClasses
         {
             if (todayTasks != null)
             {
-                foreach (var item in todayTasks)
+                for (int i = 0; i < todayTasks.Count; i++)
                 {
-                    bool result = item.Execute(now);
-
-                    if (result) // jezeli sie wykonal to usun z tablicy
-                        todayTasks.Remove(item);
+                    bool result = todayTasks[i].Execute(now);
                 }
             }
         }

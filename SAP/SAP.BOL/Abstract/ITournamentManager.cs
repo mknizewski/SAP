@@ -14,11 +14,15 @@ namespace SAP.BOL.Abstract
 
         Task<bool> AddTestDataAsync(List<TasksTestData> testData);
 
+        bool ConfigureSet(int Id, bool flag);
+
         void SetPhaseActiveFlag(int Id, bool flag);
 
         void SetTaskActiveFlag(int Id, bool flag);
 
         void SetTournamentActiveFlag(int Id, bool flag);
+
+        List<string> ValidateTournament(int Id);
 
         void Dispose();
     }

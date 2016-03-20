@@ -1,8 +1,10 @@
-﻿@{
-    ViewBag.Title = "Zarządzanie turniejami";
+﻿@model List<SAP.Web.Areas.Admin.Models.TodaySystemTaskViewModel>
+@{
+    ViewBag.Title = "Dzienne zadania systemowe";
+    DateTime lastSync = ViewBag.LastSynchro;
 }
 
-<h2>Zarządzanie turniejami.</h2>
+<h2>Dzienne zadania systemowe.</h2>
 <hr />
 
 <div id="myModal" class="modal fade" role="dialog">
@@ -64,62 +66,41 @@
         </div>
     </div>
     <div class="col-md-9">
-        <div class="panel panel-info">
+        <div class="panel panel-primary">
             <div class="panel-heading">
-                <h3 class="panel-title">Opcje zarządzania turniejami</h3>
+                <h3 class="panel-title">Zaplanowanie działania</h3>
             </div>
             <div class="panel-body">
-                <div class="row">
-                    <div class="col-md-4">
-                        <h4><span class="glyphicon glyphicon-tower"></span> Turnieje</h4>
-                        <hr />
-                        <ul>
-                            <li><a href='@Url.Action("AddTournament")'>Dodaj turniej</a></li>
-                            <li><a href="#">Wyświetl turnieje</a></li>
-                            <li><a href="#">Edycja turnieju</a></li>
-                        </ul>
-                        <br />
-                        <h4><span class="glyphicon glyphicon-tasks"></span> Zadania</h4>
-                        <hr />
-                        <ul>
-                            <li><a href="#">Dodaj zadanie</a></li>
-                            <li><a href="#">Wyświetl zadania</a></li>
-                            <li><a href="#">Edycja zadania</a></li>
-                        </ul>
+                <ul>
+                    @foreach (var item in Model)
+                    {
+                        string isRealized = item.IsRealized == true ? "Zrealizowane" : "Niezrealizowane";
+                        <li>@item.TypeOfTask, ID: @item.Id, Godzina: @item.ExecuteTime.ToString("HH:mm:ss, dd.MM.yyyy") - @isRealized</li>
+                    }
+                    @if (Model.Count == 0)
+                    {
+                        <li>Brak zaplanowanych na dzisiaj działań.</li>
+                    }
+                </ul>
+                <p>Liczba zadań: @Model.Count</p>
+                <p>Ostatnia synchronizacja: @lastSync.ToString("HH:mm:ss dd.MM.yyyy")</p>
+                @using (Html.BeginForm("Synchronize", "ManageTournaments", FormMethod.Post, new { @class = "form-horizontal", @role = "form" }))
+                {
+                    <div class="form-group">
+                        <div class="col-md-offset-8 col-md-4">
+                            <a href='' onclick="location.reload()" class="btn btn-info">Odśwież</a>
+                            <button type="submit" class="btn btn-success">Synchronizuj <span class="glyphicon glyphicon-retweet"></span></button>
+                        </div>
                     </div>
-                    <div class="col-md-4">
-                        <h4><span class="glyphicon glyphicon-forward"></span> Fazy</h4>
-                        <hr />
-                        <ul>
-                            <li><a href="#">Aktualne fazy</a></li>
-                            <li><a href="#">Zarządzanie</a></li>
-                        </ul>
-                        <br />
-                        <br />
-                        <h4><span class="glyphicon glyphicon-book"></span> Dane testowe</h4>
-                        <hr />
-                        <ul>
-                            <li><a href="#">Wyświetl dane testowe</a></li>
-                            <li><a href='@Url.Action("AddTestDataTask")'>Dodaj dane testowe</a></li>
-                        </ul>
-                    </div>
-                    <div class="col-md-4">
-                        <h4><span class="glyphicon glyphicon-wrench"></span> Narzędzia</h4>
-                        <hr />
-                        <ul>
-                            <li><a href='@Url.Action("TodaySystemTask")'>Dzisiejsze zadania systemowe</a></li>
-                            <li><a href="#">Dane historyczne</a></li>
-                            <li><a href='@Url.Action("Configuration")'>Konfiguracja</a></li>
-                        </ul>
-                    </div>
-                </div>
+                }
             </div>
         </div>
     </div>
 </div>
 
 <ul class="breadcrumb">
-    <li><a href='@Url.Action("Index", "Home", new { area = ""})'>Główna</a></li>
+    <li><a href='@Url.Action("Index", "Home", new { area = "" })'>Główna</a></li>
     <li><a href='@Url.Action("Index", "Home")'>Administrator</a></li>
-    <li class="active">Zarządzanie turniejami</li>
+    <li><a href='@Url.Action("Index", "ManageTournaments")'>Zarządzanie turniejami</a></li>
+    <li class="active">Zadania systemowe</li>
 </ul>
