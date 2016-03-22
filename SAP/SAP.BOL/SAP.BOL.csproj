@@ -63,6 +63,7 @@
     <Compile Include="HelperClasses\Attributes\MustBeTrueAttribute.cs" />
     <Compile Include="HelperClasses\Attributes\PolandPostalCode.cs" />
     <Compile Include="HelperClasses\SetAlert.cs" />
+    <Compile Include="HelperClasses\TournamentsPagination.cs" />
     <Compile Include="HelperClasses\UserData.cs" />
     <Compile Include="LogicClasses\Managers\TournamentManager.cs" />
     <Compile Include="LogicClasses\ProgramManager.cs" />

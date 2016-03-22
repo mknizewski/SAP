@@ -248,6 +248,9 @@
     <Compile Include="Areas\Admin\Models\TodaySystemTaskViewModel.cs" />
     <Compile Include="Areas\Admin\Models\TournamentsViewModel.cs" />
     <Compile Include="Areas\Admin\Models\UsersViewModel.cs" />
+    <Compile Include="Areas\Tournament\Controllers\HomeController.cs" />
+    <Compile Include="Areas\Tournament\Models\HomeTournamentViewModel.cs" />
+    <Compile Include="Areas\Tournament\Models\IndexInfoViewModel.cs" />
     <Compile Include="Areas\Tournament\TournamentAreaRegistration.cs" />
     <Compile Include="Areas\User\Controllers\HomeController.cs" />
     <Compile Include="Areas\User\Models\UserDataModels.cs" />
@@ -261,6 +264,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="HTMLHelpers\Alert.cs" />
+    <Compile Include="HTMLHelpers\PageLinks.cs" />
     <Compile Include="Infrastructrue\Filters\CheckBrowserFilter.cs" />
     <Compile Include="Infrastructrue\Filters\SynchronizeDataFilter.cs" />
     <Compile Include="Infrastructrue\IoC\NinjectDepedencyResolver.cs" />
@@ -714,6 +718,7 @@
     <Content Include="Areas\Admin\Views\Shared\UserList.cshtml" />
     <Content Include="Areas\Tournament\Views\_ViewStart.cshtml" />
     <Content Include="Areas\Admin\Views\ManageTournaments\Configuration.cshtml" />
+    <Content Include="Areas\Tournament\Views\Home\Index.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -773,8 +778,6 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Admin\Views\ManageCompilers\" />
-    <Folder Include="Areas\Tournament\Controllers\" />
-    <Folder Include="Areas\Tournament\Models\" />
     <Folder Include="Areas\Tournament\Views\Shared\" />
     <Folder Include="Areas\User\Views\Shared\" />
   </ItemGroup>

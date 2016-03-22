@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using SAP.BOL.HelperClasses;
 
 namespace SAP.BOL.LogicClasses.Managers
 {
@@ -70,6 +71,24 @@ namespace SAP.BOL.LogicClasses.Managers
         public void Dispose()
         {
             _tournamentRepository.Dispose();
+        }
+
+        public TournamentsPagination GetTourByPage(int page)
+        {
+            int count = _tournamentRepository.Tournaments.Where(x => x.IsConfigured).Count();
+            var tour = _tournamentRepository.Tournaments
+                .Where(x => x.IsConfigured)
+                .Skip((page - 1) * 5)
+                .Take(5);
+
+            TournamentsPagination result = new TournamentsPagination
+            {
+                CurrentItems = page,
+                TotalItems = count,
+                Tournaments = tour
+            };
+
+            return result;
         }
 
         public void SetPhaseActiveFlag(int Id, bool flag)

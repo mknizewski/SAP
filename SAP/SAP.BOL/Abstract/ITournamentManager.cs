@@ -1,4 +1,5 @@
-﻿using SAP.DAL.Tables;
+﻿using SAP.BOL.HelperClasses;
+using SAP.DAL.Tables;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -13,6 +14,8 @@ namespace SAP.BOL.Abstract
         Task<bool> AddTournamnetAsync(Tournament tour, List<Phase> phases, List<Tasks> tasks, int[] taksPerPhaseCount);
 
         Task<bool> AddTestDataAsync(List<TasksTestData> testData);
+
+        TournamentsPagination GetTourByPage(int page);
 
         bool ConfigureSet(int Id, bool flag);
 

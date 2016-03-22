@@ -1,0 +1,94 @@
+﻿@using SAP.Web.HTMLHelpers
+@model SAP.Web.Areas.Tournament.Models.IndexInfoViewModel
+@{
+    ViewBag.Title = "Turnieje";
+}
+
+<h2>
+    Turnieje.
+    <small>Spróbuj swoich sił.</small>
+</h2>
+<hr />
+
+<div class="row">
+    <div class="col-md-9">
+        @foreach (var item in Model.ViewModel)
+        {
+            <div class="well">
+                @switch (item.Status)
+                {
+                    case SAP.Web.Areas.Tournament.Controllers.TournamentStatus.Active:
+                        <h4>@item.Title - <span class="label label-success">Aktywny</span></h4>
+                        break;
+                    case SAP.Web.Areas.Tournament.Controllers.TournamentStatus.Register:
+                        <h4>@item.Title - <span class="label label-primary">Możliwość rejestracji</span></h4>
+                        break;
+                    case SAP.Web.Areas.Tournament.Controllers.TournamentStatus.Ended:
+                        <h4>@item.Title - <span class="label label-danger">Zakończony</span></h4>
+                        break;
+                }
+
+                <p>Czas trwania <span class="glyphicon glyphicon-time"></span>: @item.StartDate.ToString("HH:mm:ss, dd.MM.yyyy") do @item.EndDate.ToString("HH:mm:ss, dd.MM.yyyy")</p>
+                <hr />
+                <h5>Opis</h5>
+                <div class="well">
+                    <p class="text-justify">@item.Description</p>
+                </div>
+                <hr />
+                <p>Maksymalna liczba uczestników <span class="glyphicon glyphicon-user"></span>: @item.MaxUsers</p>
+                <p>Liczba faz <span class="glyphicon glyphicon-list"></span>: @item.PhaseCount</p>
+                <div class="form-group">
+                    <div class="col-md-offset-8 col-md-4">
+                        @if (item.Status == SAP.Web.Areas.Tournament.Controllers.TournamentStatus.Register)
+                        {
+                            <a href="#" class="btn btn-primary">Szczegóły</a>
+                            <a href="#" class="btn btn-success">Zapisz się</a>
+                        }
+                        else
+                        {
+                            <a href="#" class="btn btn-primary">Szczegóły</a>
+                        }
+                    </div>
+                </div>
+                <br />
+            </div>
+        }
+
+        <div>
+            @Html.Page(Model.CurrentPage, Model.TotalPages, x => Url.Action("Index", new { page = x} ))
+        </div>
+
+        <br />
+
+    </div>
+    <div class="col-md-3">
+
+        <div class="well">
+            <h4 class="text-left">Szukaj</h4>
+            <div class="form-horizontal">
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Wyszukaj turniej" />
+                    <span class="input-group-btn">
+                        <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"></span></button>
+                    </span>
+                </div>
+            </div>    
+        </div>
+
+        <div class="well">
+            <h4 class="text-left">Pokazuj</h4>
+            <ul class="list-unstyled">
+                <li><a href="#">Możliwość rejestracji</a></li>
+                <li><a href="#">Aktywne</a></li>
+                <li><a href="#">Zakończone</a></li>
+                <li><a href="#">Wszystkie</a></li>
+            </ul>
+        </div>
+
+    </div>
+</div>
+
+<ul class="breadcrumb">
+    <li><a href='@Url.Action("Index", "Home")'>Główna</a></li>
+    <li class="active">Turnieje</li>
+</ul>
