@@ -18,6 +18,14 @@ namespace SAP.BOL.LogicClasses.Managers
             _tournamentRepository = tournamentRepository;
         }
 
+        public IEnumerable<HistoryTournamentUsers> HistoryTournamentsUsers
+        {
+            get
+            {
+                return _tournamentRepository.HistoryTournamentsUsers;
+            }
+        }
+
         public IEnumerable<Phase> Phases
         {
             get
@@ -39,6 +47,14 @@ namespace SAP.BOL.LogicClasses.Managers
             get
             {
                 return _tournamentRepository.Tournaments;
+            }
+        }
+
+        public IEnumerable<TournamentUsers> TournamentsUsers
+        {
+            get
+            {
+                return _tournamentRepository.TournamentsUsers;
             }
         }
 
@@ -73,6 +89,33 @@ namespace SAP.BOL.LogicClasses.Managers
             _tournamentRepository.Dispose();
         }
 
+        public List<Phase> GetActiveAndEndPhase(int tourId)
+        {
+            var activePhase = _tournamentRepository.Phase
+                .Where(x => x.TournamentId == tourId)
+                .Where(x => x.IsActive)
+                .FirstOrDefault();
+
+            var endPhase = _tournamentRepository.Phase
+                .Where(x => x.TournamentId == tourId)
+                .Where(x => x.Order < activePhase.Order)
+                .ToList();
+
+            endPhase.Add(activePhase);
+
+            return endPhase;
+        }
+
+        public List<Tasks> GetActiveAndEndTask(int tourId)
+        {
+            var task = _tournamentRepository.Tasks
+                .Where(x => x.TournamentId == tourId)
+                .Where(x => x.IsActive || x.EndDate < DateTime.Now)
+                .ToList();
+
+            return task;
+        }
+
         public TournamentsPagination GetTourByPage(int page)
         {
             int count = _tournamentRepository.Tournaments.Where(x => x.IsConfigured).Count();
@@ -89,6 +132,11 @@ namespace SAP.BOL.LogicClasses.Managers
             };
 
             return result;
+        }
+
+        public bool RegisterToTournament(string userId, int tournamentId)
+        {
+            throw new NotImplementedException();
         }
 
         public void SetPhaseActiveFlag(int Id, bool flag)

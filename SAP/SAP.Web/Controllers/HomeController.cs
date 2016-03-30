@@ -21,6 +21,11 @@ namespace SAP.Web.Controllers
             return View();
         }
 
+        public ActionResult NotFound(string aspxerrorpath)
+        {
+            return View();
+        }
+
         public ActionResult About()
         {
             ViewBag.Message = "Your application description page.";

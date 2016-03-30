@@ -10,7 +10,8 @@ namespace SAP.BOL.Abstract
         IEnumerable<Tournament> Tournaments { get; }
         IEnumerable<Phase> Phases { get; }
         IEnumerable<Tasks> Tasks { get; }
-
+        IEnumerable<TournamentUsers> TournamentsUsers { get; }
+        IEnumerable<HistoryTournamentUsers> HistoryTournamentsUsers { get; }
         Task<bool> AddTournamnetAsync(Tournament tour, List<Phase> phases, List<Tasks> tasks, int[] taksPerPhaseCount);
 
         Task<bool> AddTestDataAsync(List<TasksTestData> testData);
@@ -26,6 +27,12 @@ namespace SAP.BOL.Abstract
         void SetTournamentActiveFlag(int Id, bool flag);
 
         List<string> ValidateTournament(int Id);
+
+        List<Tasks> GetActiveAndEndTask(int tourId);
+
+        List<Phase> GetActiveAndEndPhase(int tourId);
+
+        bool RegisterToTournament(string userId, int tournamentId);
 
         void Dispose();
     }

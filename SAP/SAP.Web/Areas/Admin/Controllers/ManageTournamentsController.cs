@@ -298,6 +298,61 @@ namespace SAP.Web.Areas.Admin.Controllers
             return Json(result);
         }
 
+        public ActionResult TournamentsCourse()
+        {
+            var viewModel = new List<TournamentsCourseViewModel>();
+            var dbTour = _tournamentManager.Tournaments
+                .Where(x => x.IsActive);
+
+            foreach (var item in dbTour)
+            {
+                var activePhase = _tournamentManager.Phases
+                    .Where(x => x.TournamentId == item.Id)
+                    .Where(x => x.IsActive)
+                    .FirstOrDefault();
+
+                var activeTask = _tournamentManager.Tasks
+                    .Where(x => x.TournamentId == item.Id)
+                    .Where(x => x.IsActive)
+                    .FirstOrDefault();
+
+                var itemViewModel = new TournamentsCourseViewModel
+                {
+                    TourId = item.Id,
+                    TourTitle = item.Title,
+                    ActivePhaseTitle = activePhase.Name,
+                    ActiveTaskTitle = activeTask.Title
+                };
+
+                viewModel.Add(itemViewModel);
+            }
+
+            return View(viewModel);
+        }
+
+        public ActionResult CoursePhaseDetails(int id)
+        {
+            var selectListItem = new List<SelectListItem>();
+            var phaseDb = _tournamentManager.Phases
+                .Where(x => x.TournamentId == id);
+
+            foreach (var item in phaseDb)
+            {
+                selectListItem.Add(new SelectListItem
+                {
+                    Text = item.Name,
+                    Value = item.Id.ToString()
+                });
+            }
+
+            return Json(selectListItem);
+        }
+
+        public ActionResult CourseTaskDetails(int phaseId)
+        {
+            return Json(null);
+        }
+
         #region Helpers
 
         protected override void Dispose(bool disposing)

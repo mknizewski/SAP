@@ -32,7 +32,7 @@
                 <hr />
                 <h5>Opis</h5>
                 <div class="well">
-                    <p class="text-justify">@item.Description</p>
+                    <p style="word-wrap: break-word;" class="text-justify">@item.Description</p>
                 </div>
                 <hr />
                 <p>Maksymalna liczba uczestników <span class="glyphicon glyphicon-user"></span>: @item.MaxUsers</p>
@@ -41,21 +41,25 @@
                     <div class="col-md-offset-8 col-md-4">
                         @if (item.Status == SAP.Web.Areas.Tournament.Controllers.TournamentStatus.Register)
                         {
-                            <a href="#" class="btn btn-primary">Szczegóły</a>
-                            <a href="#" class="btn btn-success">Zapisz się</a>
+                            using (Html.BeginForm("Register", "Home", new { tourId = item.Id }, FormMethod.Post))
+                            {
+                                <a href='@Url.Action("Details", new { tourId = item.Id })' class="btn btn-primary">Szczegóły</a>
+                                <button type="submit" class="btn btn-success">Zapisz się</button>
+                            }
                         }
                         else
                         {
-                            <a href="#" class="btn btn-primary">Szczegóły</a>
+                            <a href='@Url.Action("Details" , new { tourId = item.Id })' class="btn btn-primary">Szczegóły</a>
                         }
                     </div>
                 </div>
+                <br />
                 <br />
             </div>
         }
 
         <div>
-            @Html.Page(Model.CurrentPage, Model.TotalPages, x => Url.Action("Index", new { page = x} ))
+            @Html.Page(Model.CurrentPage, Model.TotalPages, x => Url.Action("Index", new { page = x }))
         </div>
 
         <br />

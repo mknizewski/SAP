@@ -3,6 +3,7 @@ using SAP.DAL.DbContext;
 using SAP.DAL.Tables;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace SAP.DAL.Repositories
@@ -14,6 +15,14 @@ namespace SAP.DAL.Repositories
         public TournamentRepository(ApplicationDbContext context)
         {
             _context = context;
+        }
+
+        public IEnumerable<HistoryTournamentUsers> HistoryTournamentsUsers
+        {
+            get
+            {
+                return _context.HistoryTournamentUsers;
+            }
         }
 
         public IEnumerable<Phase> Phase
@@ -149,6 +158,35 @@ namespace SAP.DAL.Repositories
         public void Dispose()
         {
             _context.Dispose();
+        }
+
+        public bool RegisterToTournament(string userId, int tournamentId)
+        {
+            try
+            {
+                int maxUsers = _context.Tournament.Find(tournamentId).MaxUsers;
+                int registered = _context.TournamentUsers.
+                    Where(x => x.TournamentId == tournamentId)
+                    .Count();
+
+                if (registered < maxUsers)
+                {
+                    var tourModel = new TournamentUsers
+                    {
+                        TournamentId = tournamentId,
+                        UserId = userId
+                    };
+
+                    _context.TournamentUsers.Add(tourModel);
+                    _context.SaveChanges();
+
+                    return true;
+                }
+                else
+                    return false;
+
+            }
+            catch { return false; }
         }
 
         public void SetPhaseActiveFlag(int Id, bool flag)

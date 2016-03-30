@@ -80,7 +80,6 @@ namespace SAP.DAL.DbContext
             modelBuilder.Entity<TasksTestData>().HasRequired(x => x.Task).WithMany().WillCascadeOnDelete(false);
 
             modelBuilder.Entity<TournamentUsers>().HasKey(x => x.Id);
-            modelBuilder.Entity<TournamentUsers>().HasRequired(x => x.Phase).WithMany().WillCascadeOnDelete(false);
             modelBuilder.Entity<TournamentUsers>().HasRequired(x => x.Tournament).WithMany().WillCascadeOnDelete(false);
             modelBuilder.Entity<TournamentUsers>().HasRequired(x => x.User).WithMany().WillCascadeOnDelete(false);
 

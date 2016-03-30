@@ -1,4 +1,5 @@
-﻿using SAP.BOL.Abstract;
+﻿using Microsoft.AspNet.Identity;
+using SAP.BOL.Abstract;
 using SAP.BOL.HelperClasses;
 using SAP.Web.Areas.Tournament.Models;
 using System;
@@ -61,9 +62,19 @@ namespace SAP.Web.Areas.Tournament.Controllers
             return View();
         }
 
+        [Authorize(Roles = "User")]
+        [HttpPost]
         public ActionResult Register(int tourId)
         {
-            return View();
+            string userId = User.Identity.GetUserId();
+            bool result = _tournamentManager.RegisterToTournament(userId, tourId);
+
+            if (result)
+                TempData["Alert"] = SetAlert.Set("Poprawnie zapisano do turnieju!", "Sukces", AlertType.Success);
+            else
+                TempData["Alert"] = SetAlert.Set("W danym turnieju wykorzystano limit miejsc!", "Błąd", AlertType.Danger);
+
+            return RedirectToAction("Index");
         }
 
         public ActionResult Details(int tourId)

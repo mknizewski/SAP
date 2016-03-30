@@ -1,0 +1,152 @@
+﻿@using SAP.Web.Areas.Tournament.Controllers
+@model SAP.DAL.Tables.Tasks
+@{
+    ViewBag.Title = Model.Title;
+
+    var type = ViewBag.Type;
+    var compilers = ViewBag.Compiler as IEnumerable<SelectListItem>;
+}
+
+<script type="text/javascript" src="~/Content/edit_area/edit_area_full.js" language="javascript"></script>
+<script type="text/javascript" language="javascript">
+        editAreaLoader.init({
+            id: "textArea"
+            , language: "pl"
+           , syntax: "c"
+           , start_highlight: true
+           , "min-height": 500
+        });
+</script>
+
+<h2>Zadanie - @Model.Title</h2>
+<hr />
+
+<div class="row">
+    <div class="col-md-6">
+        <h4>Opis: </h4>
+        <p class="text-justify">@Model.Description</p>
+
+        <h4>Input: </h4>
+        <p>@Model.ExampleInput</p>
+
+        <h4>Output: </h4>
+        <p>@Model.ExampleOutput</p>
+    </div>
+    <div class="col-md-6">
+        <h4>Przykład: </h4>
+        <div class="well">
+            <p></p>
+        </div>
+    </div>
+</div>
+
+@if (type == ActionController.TaskGetType.Solution)
+{
+    <div class="row">
+        <div class="col-md-12">
+            <h4>Rozwiązanie: </h4>
+            @using (Html.BeginForm("Solution", "Action", FormMethod.Post, new { @class = "form-horizontal", @role = "form", @id = "solutionForm" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.Hidden("TaskId", Model.Id)
+
+                <div class="form-group">
+                    @Html.TextArea("Program", new { @id = "textArea" })
+                </div>
+
+                <div class="form-group">
+                    <label for="SelectedLang" class="control-label col-md-2">Wybierz język</label>
+                    <div class="col-md-10">
+                        @Html.DropDownList("SelectedLang", compilers, "Wybierz", new { @class = "form-control" })
+                    </div>
+                </div>
+
+                <br />
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="input-group">
+                            <span class="input-group-btn">
+                                <span class="btn btn-primary btn-file">
+                                    Przeglądaj&hellip; <input type="file">
+                                </span>
+                            </span>
+                            <input type="text" class="form-control" readonly>
+                        </div>
+                        <span class="help-block">
+                            Zawsze możesz wysłać nam plik źródłowy.
+                        </span>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="col-md-offset-7 col-md-5">
+                            <a href="javascript:document.getElementById('solutionForm').submit()" class="btn btn-success" style="float:right;"><span class="glyphicon glyphicon-tasks"></span> Prześlij</a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+}
+else
+{
+    <div class="col-md-offset-10 col-md-2">
+        <a href="#" class="btn btn-info">Powrót</a>
+    </div>
+}
+
+<br />
+
+<ul class="breadcrumb">
+    <li><a href='@Url.Action("Index", "Home")'>Główna</a></li>
+    <li><a href='@Url.Action("Index", "Home", new { area = "Tournament" })'>Turnieje</a></li>
+    <li>Rozwiązanie zadania</li>
+</ul>
+
+<style type="text/css">
+  .btn-file {
+  position: relative;
+  overflow: hidden;
+}
+.btn-file input[type=file] {
+  position: absolute;
+  top: 0;
+  right: 0;
+  min-width: 100%;
+  min-height: 100%;
+  font-size: 100px;
+  text-align: right;
+  filter: alpha(opacity=0);
+  opacity: 0;
+  background: red;
+  cursor: inherit;
+  display: block;
+}
+input[readonly] {
+  background-color: white !important;
+  cursor: text !important;
+}
+</style>
+
+<script type="text/javascript">
+    $(document).on('change', '.btn-file :file', function () {
+        var input = $(this),
+            numFiles = input.get(0).files ? input.get(0).files.length : 1,
+            label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
+        input.trigger('fileselect', [numFiles, label]);
+    });
+
+    $(document).ready(function () {
+        $('.btn-file :file').on('fileselect', function (event, numFiles, label) {
+
+            var input = $(this).parents('.input-group').find(':text'),
+                log = numFiles > 1 ? numFiles + ' files selected' : label;
+
+            if (input.length) {
+                input.val(log);
+            } else {
+                if (log) alert(log);
+            }
+
+        });
+    });
+</script>

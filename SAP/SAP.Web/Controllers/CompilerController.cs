@@ -47,8 +47,9 @@ namespace SAP.Web.Controllers
         {
             List<SelectListItem> list = new List<SelectListItem>();
             list.Add(new SelectListItem { Text = "C", Value = CompilerType.C.ToString() });
-            list.Add(new SelectListItem { Text = "C++", Value = "1" });
-            list.Add(new SelectListItem { Text = "Pascal", Value = "3" });
+            list.Add(new SelectListItem { Text = "C++", Value = CompilerType.Cpp.ToString() });
+            list.Add(new SelectListItem { Text = "Java", Value = CompilerType.Java.ToString() });
+            list.Add(new SelectListItem { Text = "Pascal", Value = CompilerType.Pascal.ToString() });
 
             return list;
         }

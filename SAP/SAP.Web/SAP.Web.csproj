@@ -246,13 +246,19 @@
     <Compile Include="Areas\Admin\Models\AdminDataViewModel.cs" />
     <Compile Include="Areas\Admin\Models\TestDataViewModel.cs" />
     <Compile Include="Areas\Admin\Models\TodaySystemTaskViewModel.cs" />
+    <Compile Include="Areas\Admin\Models\TournamentsCourseViewModel.cs" />
     <Compile Include="Areas\Admin\Models\TournamentsViewModel.cs" />
     <Compile Include="Areas\Admin\Models\UsersViewModel.cs" />
+    <Compile Include="Areas\Tournament\Controllers\ActionController.cs" />
     <Compile Include="Areas\Tournament\Controllers\HomeController.cs" />
+    <Compile Include="Areas\Tournament\Models\ActionViewModel.cs" />
     <Compile Include="Areas\Tournament\Models\HomeTournamentViewModel.cs" />
     <Compile Include="Areas\Tournament\Models\IndexInfoViewModel.cs" />
+    <Compile Include="Areas\Tournament\Models\SolutionViewModel.cs" />
     <Compile Include="Areas\Tournament\TournamentAreaRegistration.cs" />
     <Compile Include="Areas\User\Controllers\HomeController.cs" />
+    <Compile Include="Areas\User\Controllers\TournamentController.cs" />
+    <Compile Include="Areas\User\Models\TournamentsIndexViewModel.cs" />
     <Compile Include="Areas\User\Models\UserDataModels.cs" />
     <Compile Include="Areas\User\UserAreaRegistration.cs" />
     <Compile Include="Controllers\AccountController.cs" />
@@ -266,7 +272,9 @@
     <Compile Include="HTMLHelpers\Alert.cs" />
     <Compile Include="HTMLHelpers\PageLinks.cs" />
     <Compile Include="Infrastructrue\Filters\CheckBrowserFilter.cs" />
+    <Compile Include="Infrastructrue\Filters\ErrorHandler.cs" />
     <Compile Include="Infrastructrue\Filters\SynchronizeDataFilter.cs" />
+    <Compile Include="Infrastructrue\Filters\TournamentsAuth.cs" />
     <Compile Include="Infrastructrue\IoC\NinjectDepedencyResolver.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\CompilerViewModel.cs" />
@@ -719,6 +727,10 @@
     <Content Include="Areas\Tournament\Views\_ViewStart.cshtml" />
     <Content Include="Areas\Admin\Views\ManageTournaments\Configuration.cshtml" />
     <Content Include="Areas\Tournament\Views\Home\Index.cshtml" />
+    <Content Include="Areas\User\Views\Tournament\Index.cshtml" />
+    <Content Include="Areas\Tournament\Views\Action\Index.cshtml" />
+    <Content Include="Areas\Tournament\Views\Action\Task.cshtml" />
+    <Content Include="Areas\Admin\Views\ManageTournaments\TournamentsCourse.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -774,6 +786,7 @@
     <Content Include="Views\Compiler\Index.cshtml" />
     <Content Include="Views\Compiler\Output.cshtml" />
     <Content Include="Views\Shared\SyncData.cshtml" />
+    <Content Include="Views\Shared\NotFound.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
