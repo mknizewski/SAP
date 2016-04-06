@@ -46,17 +46,45 @@
             </div>
         </div>
         <div class="form-group">
-            @Html.LabelFor(x => Model[i].Tasks[j].ExampleInput, new { @class = "control-label col-md-3" })
+            @Html.LabelFor(x => Model[i].Tasks[j].Input, new { @class = "control-label col-md-3" })
             <div class="col-md-9">
-                @Html.EditorFor(x => Model[i].Tasks[j].ExampleInput, "", "TaskContainer[" + i + "].Tasks[" + j + "].ExampleInput", new { @class = "form-control" })
-                @Html.ValidationMessage("TaskContainer[" + i + "].Tasks[" + j + "].ExampleInput", new { @class = "text-danger" })
+                @Html.EditorFor(x => Model[i].Tasks[j].Input, "", "TaskContainer[" + i + "].Tasks[" + j + "].Input", new { @class = "form-control" })
+                @Html.ValidationMessage("TaskContainer[" + i + "].Tasks[" + j + "].Input", new { @class = "text-danger" })
             </div>
         </div>
         <div class="form-group">
-            @Html.LabelFor(x => Model[i].Tasks[j].ExampleOutput, new { @class = "control-label col-md-3" })
+            @Html.LabelFor(x => Model[i].Tasks[j].Output, new { @class = "control-label col-md-3" })
             <div class="col-md-9">
-                @Html.EditorFor(x => Model[i].Tasks[j].ExampleOutput, "", "TaskContainer[" + i + "].Tasks[" + j + "].ExampleOutput", new { @class = "form-control" })
-                @Html.ValidationMessage("TaskContainer[" + i + "].Tasks[" + j + "].ExampleOutput", new { @class = "text-danger" })
+                @Html.EditorFor(x => Model[i].Tasks[j].Output, "", "TaskContainer[" + i + "].Tasks[" + j + "].Output", new { @class = "form-control" })
+                @Html.ValidationMessage("TaskContainer[" + i + "].Tasks[" + j + "].Output", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(x => Model[i].Tasks[j].Example, new { @class = "control-label col-md-3" })
+            <div class="col-md-9">
+                @Html.EditorFor(x => Model[i].Tasks[j].Example, "", "TaskContainer[" + i + "].Tasks[" + j + "].Example", new { @class = "form-control" })
+                @Html.ValidationMessage("TaskContainer[" + i + "].Tasks[" + j + "].Example", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(x => Model[i].Tasks[j].MaxExecutedMemory, new { @class = "control-label col-md-3" })
+            <div class="col-md-9">
+                @Html.EditorFor(x => Model[i].Tasks[j].MaxExecutedMemory, "", "TaskContainer[" + i + "].Tasks[" + j + "].MaxExecutedMemory", new { @class = "form-control" })
+                @Html.ValidationMessage("TaskContainer[" + i + "].Tasks[" + j + "].MaxExecutedMemory", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(x => Model[i].Tasks[j].MaxExecutedTime, new { @class = "control-label col-md-3" })
+            <div class="col-md-9">
+                @Html.EditorFor(x => Model[i].Tasks[j].MaxExecutedTime, "", "TaskContainer[" + i + "].Tasks[" + j + "].MaxExecutedTime", new { @class = "form-control" })
+                @Html.ValidationMessage("TaskContainer[" + i + "].Tasks[" + j + "].MaxExecutedTime", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(x => Model[i].Tasks[j].PDF, new { @class = "control-label col-md-3" })
+            <div class="col-md-9">
+                @Html.TextBoxFor(x => Model[i].Tasks[j].PDF, new { @class = "form-control", @type = "file", @name = "TaskContainer[" + i + "].Tasks[" + j + "].PDF" })
+                @Html.ValidationMessage("TaskContainer[" + i + "].Tasks[" + j + "].PDF", new { @class = "text-danger" })
             </div>
         </div>
         <div class="form-group">

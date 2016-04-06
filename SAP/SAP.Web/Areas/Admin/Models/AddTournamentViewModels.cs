@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Web;
 using System.Web.Mvc;
 
 namespace SAP.Web.Areas.Admin.Models
@@ -33,14 +34,6 @@ namespace SAP.Web.Areas.Admin.Models
         [Required]
         [DataType(DataType.Time)]
         public TimeSpan EndTime { get; set; }
-
-        [Required]
-        [Display(Name = "Max czas programu (s)")]
-        public double MaxExecutedTime { get; set; }
-
-        [Required]
-        [Display(Name = "Max pamięć programu (mb)")]
-        public double MaxExecutedMemory { get; set; }
 
         [Required]
         [Display(Name = "Max uczestników")]
@@ -86,14 +79,32 @@ namespace SAP.Web.Areas.Admin.Models
         public string Description { get; set; }
 
         [Required]
-        [Display(Name = "Przykład input")]
+        [Display(Name = "Input")]
         [DataType(DataType.MultilineText)]
-        public string ExampleInput { get; set; }
+        public string Input { get; set; }
 
         [Required]
-        [Display(Name = "Przykład output")]
+        [Display(Name = "Output")]
         [DataType(DataType.MultilineText)]
-        public string ExampleOutput { get; set; }
+        public string Output { get; set; }
+
+        [Required]
+        [Display(Name = "Przykład")]
+        [DataType(DataType.MultilineText)]
+        public string Example { get; set; }
+
+        [Required]
+        [Display(Name = "Czas programu(s)")]
+        public double MaxExecutedTime { get; set; }
+
+        [Required]
+        [Display(Name = "Pamięc programu(mb)")]
+        public double MaxExecutedMemory { get; set; }
+
+        [Display(Name = "Zadanie w PDF")]
+        [RegularExpression(@"^(([a-zA-Z]:)|(\\{2}\w+)\$?)(\\(\w[\w].*))(.pdf|.PDF)$", ErrorMessage = "Nieprawidłowy plik")]
+        [DataType(DataType.Upload)]
+        public HttpPostedFileBase PDF { get; set; }
 
         [Required]
         [Display(Name = "Start zadania")]

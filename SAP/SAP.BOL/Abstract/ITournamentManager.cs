@@ -20,6 +20,8 @@ namespace SAP.BOL.Abstract
 
         bool ConfigureSet(int Id, bool flag);
 
+        bool CourseSaveChanges(int tourId, int phaseId, int taskId);
+
         void SetPhaseActiveFlag(int Id, bool flag);
 
         void SetTaskActiveFlag(int Id, bool flag);

@@ -150,6 +150,41 @@ namespace SAP.DAL.Repositories
             { return false; }
         }
 
+        public bool CourseSaveChanges(int tourId, int phaseId, int taskId)
+        {
+            try
+            {
+                var phases = _context.Phase
+                 .Where(x => x.TournamentId == tourId)
+                 .ToList();
+
+                phases.ForEach(x =>
+                {
+                    if (x.Id == phaseId)
+                        x.IsActive = true;
+                    else
+                        x.IsActive = false;
+                });
+
+                var tasks = _context.Tasks
+                    .Where(x => x.TournamentId == tourId)
+                    .ToList();
+
+                tasks.ForEach(x => 
+                {
+                    if (x.Id == taskId)
+                        x.IsActive = true;
+                    else
+                        x.IsActive = false;
+                });
+
+                _context.SaveChanges();
+                return true;
+            }
+            catch
+            { return false; }
+        }
+
         public bool DeleteTournament(int tournamentId)
         {
             throw new NotImplementedException();

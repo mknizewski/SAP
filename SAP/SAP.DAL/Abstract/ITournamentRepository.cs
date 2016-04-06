@@ -28,6 +28,8 @@ namespace SAP.DAL.Abstract
 
         bool AddTaskTestingData(TasksTestData testData);
 
+        bool CourseSaveChanges(int tourId, int phaseId, int taskId);
+
         bool DeleteTournament(int tournamentId);
 
         void Dispose();

@@ -84,6 +84,13 @@ namespace SAP.BOL.LogicClasses.Managers
             return result;
         }
 
+        public bool CourseSaveChanges(int tourId, int phaseId, int taskId)
+        {
+            bool result = _tournamentRepository.CourseSaveChanges(tourId, phaseId, taskId);
+
+            return result;
+        }
+
         public void Dispose()
         {
             _tournamentRepository.Dispose();

@@ -3,6 +3,7 @@ using SAP.BOL.HelperClasses;
 using SAP.BOL.LogicClasses;
 using SAP.DAL.Tables;
 using SAP.Web.Areas.Admin.Models;
+using SAP.Web.HTMLHelpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -47,8 +48,6 @@ namespace SAP.Web.Areas.Admin.Controllers
                     Description = viewModel.Tournament.Description,
                     StartDate = viewModel.Tournament.StartDate.Add(viewModel.Tournament.StartTime),
                     EndDate = viewModel.Tournament.EndDate.Add(viewModel.Tournament.EndTime),
-                    MaxExecuteMemory = viewModel.Tournament.MaxExecutedMemory,
-                    MaxExecuteTime = viewModel.Tournament.MaxExecutedTime,
                     MaxUsers = viewModel.Tournament.MaxUsers
                 };
 
@@ -71,16 +70,28 @@ namespace SAP.Web.Areas.Admin.Controllers
                 {
                     x.Tasks.ForEach(y =>
                     {
-                        tasks.Add(new Tasks
+                        var task = new Tasks
                         {
                             Title = y.Title,
                             Order = y.Order,
                             Description = y.Description,
                             EndDate = y.EndDate.Add(y.EndTime),
                             StartDate = y.StartDate.Add(y.StartTime),
-                            ExampleInput = y.ExampleInput,
-                            ExampleOutput = y.ExampleOutput
-                        });
+                            Input = y.Input,
+                            Output = y.Output,
+                            Example = y.Example,
+                            MaxExecuteMemory = y.MaxExecutedMemory,
+                            MaxExecuteTime = y.MaxExecutedTime
+                        };
+
+                        if (y.PDF != null)
+                        {
+                            byte[] pdf = new byte[y.PDF.ContentLength];
+                            y.PDF.InputStream.Read(pdf, 0, y.PDF.ContentLength);
+                            task.PDF = pdf;
+                        }
+
+                        tasks.Add(task);
                     });
                 });
 
@@ -348,9 +359,39 @@ namespace SAP.Web.Areas.Admin.Controllers
             return Json(selectListItem);
         }
 
-        public ActionResult CourseTaskDetails(int phaseId)
+        public ActionResult CourseSaveChanges(int tourId, int phaseId, int taskId)
         {
-            return Json(null);
+            bool result = _tournamentManager.CourseSaveChanges(tourId, phaseId, taskId);
+
+            if (result)
+            {
+                var alert = SetAlert.Set("Poprawnie zmieniono przebieg turnieju o id " + tourId + "!", "Sukces", AlertType.Success);
+                return Json(Alert.GetAlert(alert).ToHtmlString());
+            }
+            else
+            {
+                var alert = SetAlert.Set("Wystąpił błąd, spróbuj ponownie później", "Błąd", AlertType.Danger);
+                return Json(Alert.GetAlert(alert).ToHtmlString());
+            }
+        }
+
+        public ActionResult CourseTaskDetails(int phaseId, int tourId)
+        {
+            var selectListItem = new List<SelectListItem>();
+            var taskDb = _tournamentManager.Tasks
+                .Where(x => x.TournamentId == tourId)
+                .Where(x => x.PhaseId == phaseId);
+
+            foreach (var item in taskDb)
+            {
+                selectListItem.Add(new SelectListItem
+                {
+                    Text = item.Title,
+                    Value = item.Id.ToString()
+                });
+            }
+
+            return Json(selectListItem);
         }
 
         #region Helpers

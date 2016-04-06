@@ -65,7 +65,7 @@
         </div>
     </div>
     <div class="col-md-9">
-        @using (Html.BeginForm("AddTournament", "ManageTournaments", FormMethod.Post, new { @class = "form-horizontal", @role = "form" }))
+        @using (Html.BeginForm("AddTournament", "ManageTournaments", FormMethod.Post, new { @class = "form-horizontal", @role = "form", enctype = "multipart/form-data" }))
         {
             @Html.AntiForgeryToken()
 
@@ -118,20 +118,6 @@
                             <br />
                             <h6>Opcje zaawansowane.</h6>
                             <hr />
-                            <div class="form-group">
-                                @Html.LabelFor(x => x.Tournament.MaxExecutedTime, new { @class = "control-label col-md-3" })
-                                <div class="col-md-9">
-                                    @Html.EditorFor(x => x.Tournament.MaxExecutedTime, new { @class = "form-control" })
-                                    @Html.ValidationMessageFor(x => x.Tournament.MaxExecutedTime, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                @Html.LabelFor(x => x.Tournament.MaxExecutedMemory, new { @class = "control-label col-md-3" })
-                                <div class="col-md-9">
-                                    @Html.EditorFor(x => x.Tournament.MaxExecutedMemory, new { @class = "form-control" })
-                                    @Html.ValidationMessageFor(x => x.Tournament.MaxExecutedMemory, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
                             <div class="form-group">
                                 @Html.LabelFor(x => x.Tournament.MaxUsers, new { @class = "control-label col-md-3" })
                                 <div class="col-md-9">
@@ -240,7 +226,8 @@
 
         function configureTask()
         {
-            try {
+            try
+            {
                 document.getElementById("load2").style.display = 'block';
             }
             catch (err) { }
@@ -265,5 +252,4 @@
                 });
         }
     </script>
-
 }
