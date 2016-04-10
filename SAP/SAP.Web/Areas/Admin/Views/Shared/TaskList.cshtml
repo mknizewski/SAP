@@ -83,7 +83,7 @@
         <div class="form-group">
             @Html.LabelFor(x => Model[i].Tasks[j].PDF, new { @class = "control-label col-md-3" })
             <div class="col-md-9">
-                @Html.TextBoxFor(x => Model[i].Tasks[j].PDF, new { @class = "form-control", @type = "file", @name = "TaskContainer[" + i + "].Tasks[" + j + "].PDF" })
+                <input type="file" name="TaskContainer[@i].Tasks[@j].PDF" class="form-control" />
                 @Html.ValidationMessage("TaskContainer[" + i + "].Tasks[" + j + "].PDF", new { @class = "text-danger" })
             </div>
         </div>

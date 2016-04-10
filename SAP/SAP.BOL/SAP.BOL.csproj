@@ -72,6 +72,7 @@
     <Compile Include="LogicClasses\Managers\UserManager.cs" />
     <Compile Include="LogicClasses\ServerConfig.cs" />
     <Compile Include="LogicClasses\ServerTime.cs" />
+    <Compile Include="LogicClasses\SolutionManager.cs" />
     <Compile Include="LogicClasses\TodaySystemTask.cs" />
   </ItemGroup>
   <ItemGroup />

@@ -17,19 +17,18 @@
         <div class="list-group">
             <a href='@Url.Action("Index", "Home")' class="list-group-item">
                 <h4 class="list-group-item-heading">Główna</h4>
-                <p class="list-group-item-text">Strona główna Twojego konta.</p>
             </a>
             <a href='@Url.Action("Index", "Manage")' class="list-group-item">
                 <h4 class="list-group-item-heading">Zarządzanie</h4>
-                <p class="list-group-item-text">Tu zmienisz ustawienia swojego konta.</p>
             </a>
             <a href='@Url.Action("Index", "Tournament")' class="list-group-item active">
                 <h4 class="list-group-item-heading">Twoje turnieje</h4>
-                <p class="list-group-item-text">Dostęp do informacji o Twoim udziale w turniejach.</p>
+            </a>
+            <a href='@Url.Action("Index", "Solution")' class="list-group-item">
+                <h4 class="list-group-item-heading">Zgłoszone rozwiązania</h4>
             </a>
             <a href="#" class="list-group-item">
                 <h4 class="list-group-item-heading">Powiadomienia <span class="badge">69</span></h4>
-                <p class="list-group-item-text">Twoje powiadomienia nt. truniejów, zadań oraz zasad funkcjonowania.</p>
             </a>
         </div>
     </div>
@@ -46,6 +45,7 @@
                             <th>Aktualna Faza</th>
                             <th>Aktualne Zadanie</th>
                             <th>Przejdź</th>
+                            <th>Tabela wyników</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -57,6 +57,9 @@
                                 <td>@item.Task</td>
                                 <td>
                                     <a href='@Url.Action("Index", "Action", new { area = "Tournament", tourId = item.Id })' class="btn btn-success">Przejdź &raquo;</a>
+                                </td>
+                                <td>
+                                    <a href="#" class="btn btn-warning">Przejdź</a>
                                 </td>
                             </tr>
                         }
@@ -91,7 +94,6 @@
             </div>
         </div>
     </div>
-
 </div>
 
 <ul class="breadcrumb">
@@ -159,5 +161,4 @@
         });
 
     });
-
 </script>

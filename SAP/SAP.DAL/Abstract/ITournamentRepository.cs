@@ -12,6 +12,7 @@ namespace SAP.DAL.Abstract
         IEnumerable<TasksTestData> TasksTestData { get; }
         IEnumerable<TournamentUsers> TournamentsUsers { get; }
         IEnumerable<HistoryTournamentUsers> HistoryTournamentsUsers { get; }
+
         void SetPhaseActiveFlag(int Id, bool flag);
 
         void SetTaskActiveFlag(int Id, bool flag);

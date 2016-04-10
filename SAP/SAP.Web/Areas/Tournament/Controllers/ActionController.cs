@@ -1,12 +1,12 @@
-﻿using SAP.BOL.Abstract;
+﻿using Microsoft.AspNet.Identity;
+using SAP.BOL.Abstract;
+using SAP.BOL.HelperClasses;
 using SAP.BOL.LogicClasses;
 using SAP.Web.Areas.Tournament.Models;
 using SAP.Web.Infrastructrue.Filters;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Web;
 using System.Web.Mvc;
 
 namespace SAP.Web.Areas.Tournament.Controllers
@@ -16,11 +16,13 @@ namespace SAP.Web.Areas.Tournament.Controllers
     {
         private ITournamentManager _tournamentManager;
         private IProgramManager _programManager;
+        private IUserManager _userManager;
 
-        public ActionController(ITournamentManager tournamentManager, IProgramManager programManager)
+        public ActionController(ITournamentManager tournamentManager, IProgramManager programManager, IUserManager userManager)
         {
             _tournamentManager = tournamentManager;
             _programManager = programManager;
+            _userManager = userManager;
         }
 
         [TournamentsAuthorization]
@@ -47,7 +49,7 @@ namespace SAP.Web.Areas.Tournament.Controllers
                                 .Where(y => y.PhaseId == x.Id)
                                 .ToList();
 
-                phaseTask.ForEach(y => 
+                phaseTask.ForEach(y =>
                 {
                     var task = new TasksViewModel
                     {
@@ -69,7 +71,7 @@ namespace SAP.Web.Areas.Tournament.Controllers
             return View(viewModel);
         }
 
-        public ActionResult Task(int taskId, TaskGetType type)
+        public ActionResult Task(int taskId, ActionType type)
         {
             ViewBag.Compiler = GetCompilersList();
             ViewBag.Type = type;
@@ -77,24 +79,57 @@ namespace SAP.Web.Areas.Tournament.Controllers
                 .Where(x => x.Id == taskId)
                 .FirstOrDefault();
 
-            return View(viewModel);
-        }
-
-        [ValidateAntiForgeryToken]
-        [ValidateInput(false)]
-        public async Task<ActionResult> Solution(SolutionViewModel viewModel)
-        {
-            await System.Threading.Tasks.Task.Run(() => 
-            {
-                
-            });
+            ViewBag.Task = viewModel;
 
             return View();
         }
 
+        [ValidateAntiForgeryToken]
+        [ValidateInput(false)]
+        [HttpPost]
+        public async Task<ActionResult> Solution(SolutionViewModel viewModel)
+        {
+            await System.Threading.Tasks.Task.Run(() =>
+            {
+                string userId = User.Identity.GetUserId();
+                SolutionManager solutionManager;
+
+                if (viewModel.File != null)
+                {
+                    byte[] file = new byte[viewModel.File.ContentLength];
+                    viewModel.File.InputStream.Read(file, 0, file.Length); //zapisujemy plik w postaci bitów
+
+                    solutionManager = new SolutionManager(file, userId, viewModel.TaskId, (CompilerType)viewModel.SelectedLang);
+                }
+                else
+                    solutionManager = new SolutionManager(viewModel.Program, userId, viewModel.TaskId, (CompilerType)viewModel.SelectedLang);
+
+                solutionManager.CheckSolution(_programManager, _userManager, _tournamentManager);
+            });
+
+            TempData["Alert"] = SetAlert.Set("Dziękujemy za przesłanie zgłoszenia! Wynik możesz poznać w sekcji <b>Zgłoszone rozwiązania</b> w menu.", "Sukces", AlertType.Success);
+            return RedirectToAction("Index", "Home", new { @area = "User" });
+        }
+
+        public FileResult GetPDF(int taskId)
+        {
+            var task = _tournamentManager.Tasks
+                .Where(x => x.Id == taskId)
+                .FirstOrDefault();
+
+            byte[] binaryPdf = task.PDF == null ? new byte[0] : task.PDF;
+            string fileName = task.Title;
+
+            fileName = fileName.ToLower();
+            fileName = fileName.Replace(' ', '_');
+            fileName += ".pdf";
+
+            return File(binaryPdf, "application/pdf", fileName);
+        }
+
         #region Helpers
 
-        public enum TaskGetType
+        public enum ActionType
         { Detials, Solution }
 
         protected override void Dispose(bool disposing)
@@ -107,6 +142,9 @@ namespace SAP.Web.Areas.Tournament.Controllers
                 _programManager.Dispose();
                 _programManager = null;
 
+                _userManager.Dispose();
+                _userManager = null;
+
                 base.Dispose(disposing);
             }
         }
@@ -115,13 +153,14 @@ namespace SAP.Web.Areas.Tournament.Controllers
         {
             List<SelectListItem> list = new List<SelectListItem>();
 
-            list.Add(new SelectListItem { Text = "C", Value = CompilerType.C.ToString() });
-            list.Add(new SelectListItem { Text = "C++", Value = CompilerType.Cpp.ToString() });
-            list.Add(new SelectListItem { Text = "Java", Value = CompilerType.Java.ToString() });
-            list.Add(new SelectListItem { Text = "Pascal", Value = CompilerType.Pascal.ToString() });
+            list.Add(new SelectListItem { Text = "C", Value = (((int)(CompilerType.C))).ToString() });
+            list.Add(new SelectListItem { Text = "C++", Value = (((int)(CompilerType.Cpp))).ToString() });
+            list.Add(new SelectListItem { Text = "Java", Value = (((int)(CompilerType.Java))).ToString() });
+            list.Add(new SelectListItem { Text = "Pascal", Value = (((int)(CompilerType.Pascal))).ToString() });
 
             return list;
         }
-        #endregion
+
+        #endregion Helpers
     }
 }

@@ -46,10 +46,10 @@ namespace SAP.Web.Controllers
         private List<SelectListItem> GetCompilersList()
         {
             List<SelectListItem> list = new List<SelectListItem>();
-            list.Add(new SelectListItem { Text = "C", Value = CompilerType.C.ToString() });
-            list.Add(new SelectListItem { Text = "C++", Value = CompilerType.Cpp.ToString() });
-            list.Add(new SelectListItem { Text = "Java", Value = CompilerType.Java.ToString() });
-            list.Add(new SelectListItem { Text = "Pascal", Value = CompilerType.Pascal.ToString() });
+            list.Add(new SelectListItem { Text = "C", Value = (((int)(CompilerType.C)) ).ToString() });
+            list.Add(new SelectListItem { Text = "C++", Value = (((int)(CompilerType.Cpp))).ToString() });
+            list.Add(new SelectListItem { Text = "Java", Value = (((int)(CompilerType.Java))).ToString() });
+            list.Add(new SelectListItem { Text = "Pascal", Value = (((int)(CompilerType.Pascal))).ToString() });
 
             return list;
         }

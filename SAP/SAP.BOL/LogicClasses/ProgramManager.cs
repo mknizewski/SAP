@@ -157,7 +157,6 @@ namespace SAP.BOL.LogicClasses
                         StreamWriter writer = exec.StandardInput;
                         foreach (string arg in arguments)
                             writer.WriteLine(arg);
-
                         break;
 
                     case InputDataType.None:

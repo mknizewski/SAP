@@ -9,7 +9,7 @@ namespace SAP.Web.HTMLHelpers
     /// </summary>
     public static class PageLinks
     {
-        public static MvcHtmlString Page(this HtmlHelper html, int currentPage, int totalPages, Func<int ,string> pageUrl)
+        public static MvcHtmlString Page(this HtmlHelper html, int currentPage, int totalPages, Func<int, string> pageUrl)
         {
             StringBuilder result = new StringBuilder();
 

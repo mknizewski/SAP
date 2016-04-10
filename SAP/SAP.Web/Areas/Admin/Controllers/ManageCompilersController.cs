@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 
 namespace SAP.Web.Areas.Admin.Controllers
 {
@@ -15,6 +11,7 @@ namespace SAP.Web.Areas.Admin.Controllers
         }
 
         #region Helpers
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)
@@ -22,6 +19,7 @@ namespace SAP.Web.Areas.Admin.Controllers
                 base.Dispose(disposing);
             }
         }
-        #endregion
+
+        #endregion Helpers
     }
 }

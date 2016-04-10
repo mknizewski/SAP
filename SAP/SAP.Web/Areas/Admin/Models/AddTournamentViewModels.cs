@@ -102,7 +102,6 @@ namespace SAP.Web.Areas.Admin.Models
         public double MaxExecutedMemory { get; set; }
 
         [Display(Name = "Zadanie w PDF")]
-        [RegularExpression(@"^(([a-zA-Z]:)|(\\{2}\w+)\$?)(\\(\w[\w].*))(.pdf|.PDF)$", ErrorMessage = "Nieprawidłowy plik")]
         [DataType(DataType.Upload)]
         public HttpPostedFileBase PDF { get; set; }
 

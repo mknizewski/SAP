@@ -12,6 +12,8 @@ namespace SAP.BOL.Abstract
         IEnumerable<Tasks> Tasks { get; }
         IEnumerable<TournamentUsers> TournamentsUsers { get; }
         IEnumerable<HistoryTournamentUsers> HistoryTournamentsUsers { get; }
+        IEnumerable<TasksTestData> TasksTestData { get; }
+
         Task<bool> AddTournamnetAsync(Tournament tour, List<Phase> phases, List<Tasks> tasks, int[] taksPerPhaseCount);
 
         Task<bool> AddTestDataAsync(List<TasksTestData> testData);

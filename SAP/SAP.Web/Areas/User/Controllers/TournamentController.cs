@@ -1,10 +1,8 @@
 ﻿using Microsoft.AspNet.Identity;
 using SAP.BOL.Abstract;
 using SAP.Web.Areas.User.Models;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace SAP.Web.Areas.User.Controllers
@@ -46,15 +44,18 @@ namespace SAP.Web.Areas.User.Controllers
                     .Where(x => x.IsActive)
                     .FirstOrDefault();
 
-                var tour = new ActualTournamentsViewModel
+                if (actualTask != null && actualP != null)
                 {
-                    Id = actualT.Id,
-                    Title = actualT.Title,
-                    Phase = actualP.Name,
-                    Task = actualTask.Title
-                };
+                    var tour = new ActualTournamentsViewModel
+                    {
+                        Id = actualT.Id,
+                        Title = actualT.Title,
+                        Phase = actualP.Name,
+                        Task = actualTask.Title
+                    };
 
-                actualList.Add(tour);
+                    actualList.Add(tour);
+                }
             }
 
             var historyTour = _tournamentManager.HistoryTournamentsUsers
@@ -70,15 +71,18 @@ namespace SAP.Web.Areas.User.Controllers
                     .Where(x => x.Id == item.PhaseId)
                     .FirstOrDefault();
 
-                var history = new HistoryTournamentsViewModel
+                if (historyT != null && historyP != null)
                 {
-                   Title = historyT.Title,
-                   StartDate = historyT.StartDate,
-                   EndDate = historyT.EndDate,
-                   Phase = historyP.Name
-                };
+                    var history = new HistoryTournamentsViewModel
+                    {
+                        Title = historyT.Title,
+                        StartDate = historyT.StartDate,
+                        EndDate = historyT.EndDate,
+                        Phase = historyP.Name
+                    };
 
-                historyList.Add(history);
+                    historyList.Add(history);
+                }
             }
 
             viewModel.ActualTour = actualList;
@@ -88,6 +92,7 @@ namespace SAP.Web.Areas.User.Controllers
         }
 
         #region Helpers
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)
@@ -98,6 +103,7 @@ namespace SAP.Web.Areas.User.Controllers
                 base.Dispose(disposing);
             }
         }
-        #endregion
+
+        #endregion Helpers
     }
 }

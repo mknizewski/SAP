@@ -1,0 +1,129 @@
+﻿@model List<SAP.Web.Areas.User.Models.SendsSolutionViewModel>
+@{
+    ViewBag.Title = "Zgłoszone rozwiązania";
+}
+
+<link href="~/Content/data_tables/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.css" rel="stylesheet" />
+<link href="~/Content/data_tables/datatables-responsive/css/responsive.dataTables.scss" rel="stylesheet" />
+<script src="~/Content/data_tables/datatables/media/js/jquery.dataTables.min.js"></script>
+<script src="~/Content/data_tables/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js"></script>
+<link href="//cdn.datatables.net/1.10.11/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css" />
+<h2>Zgłoszone rozwiązania.</h2>
+<hr />
+
+<div class="row">
+    <div class="col-md-3">
+        <div class="list-group">
+            <a href='@Url.Action("Index", "Home")' class="list-group-item">
+                <h4 class="list-group-item-heading">Główna</h4>
+            </a>
+            <a href='@Url.Action("Index", "Manage")' class="list-group-item">
+                <h4 class="list-group-item-heading">Zarządzanie</h4>
+            </a>
+            <a href='@Url.Action("Index", "Tournament")' class="list-group-item">
+                <h4 class="list-group-item-heading">Twoje turnieje</h4>
+            </a>
+            <a href='@Url.Action("Index", "Solution")' class="list-group-item active">
+                <h4 class="list-group-item-heading">Zgłoszone rozwiązania</h4>
+            </a>
+            <a href="#" class="list-group-item">
+                <h4 class="list-group-item-heading">Powiadomienia <span class="badge">69</span></h4>
+            </a>
+        </div>
+    </div>
+
+    <div class="col-md-9">
+        <div class="well">
+            <b>Uwaga!</b>
+            <p>System bierze pod uwagę ostatnią zaakceptowaną solucję problemu danego zadania.</p>
+        </div>
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">Zgłoszone rozwiązania</h3>
+            </div>
+            <div class="panel-body">
+                <table id="solutionTable">
+                    <thead>
+                        <tr>
+                            <th>Turniej</th>
+                            <th>Zadanie</th>
+                            <th>Język</th>
+                            <th>Data</th>
+                            <th>Pamięć (mb)</th>
+                            <th>Czas (s)</th>
+                            <th>Rozwiązanie</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model.Count != 0)
+                        {
+                            foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>@item.TournamentTitle</td>
+                                    <td>@item.TaskTitle</td>
+                                    <td>@item.Lang</td>
+                                    <td>@item.InsertTime.ToString("dd.MM.yyyy HH:mm:ss")</td>
+                                    <td>@item.MemUsage.ToString("F")</td>
+                                    <td>@item.TimeUsage</td>
+                                    <td>
+                                        <a href='@Url.Action("GetSolutionFile", new { @solutionId = item.SolutionId })' class="btn btn-info"><span class="glyphicon glyphicon-console"></span></a>
+                                    </td>
+                                    <td>
+                                        @if (item.IsAccepted)
+                                        {
+                                            <span class="label label-success">Zaakceptowany</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="label label-danger">Odrzucony</span>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<ul class="breadcrumb">
+    <li><a href='@Url.Action("Index", "Home", new { area = "" })'>Główna</a></li>
+    <li><a href='@Url.Action("Index", "Home")'>Użytkownik</a></li>
+    <li class="active">Zgłoszone rozwiązania</li>
+</ul>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        $('#solutionTable').DataTable({
+            responsive: true,
+            select: true,
+            "language": {
+                processing: "Przetwarzanie...",
+                search: "Szukaj:",
+                lengthMenu: "Pokaż _MENU_ pozycji",
+                info: "Pozycje od _START_ do _END_ z _TOTAL_ łącznie",
+                infoEmpty: "Pozycji 0 z 0 dostępnych",
+                infoFiltered: "(filtrowanie spośród _MAX_ dostępnych pozycji)",
+                infoPostFix: "",
+                loadingRecords: "Wczytywanie...",
+                zeroRecords: "Nie znaleziono pasujących pozycji",
+                emptyTable: "Brak danych",
+                paginate: {
+                    first: "Pierwsza",
+                    previous: "Poprzednia",
+                    next: "Następna",
+                    last: "Ostatnia"
+                },
+                aria: {
+                    sortAscending: ": aktywuj, by posortować kolumnę rosnąco",
+                    sortDescending: ": aktywuj, by posortować kolumnę malejąco"
+                }
+            }
+        });
+    });
+</script>

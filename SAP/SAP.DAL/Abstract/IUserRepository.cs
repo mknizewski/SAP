@@ -8,8 +8,11 @@ namespace SAP.DAL.Abstract
         IEnumerable<ApplicationUser> Users { get; }
         IEnumerable<UsersSchools> Schools { get; }
         IEnumerable<UsersCounselor> Counselors { get; }
+        IEnumerable<UserSolutions> Solutions { get; }
 
         bool AddUserCounselor(UsersCounselor model);
+
+        bool AddSolution(UserSolutions solution);
 
         bool EditUserSchool(UsersSchools model);
 

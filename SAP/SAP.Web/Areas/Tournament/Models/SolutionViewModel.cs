@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
+﻿using System.ComponentModel.DataAnnotations;
 using System.Web;
 
 namespace SAP.Web.Areas.Tournament.Models
@@ -10,6 +7,10 @@ namespace SAP.Web.Areas.Tournament.Models
     {
         public int TaskId { get; set; }
         public string Program { get; set; }
+        public HttpPostedFileBase File { get; set; }
+
+        [Required(ErrorMessage = "Musisz wybrac język solucji")]
+        [Display(Name = "Wybierz język")]
         public int SelectedLang { get; set; }
     }
 }

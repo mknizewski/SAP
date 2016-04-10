@@ -143,10 +143,11 @@ namespace SAP.Web.Areas.Admin.Controllers
                            }
                        });
                     break;
+
                 case UserTypeToReturn.User:
                     AspUserManager.Users
                         .Where(x => x.Id != userId)
-                        .ForEach(x => 
+                        .ForEach(x =>
                         {
                             bool isUser = AspUserManager.IsInRole(x.Id, "User");
                             if (isUser)
@@ -163,6 +164,7 @@ namespace SAP.Web.Areas.Admin.Controllers
                             }
                         });
                     break;
+
                 case UserTypeToReturn.All:
                     AspUserManager.Users
                         .Where(x => x.Id != userId)
@@ -176,10 +178,11 @@ namespace SAP.Web.Areas.Admin.Controllers
                             IsLocked = AspUserManager.IsLockedOut(x.Id)
                         }));
                     break;
+
                 case UserTypeToReturn.Banned:
                     AspUserManager.Users
                         .Where(x => x.Id != userId)
-                        .ForEach(x => 
+                        .ForEach(x =>
                         {
                             bool result = AspUserManager.IsLockedOut(x.Id);
                             if (result)
@@ -196,6 +199,7 @@ namespace SAP.Web.Areas.Admin.Controllers
                             }
                         });
                     break;
+
                 case UserTypeToReturn.NotBanned:
                     AspUserManager.Users
                         .Where(x => x.Id != userId)

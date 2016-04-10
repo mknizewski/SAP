@@ -1,11 +1,11 @@
 ﻿using SAP.BOL.Abstract;
+using SAP.BOL.HelperClasses;
 using SAP.DAL.Abstract;
 using SAP.DAL.Tables;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using SAP.BOL.HelperClasses;
 
 namespace SAP.BOL.LogicClasses.Managers
 {
@@ -39,6 +39,14 @@ namespace SAP.BOL.LogicClasses.Managers
             get
             {
                 return _tournamentRepository.Tasks;
+            }
+        }
+
+        public IEnumerable<TasksTestData> TasksTestData
+        {
+            get
+            {
+                return _tournamentRepository.TasksTestData;
             }
         }
 
@@ -187,7 +195,7 @@ namespace SAP.BOL.LogicClasses.Managers
                 .Where(y => y.PhaseId == x.Id)
                 .ToList();
 
-                taskPhase.ForEach(y => 
+                taskPhase.ForEach(y =>
                 {
                     //sprawdzanie dat
                     var startDate = y.StartDate;

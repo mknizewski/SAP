@@ -18,6 +18,7 @@ namespace SAP.BOL.LogicClasses
         private int id;
         private bool flag;
         private bool isRealized = false;
+
         #endregion PrivateFields
 
         #region PublicFields
@@ -60,7 +61,7 @@ namespace SAP.BOL.LogicClasses
         {
             nowTime = nowTime.AddTicks(-nowTime.Ticks % 10000000); //usuwamy milisekundy
             int compare = DateTime.Compare(executeTime, nowTime);
-            
+
             if (compare == 0)
             {
                 ExecuteTask(id, flag);
@@ -200,7 +201,7 @@ namespace SAP.BOL.LogicClasses
                     disablePhase.Flag = false;
                     disablePhase.ExecuteTask += SetPhase;
                     disablePhase.TaskType = TaskType.EndPhase;
-                    
+
                     //TODO: Opracować algorytm zliczania puntków na koniec fazy
 
                     todayTasks.Add(disablePhase);

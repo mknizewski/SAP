@@ -32,12 +32,32 @@ namespace SAP.DAL.Repositories
             }
         }
 
+        public IEnumerable<UserSolutions> Solutions
+        {
+            get
+            {
+                return _context.UserSolutions;
+            }
+        }
+
         public IEnumerable<ApplicationUser> Users
         {
             get
             {
                 return _context.Users;
             }
+        }
+
+        public bool AddSolution(UserSolutions solution)
+        {
+            try
+            {
+                _context.UserSolutions.Add(solution);
+                _context.SaveChanges();
+
+                return true;
+            }
+            catch { return false; }
         }
 
         public bool AddUserCounselor(UsersCounselor model)

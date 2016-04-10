@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
-namespace SAP.Web.Areas.Admin.Models
+﻿namespace SAP.Web.Areas.Admin.Models
 {
     public class TournamentsCourseViewModel
     {

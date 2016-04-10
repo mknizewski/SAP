@@ -26,8 +26,8 @@
                     {
                         <div class="form-group">
                             <div class="col-md-offset-8 col-md-4">
-                                <a class="btn btn-primary" href='@Url.Action("Task", new { taskId = task.Id, type = ActionController.TaskGetType.Detials })'>Szczegóły</a>
-                                <a class="btn btn-success" href='@Url.Action("Task", new { taskId = task.Id, type = ActionController.TaskGetType.Solution })'>Rozwiąż</a>
+                                <a class="btn btn-primary" href='@Url.Action("Task", new { taskId = task.Id, type = ActionController.ActionType.Detials })'>Szczegóły</a>
+                                <a class="btn btn-success" href='@Url.Action("Task", new { taskId = task.Id, type = ActionController.ActionType.Solution })'>Rozwiąż</a>
                             </div>
                         </div>
                     }
@@ -35,7 +35,7 @@
                     {
                         <div class="form-group">
                             <div class="col-md-offset-8 col-md-4">
-                                <a class="btn btn-primary" href='@Url.Action("Task", new { taskId = task.Id, type = ActionController.TaskGetType.Detials })'>Szczegóły</a>
+                                <a class="btn btn-primary" href='@Url.Action("Task", new { taskId = task.Id, type = ActionController.ActionType.Detials })'>Szczegóły</a>
                             </div>
                         </div>
                     }
@@ -61,5 +61,4 @@
 </ul>
 
 <script type="text/javascript">
-
 </script>

@@ -81,7 +81,8 @@ namespace SAP.Web.Areas.Admin.Controllers
                             Output = y.Output,
                             Example = y.Example,
                             MaxExecuteMemory = y.MaxExecutedMemory,
-                            MaxExecuteTime = y.MaxExecutedTime
+                            MaxExecuteTime = y.MaxExecutedTime,
+                            InputDataTypeId = y.InputDataId
                         };
 
                         if (y.PDF != null)
@@ -249,7 +250,7 @@ namespace SAP.Web.Areas.Admin.Controllers
 
             List<TodaySystemTaskViewModel> viewModel = new List<TodaySystemTaskViewModel>();
 
-            todayTask.ForEach(x => 
+            todayTask.ForEach(x =>
             {
                 TodaySystemTaskViewModel task = new TodaySystemTaskViewModel();
                 task.Id = x.Id;
@@ -327,15 +328,18 @@ namespace SAP.Web.Areas.Admin.Controllers
                     .Where(x => x.IsActive)
                     .FirstOrDefault();
 
-                var itemViewModel = new TournamentsCourseViewModel
+                if (activePhase != null && activeTask != null)
                 {
-                    TourId = item.Id,
-                    TourTitle = item.Title,
-                    ActivePhaseTitle = activePhase.Name,
-                    ActiveTaskTitle = activeTask.Title
-                };
+                    var itemViewModel = new TournamentsCourseViewModel
+                    {
+                        TourId = item.Id,
+                        TourTitle = item.Title,
+                        ActivePhaseTitle = activePhase.Name,
+                        ActiveTaskTitle = activeTask.Title
+                    };
 
-                viewModel.Add(itemViewModel);
+                    viewModel.Add(itemViewModel);
+                }
             }
 
             return View(viewModel);

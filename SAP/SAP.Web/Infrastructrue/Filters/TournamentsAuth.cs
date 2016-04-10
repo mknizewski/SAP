@@ -27,7 +27,7 @@ namespace SAP.Web.Infrastructrue.Filters
                 .Where(x => x.TournamentId == tourId)
                 .Where(x => x.UserId == userId)
                 .FirstOrDefault();
-            
+
             if (userRow == null)
                 filterContext.Result = new HttpUnauthorizedResult();
 

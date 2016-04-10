@@ -4,12 +4,21 @@ using SAP.DAL.Abstract;
 using SAP.DAL.Tables;
 using System;
 using System.Linq;
+using System.Collections.Generic;
 
 namespace SAP.BOL.LogicClasses.Managers
 {
     public class UserManager : IUserManager, IDisposable
     {
         private IUserRepository _userRepository;
+
+        public IEnumerable<UserSolutions> Solutions
+        {
+            get
+            {
+                return _userRepository.Solutions;
+            }
+        }
 
         public UserManager(IUserRepository userRepository)
         {
@@ -114,6 +123,25 @@ namespace SAP.BOL.LogicClasses.Managers
             };
 
             bool result = _userRepository.SendMessage(messageRow);
+            return result;
+        }
+
+        public bool AddSolution(int taskId, int tourId, string userId, int compilerId, int score, string program, double memUsage, double timeUsage)
+        {
+            UserSolutions solution = new UserSolutions
+            {
+                UserId = userId,
+                TournamentId = tourId,
+                TaskId = taskId,
+                CompilerId = compilerId,
+                Score = score,
+                Program = program,
+                MemoryUsage = memUsage,
+                ExecutedTime = timeUsage,
+                InsertTime = DateTime.Now
+            };
+
+            bool result = _userRepository.AddSolution(solution);
             return result;
         }
     }

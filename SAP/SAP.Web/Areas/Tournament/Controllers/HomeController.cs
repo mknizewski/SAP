@@ -5,7 +5,6 @@ using SAP.Web.Areas.Tournament.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace SAP.Web.Areas.Tournament.Controllers
@@ -83,6 +82,7 @@ namespace SAP.Web.Areas.Tournament.Controllers
         }
 
         #region Helpers
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)
@@ -91,7 +91,8 @@ namespace SAP.Web.Areas.Tournament.Controllers
                 base.Dispose(disposing);
             }
         }
-        #endregion
+
+        #endregion Helpers
     }
 
     public enum TournamentStatus

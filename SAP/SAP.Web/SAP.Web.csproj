@@ -257,7 +257,10 @@
     <Compile Include="Areas\Tournament\Models\SolutionViewModel.cs" />
     <Compile Include="Areas\Tournament\TournamentAreaRegistration.cs" />
     <Compile Include="Areas\User\Controllers\HomeController.cs" />
+    <Compile Include="Areas\User\Controllers\MessagesController.cs" />
+    <Compile Include="Areas\User\Controllers\SolutionController.cs" />
     <Compile Include="Areas\User\Controllers\TournamentController.cs" />
+    <Compile Include="Areas\User\Models\SendsSolutionViewModel.cs" />
     <Compile Include="Areas\User\Models\TournamentsIndexViewModel.cs" />
     <Compile Include="Areas\User\Models\UserDataModels.cs" />
     <Compile Include="Areas\User\UserAreaRegistration.cs" />
@@ -731,6 +734,7 @@
     <Content Include="Areas\Tournament\Views\Action\Index.cshtml" />
     <Content Include="Areas\Tournament\Views\Action\Task.cshtml" />
     <Content Include="Areas\Admin\Views\ManageTournaments\TournamentsCourse.cshtml" />
+    <Content Include="Areas\User\Views\Solution\Index.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -792,6 +796,7 @@
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Admin\Views\ManageCompilers\" />
     <Folder Include="Areas\Tournament\Views\Shared\" />
+    <Folder Include="Areas\User\Views\Messages\" />
     <Folder Include="Areas\User\Views\Shared\" />
   </ItemGroup>
   <ItemGroup>

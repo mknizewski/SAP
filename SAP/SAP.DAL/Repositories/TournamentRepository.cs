@@ -170,7 +170,7 @@ namespace SAP.DAL.Repositories
                     .Where(x => x.TournamentId == tourId)
                     .ToList();
 
-                tasks.ForEach(x => 
+                tasks.ForEach(x =>
                 {
                     if (x.Id == taskId)
                         x.IsActive = true;
@@ -219,7 +219,6 @@ namespace SAP.DAL.Repositories
                 }
                 else
                     return false;
-
             }
             catch { return false; }
         }

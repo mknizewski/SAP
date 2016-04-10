@@ -1,10 +1,11 @@
 ﻿@using SAP.Web.Areas.Tournament.Controllers
-@model SAP.DAL.Tables.Tasks
+@model SAP.Web.Areas.Tournament.Models.SolutionViewModel
 @{
-    ViewBag.Title = Model.Title;
+    ViewBag.Title = "Zadanie";
 
     var type = ViewBag.Type;
     var compilers = ViewBag.Compiler as IEnumerable<SelectListItem>;
+    var task = ViewBag.Task as SAP.DAL.Tables.Tasks;
 }
 
 <script type="text/javascript" src="~/Content/edit_area/edit_area_full.js" language="javascript"></script>
@@ -18,47 +19,54 @@
         });
 </script>
 
-<h2>Zadanie - @Model.Title</h2>
+<h2>Zadanie - @task.Title</h2>
 <hr />
 
 <div class="row">
     <div class="col-md-6">
         <h4>Opis: </h4>
-        <p class="text-justify">@Model.Description</p>
+        <p class="text-justify">@task.Description</p>
 
         <h4>Input: </h4>
-        <p>@Model.ExampleInput</p>
+        <p>@task.Input</p>
 
         <h4>Output: </h4>
-        <p>@Model.ExampleOutput</p>
+        <p>@task.Output</p>
     </div>
     <div class="col-md-6">
         <h4>Przykład: </h4>
         <div class="well">
-            <p></p>
+            <p>@task.Example</p>
         </div>
+
+        @if (task.PDF != null)
+        {
+            <h4>PDF :</h4>
+            <a href='@Url.Action("GetPDF", new { @taskId = task.Id })' class="btn btn-info">Pobierz <span class="glyphicon glyphicon-download"></span></a>
+        }
     </div>
 </div>
 
-@if (type == ActionController.TaskGetType.Solution)
+@if (type == ActionController.ActionType.Solution)
 {
     <div class="row">
         <div class="col-md-12">
             <h4>Rozwiązanie: </h4>
-            @using (Html.BeginForm("Solution", "Action", FormMethod.Post, new { @class = "form-horizontal", @role = "form", @id = "solutionForm" }))
+            @using (Html.BeginForm("Solution", "Action", FormMethod.Post, new { @class = "form-horizontal", @role = "form", @id = "solutionForm", enctype = "multipart/form-data" }))
             {
                 @Html.AntiForgeryToken()
-                @Html.Hidden("TaskId", Model.Id)
+                @Html.HiddenFor(x => x.TaskId, new { @value = task.Id })
 
                 <div class="form-group">
-                    @Html.TextArea("Program", new { @id = "textArea" })
+                    @Html.TextAreaFor(x => x.Program, new { @id = "textArea" })
                 </div>
 
                 <div class="form-group">
-                    <label for="SelectedLang" class="control-label col-md-2">Wybierz język</label>
+                    @Html.LabelFor(x => x.SelectedLang, new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
-                        @Html.DropDownList("SelectedLang", compilers, "Wybierz", new { @class = "form-control" })
+                        @Html.DropDownList("SelectedLang", compilers, "Wybierz język", new { @class = "form-control" })
                     </div>
+                    @Html.ValidationMessageFor(x => x.SelectedLang, "", new { @class = "text-danger" })
                 </div>
 
                 <br />
@@ -68,7 +76,7 @@
                         <div class="input-group">
                             <span class="input-group-btn">
                                 <span class="btn btn-primary btn-file">
-                                    Przeglądaj&hellip; <input type="file">
+                                    Przeglądaj&hellip; @Html.TextBoxFor(x => x.File, new { @type = "file"})
                                 </span>
                             </span>
                             <input type="text" class="form-control" readonly>
@@ -79,7 +87,7 @@
                     </div>
                     <div class="col-md-6">
                         <div class="col-md-offset-7 col-md-5">
-                            <a href="javascript:document.getElementById('solutionForm').submit()" class="btn btn-success" style="float:right;"><span class="glyphicon glyphicon-tasks"></span> Prześlij</a>
+                           <input type="submit" class="btn btn-success" value="Prześlij" />
                         </div>
                     </div>
                 </div>
