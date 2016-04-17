@@ -66,7 +66,6 @@ namespace SAP.Web.Areas.User.Models
         public string Email { get; set; }
     }
 
-
     public class UserDataViewModel
     {
         [Required]

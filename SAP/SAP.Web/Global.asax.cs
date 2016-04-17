@@ -19,13 +19,13 @@ namespace SAP.Web
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             Database.SetInitializer<ApplicationDbContext>(new ApplicationDbContext.DataBaseInitializer());
             ApplicationDbContext.Create().Database.Initialize(true);
-            //ServerTime.Inicialize();
+            ServerTime.Inicialize();
             ServerConfig.Inicialize();
         }
 
         protected void Application_End()
         {
-            ServerTime.Dispose();
+            //ServerTime.Dispose();
         }
     }
 }

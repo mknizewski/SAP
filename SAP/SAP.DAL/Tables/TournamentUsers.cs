@@ -14,11 +14,7 @@ namespace SAP.DAL.Tables
         [ForeignKey("User")]
         public string UserId { get; set; }
 
-        [ForeignKey("Phase")]
-        public int PhaseId { get; set; }
-
         public virtual Tournament Tournament { get; set; }
         public virtual ApplicationUser User { get; set; }
-        public virtual Phase Phase { get; set; }
     }
 }

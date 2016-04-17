@@ -8,8 +8,11 @@ namespace SAP.DAL.Abstract
         IEnumerable<Compilers> Compilers { get; }
 
         bool Add(Compilers compiler);
+
         bool EditCompiler(Compilers compiler);
+
         bool RemoveBySystemId(int systemId);
+
         void Dispose();
     }
 }

@@ -1,0 +1,276 @@
+﻿@model IEnumerable<SAP.Web.Areas.Admin.Models.TournamentsCourseViewModel>
+@{
+    ViewBag.Title = "Przebieg turniejów";
+}
+
+<link href="~/Content/data_tables/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.css" rel="stylesheet" />
+<link href="~/Content/data_tables/datatables-responsive/css/responsive.dataTables.scss" rel="stylesheet" />
+<script src="~/Content/data_tables/datatables/media/js/jquery.dataTables.min.js"></script>
+<script src="~/Content/data_tables/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js"></script>
+<link href="//cdn.datatables.net/1.10.11/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css" />
+
+<h2>Przebieg turniejów.</h2>
+<hr />
+
+<div id="myModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Wybierz jedną z poniższych opcji</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-4">
+                        Zmiana ustawień konta
+                    </div>
+                    <div class="col-md-8">
+                        <a href='@Url.Action("ChangeData", "ManageUser")' class="btn btn-info">Przejdź &raquo;</a>
+                    </div>
+                </div>
+                <br />
+                <div class="row">
+                    <div class="col-md-4">
+                        Zmiana hasła
+                    </div>
+                    <div class="col-md-8">
+                        <a href='@Url.Action("ChangePassword", "ManageUser")' class="btn btn-info">Przejdź &raquo;</a>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Zamknij</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-3">
+        <div class="list-group">
+            <a href='@Url.Action("Index", "Home")' class="list-group-item">
+                <h4 class="list-group-item-heading">Główna</h4>
+            </a>
+            <a href="#" data-toggle="modal" data-target="#myModal" class="list-group-item">
+                <h4 class="list-group-item-heading">Ustawienia</h4>
+            </a>
+            <a href='@Url.Action("ManageAccounts", "ManageUser")' class="list-group-item">
+                <h4 class="list-group-item-heading">Zarządzanie kontami</h4>
+            </a>
+            <a href='@Url.Action("Index", "ManageTournaments")' class="list-group-item active">
+                <h4 class="list-group-item-heading">Zarządzanie turniejami</h4>
+            </a>
+            <a href="#" class="list-group-item">
+                <h4 class="list-group-item-heading">Zarządzanie kompilatorami</h4>
+            </a>
+        </div>
+    </div>
+    <div class="col-md-9">
+        <div id="courseAlert"></div>
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                Zarządzanie przebiegiem turniejów
+            </div>
+            <div class="panel-body">
+                <table id="tTable">
+                    <thead>
+                        <tr>
+                            <th>Turniej</th>
+                            <th>Faza</th>
+                            <th>Zadanie</th>
+                            <th>Opcje</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model.Count() != 0)
+                        {
+                            foreach (var item in Model)
+                            {
+                                <tr id="@item.TourId">
+                                    <td>@item.TourTitle</td>
+                                    <td>@item.ActivePhaseTitle</td>
+                                    <td>@item.ActiveTaskTitle</td>
+                                    <td>
+                                        <button onclick="editTour('@item.TourId')" class="btn btn-warning">Edycja</button>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<ul class="breadcrumb">
+    <li><a href='@Url.Action("Index", "Home", new { area = "" })'>Główna</a></li>
+    <li><a href='@Url.Action("Index", "Home")'>Administrator</a></li>
+    <li><a href='@Url.Action("Index", "ManageTournaments")'>Zarządzanie turniejami</a></li>
+    <li class="active">Zarządzanie przebiegiem</li>
+</ul>
+
+<script type="text/javascript">
+
+    function editTour (id)
+    {
+        var tableRow = document.getElementById(id);
+        var phaseText = tableRow.cells[1].innerText;
+        var taskText = tableRow.cells[2].innerText;
+
+        var undoBtn = document.createElement("button");
+        var saveBtn = document.createElement("button");
+
+        undoBtn.className = "btn btn-danger";
+        saveBtn.className = "btn btn-success";
+
+        var saveBtnSpan = document.createElement("span");
+        saveBtnSpan.className = "glyphicon glyphicon-saved";
+
+        var undoBtnSpan = document.createElement("span");
+        undoBtnSpan.className = "glyphicon glyphicon-backward";
+
+        undoBtn.onclick = function () { undo(id, tableRow, phaseText, taskText) };
+        saveBtn.onclick = function () { saveChanges(id, tableRow) };
+
+        saveBtn.appendChild(saveBtnSpan);
+        undoBtn.appendChild(undoBtnSpan);
+
+        tableRow.cells[3].innerHTML = "";
+        tableRow.cells[3].appendChild(undoBtn);
+        tableRow.cells[3].appendChild(saveBtn);
+
+        $.post('@Url.Action("CoursePhaseDetails")',
+            {
+                id: id
+            },
+            function (data)
+            {
+                var DDL = document.createElement("select");
+                DDL.id = "PhaseSelect";
+                DDL.addEventListener("change", function () { onPhaseChange(id, tableRow, taskText) });
+
+                tableRow.cells[1].innerHTML = "";
+
+                for (var i = 0; i < data.length; i++)
+                {
+                    var option = document.createElement("option");
+                    option.setAttribute("value", data[i].Value);
+
+                    if (phaseText == data[i].Text)
+                    {
+                        option.setAttribute("selected", "selected");
+                    }
+
+                    option.innerText = data[i].Text;
+
+                    DDL.appendChild(option);
+                }
+
+                tableRow.cells[1].appendChild(DDL);
+                onPhaseChange(id, tableRow, taskText);
+            });
+    }
+
+    function onPhaseChange (tournamentId, tableRow, text)
+    {
+        var selectedPhaseId = $("#PhaseSelect").val();
+
+        $.post('@Url.Action("CourseTaskDetails")',
+            {
+                phaseId: selectedPhaseId,
+                tourId: tournamentId
+            },
+            function (data)
+            {
+                var TaskDDL = document.createElement("select");
+                TaskDDL.id = "TaskSelect";
+                tableRow.cells[2].innerHTML = "";
+
+                for (var i = 0; i < data.length; i++)
+                {
+                    var option = document.createElement("option");
+                    option.setAttribute("value", data[i].Value);
+
+                    if (text == data[i].Text)
+                    {
+                        option.setAttribute("selected", "selected");
+                    }
+
+                    option.innerText = data[i].Text;
+
+                    TaskDDL.appendChild(option);
+                }
+
+                tableRow.cells[2].appendChild(TaskDDL);
+            });
+    }
+
+    function undo (id, tableRow, phaseText, taskText)
+    {
+        var editBtn = document.createElement("button");
+
+        editBtn.className = "btn btn-warning";
+        editBtn.innerText = "Edycja";
+        editBtn.onclick = function() { editTour(id) };
+
+        tableRow.cells[1].innerHTML = "";
+        tableRow.cells[1].innerText = phaseText;
+
+        tableRow.cells[2].innerHTML = "";
+        tableRow.cells[2].innerText = taskText;
+
+        tableRow.cells[3].innerHTML = "";
+        tableRow.cells[3].appendChild(editBtn);
+    }
+
+    function saveChanges (tournamentId, tableRow)
+    {
+        var activePhaseId = $("#PhaseSelect").val();
+        var activeTaskId = $("#TaskSelect").val();
+
+        var activePhaseText = $("#PhaseSelect option:selected").text();
+        var activeTaskText = $("#TaskSelect option:selected").text();
+
+        $.post('@Url.Action("CourseSaveChanges")',
+        {
+            tourId: tournamentId,
+            phaseId: activePhaseId,
+            taskId: activeTaskId
+        },
+        function (data)
+        {
+            $("#courseAlert").append(data);
+            undo(tournamentId, tableRow, activePhaseText, activeTaskText);
+        });
+    }
+
+    $(document).ready(function () {
+        $('#tTable').DataTable({
+            responsive: true,
+            select: true,
+            "language": {
+                processing: "Przetwarzanie...",
+                search: "Szukaj:",
+                lengthMenu: "Pokaż _MENU_ pozycji",
+                info: "Pozycje od _START_ do _END_ z _TOTAL_ łącznie",
+                infoEmpty: "Pozycji 0 z 0 dostępnych",
+                infoFiltered: "(filtrowanie spośród _MAX_ dostępnych pozycji)",
+                infoPostFix: "",
+                loadingRecords: "Wczytywanie...",
+                zeroRecords: "Nie znaleziono pasujących pozycji",
+                emptyTable: "Brak danych",
+                paginate: {
+                    first: "Pierwsza",
+                    previous: "Poprzednia",
+                    next: "Następna",
+                    last: "Ostatnia"
+                },
+                aria: {
+                    sortAscending: ": aktywuj, by posortować kolumnę rosnąco",
+                    sortDescending: ": aktywuj, by posortować kolumnę malejąco"
+                }
+            }
+        });
+    });
+</script>

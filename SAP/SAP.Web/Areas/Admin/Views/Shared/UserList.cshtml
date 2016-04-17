@@ -1,0 +1,37 @@
+﻿@model IEnumerable<SAP.Web.Areas.Admin.Models.UsersViewModel>
+
+@foreach (var user in Model)
+{
+    <tr>
+        <td>@user.FirstName @user.LastName</td>
+        <td>@user.Email</td>
+        <td>@user.Role</td>
+        @{
+            string lok = user.IsLocked ? "Tak" : "Nie";
+
+            <td>@lok</td>
+        }
+        <td>
+            <div class="btn-group text-center">
+                <a href="#" class="btn btn-info">Opcje</a>
+                <a href="#" class="btn btn-info dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                    <li><a href="#" data-toggle="modal" data-target="#detailModal" onclick="showDetail('@user.Email')">Szczegóły</a></li>
+                    <li><a href="#" data-toggle="modal" data-target="#sendModal" onclick="mail('@user.Email')">Wyślij wiadomość</a></li>
+                    <li class="divider"></li>
+                    @{
+                        if (user.IsLocked)
+                        {
+                            <li><a href="#" onclick="unBan('@user.Email')">Odblokuj konto</a></li>
+                        }
+                        else
+                        {
+                            <li><a href="#" data-toggle="modal" data-target="#banModal" onclick="showModalBan('@user.Email')">Blokada konta</a></li>
+                        }
+                    }
+                    <li><a href="#">Usuń konto</a></li>
+                </ul>
+            </div>
+        </td>
+    </tr>
+}

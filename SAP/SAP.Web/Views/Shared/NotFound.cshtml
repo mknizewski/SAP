@@ -1,0 +1,18 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Wystąpił błąd";
+}
+
+<div class="jumbotron">
+    <h1 class="text-danger text-center">Przepraszamy, wystąpił błąd.</h1>
+    <p>Możesz wysłać dane o błędzie do administratora lub powrócić na stronę główną.</p>
+    <br />
+    <div class="row">
+        <div class="col-md-6">
+            <p><a href='@Url.Action("Index", "Home", new { area = "" })' class="btn btn-primary btn-lg">Powrót</a></p>
+        </div>
+        <div class="col-md-6">
+            <p style="float:right;"><a class="btn btn-danger btn-lg">Zgłoś błąd</a></p>
+        </div>
+    </div>
+</div>

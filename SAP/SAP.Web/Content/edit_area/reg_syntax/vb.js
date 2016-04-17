@@ -48,6 +48,5 @@ editAreaLoader.load_syntax["vb"] = {
 			}
 		,'OPERATORS' : 'color: #FF0000;'
 		,'DELIMITERS' : 'color: #0000FF;'
-
 	}
 };

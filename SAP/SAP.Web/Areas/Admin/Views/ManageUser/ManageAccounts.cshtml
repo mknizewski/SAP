@@ -1,5 +1,4 @@
-﻿@model IEnumerable<SAP.Web.Areas.Admin.Models.UsersViewModel>
-@{
+﻿@{
     ViewBag.Title = "Zarządzanie kontami użytkowników";
 }
 
@@ -46,37 +45,76 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Zamknij</button>
             </div>
-
         </div>
     </div>
 </div>
 
 <div class="row">
     <div class="col-md-3">
+        <div class="panel-group">
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" href="#collapse1">Opcje dodatkowe<span class="caret"></span></a>
+                    </h4>
+                </div>
+                <div id="collapse1" class="panel-collapse collapse">
+                    <div class="panel-body">
+                        <h4><span class="glyphicon glyphicon-edit"></span> Stwórz konto</h4>
+                        <hr />
+                        <ul>
+                            <li><a href="#">Administrator</a></li>
+                            <li><a href="#">Użytkownik</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="list-group">
             <a href='@Url.Action("Index", "Home")' class="list-group-item">
                 <h4 class="list-group-item-heading">Główna</h4>
-                <p class="list-group-item-text">Strona główna Twojego konta.</p>
             </a>
             <a href="#" data-toggle="modal" data-target="#myModal" class="list-group-item">
                 <h4 class="list-group-item-heading">Ustawienia</h4>
-                <p class="list-group-item-text">Zmiana ustawień konta.</p>
             </a>
             <a href='@Url.Action("ManageAccounts", "ManageUser")' class="list-group-item active">
                 <h4 class="list-group-item-heading">Zarządzanie kontami</h4>
-                <p class="list-group-item-text">Dostęp do zarządzania kontami użytkowników serwisu.</p>
             </a>
             <a href='@Url.Action("Index", "ManageTournaments")' class="list-group-item">
                 <h4 class="list-group-item-heading">Zarządzanie turniejami</h4>
-                <p class="list-group-item-text">Dostęp do zarządzania turniejami i zadaniami.</p>
             </a>
             <a href="#" class="list-group-item">
                 <h4 class="list-group-item-heading">Zarządzanie kompilatorami</h4>
-                <p class="list-group-item-text">Dostęp do ustawień kompilatorów.</p>
             </a>
         </div>
     </div>
-    <div class="col-md-9" id="col"> 
+    <div class="col-md-9" id="col">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Filtracja wyników
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h4><span class="glyphicon glyphicon-user"></span> Typ konta</h4>
+                        <hr />
+                        <ul>
+                            <li><a href="#" onclick="getData(0)">Administratorzy</a></li>
+                            <li><a href="#" onclick="getData(1)">Użytkownicy</a></li>
+                            <li><a href="#" onclick="getData(2)">Wszyscy</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-md-6">
+                        <h4><span class="glyphicon glyphicon-ban-circle"></span> Typ blokady</h4>
+                        <hr />
+                        <ul>
+                            <li><a href="#" onclick="getData(3)">Niezbanowani</a></li>
+                            <li><a href="#" onclick="getData(4)">Zbanowani</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="panel panel-primary">
             <div class="panel-heading">
                 Konta zarejestrowane w systemie SAP
@@ -88,83 +126,15 @@
                             <th>Imię i nazwisko</th>
                             <th>Email</th>
                             <th>Rola</th>
-                            <th>Czy zablokowane</th>
+                            <th>Ban</th>
                             <th>Opcje</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        @foreach(var user in Model)
-                        {
-                            <tr>
-                                <td>@user.FirstName @user.LastName</td>
-                                <td>@user.Email</td>
-                                <td>@user.Role</td>
-                                @{ 
-                                    string lok = user.IsLocked ? "Tak" : "Nie";
-
-                                    <td>@lok</td>
-                                }
-                                <td>
-                                    <div class="btn-group text-center">
-                                        <a href="#" class="btn btn-info">Opcje</a>
-                                        <a href="#" class="btn btn-info dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></a>
-                                        <ul class="dropdown-menu">
-                                            <li><a href="#" data-toggle="modal" data-target="#detailModal" onclick="showDetail('@user.Email')">Szczegóły</a></li>
-                                            <li><a href="#">Wyślij wiadomość</a></li>
-                                            <li class="divider"></li>
-                                            @{
-                                                if (user.IsLocked)
-                                                {
-                                                    <li><a href="#" onclick="unBan('@user.Email')">Odblokuj konto</a></li>
-                                                }
-                                                else
-                                                {
-                                                    <li><a href="#" data-toggle="modal" data-target="#banModal" onclick="showModalBan('@user.Email')">Blokada konta</a></li>
-                                                }
-                                            }
-                                            <li><a href="#">Usuń konto</a></li>
-                                        </ul>
-                                    </div>
-                                </td>
-                            </tr>
-                        }
+                    <tbody id="tableBody">
                     </tbody>
                 </table>
             </div>
         </div>
-
-        <div class="panel-group">
-            <div class="panel panel-info">
-                <div class="panel-heading">
-                    <h4 class="panel-title">
-                        <a data-toggle="collapse" href="#collapse1">Dodatkowe opcje zarządzania kontami<span class="caret"></span></a>
-                    </h4>
-                </div>
-                <div id="collapse1" class="panel-collapse collapse">
-                    <div class="panel-body">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="btn-group center-block">
-                                    <a href="#" class="btn btn-primary btn-lg">Dodaj konto</a>
-                                    <a href="#" class="btn btn-primary btn-lg dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></a>
-                                    <ul class="dropdown-menu">
-                                        <li><a href="#">Użytkownik</a></li>
-                                       @if (Context.User.IsInRole("Root"))
-                                       {
-                                        <li><a href="#">Administrator</a></li>
-                                       }
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
     </div>
 </div>
 
@@ -184,7 +154,7 @@
                 <h4 class="modal-title" id="banTitle"></h4>
             </div>
 
-            <div class="modal-body">             
+            <div class="modal-body">
                 <form class="form-horizontal" role="form">
                     <div class="form-group">
                         <label for="banDate" class="col-md-2 control-label">Data do:  </label>
@@ -208,7 +178,6 @@
                 <button type="button" class="btn btn-default" data-dismiss="modal">Zamknij</button>
                 <button type="button" class="btn btn-success" data-dismiss="modal" id="banBtn">Blokuj</button>
             </div>
-
         </div>
     </div>
 </div>
@@ -344,7 +313,40 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Zamknij</button>
             </div>
+        </div>
+    </div>
+</div>
 
+<div id="sendModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title" id="sendHeader"></h4>
+            </div>
+
+            <div class="modal-body">
+                <form class="form-horizontal" role="form">
+                    <div class="form-group">
+                        <label for="sendTitle" class="control-label col-md-3">Tytuł wiadomości</label>
+                        <div class="col-md-9">
+                            <input id="sendTitle" class="form-control" type="text" placeholder="Tytuł" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="sendDesc" class="control-label col-md-3">Wiadomość</label>
+                        <div class="col-md-9">
+                            <textarea id="sendDesc" class="form-control" rows="10"></textarea>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Zamknij</button>
+                <button type="button" class="btn btn-success" data-dismiss="modal" id="sendBtn">Wyślij</button>
+            </div>
         </div>
     </div>
 </div>
@@ -352,7 +354,7 @@
 <script type="text/javascript">
 
     var currentEmail = "";
- 
+
     function pernamentRead()
     {
         var isCheck = document.getElementById("isPernament").checked;
@@ -368,6 +370,49 @@
             document.getElementById("banDate").disabled = false;
         }
     }
+
+    function getData(id)
+    {
+        $.post('@Url.Action("GetUserData")',
+            {
+                typeToReturn: id
+            },
+            function (data) {
+                var table = $("#users").DataTable();
+                table.destroy();
+                $("#tableBody").empty();
+                $("#tableBody").append(data);
+                table = $("#users").DataTable();
+            });
+    }
+
+    function mail(name)
+    {
+        currentEmail = name;
+        document.getElementById("sendHeader").innerText = "Wysyłanie wiadomości do " + name;
+    }
+
+    $("#sendBtn").click(function () {
+
+        var sendTitle = document.getElementById("sendTitle").value;
+        var description = document.getElementById("sendDesc").value;
+
+        $.post('@Url.Action("SendMessageToUser")',
+            {
+                name: currentEmail,
+                title: sendTitle,
+                desc: description
+            },
+            function (data)
+            {
+                var col = document.getElementById("col");
+                var object = document.createElement("DIV");
+
+                object.innerHTML = data.Message;
+                col.insertBefore(object, col.childNodes[0]);
+            });
+
+    });
 
     function unBan(email)
     {
@@ -391,11 +436,11 @@
         currentEmail = email;
         document.getElementById("banTitle").innerText = "Blokada konta " + currentEmail;
     }
-    
+
     $("#banBtn").click(function(){
         var banT = document.getElementById("banTime").value;
         var banD = document.getElementById("banDate").value;
-        var isPern = document.getElementById("isPernament").checked; 
+        var isPern = document.getElementById("isPernament").checked;
 
         $.post('@Url.Action("Ban", "ManageUser")',
             {
@@ -421,10 +466,10 @@
                 name: email
             },
             function (data) {
-                
+
                 //Tytuł
                 document.getElementById("detailTitle").innerText = "Szczegóły konta " + data.UserEmail;
-                
+
                 //Użytkownik
                 document.getElementById("userName").innerText = data.UserFirstName + " " + data.UserLastName;
                 document.getElementById("userEmail").innerText = data.UserEmail;
@@ -454,7 +499,7 @@
         $('#users').DataTable({
             responsive: true,
             select: true,
-            "language": {             
+            "language": {
                     processing:     "Przetwarzanie...",
                     search:         "Szukaj:",
                     lengthMenu:     "Pokaż _MENU_ pozycji",
@@ -478,5 +523,4 @@
             }
         });
     });
-
 </script>

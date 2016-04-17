@@ -33,6 +33,8 @@ namespace SAP.BOL.LogicClasses
             serverTimer.Interval = 1000; // 1 sekunda
             serverTimer.Start();
 
+            TodoManager.InicializeTodayTasks(); //Pierwsza wstępna inicjalizacja tasków
+
             //Ustawienia Garbage Collector w celu zapobiegnięcia usunięcia
             GC.KeepAlive(serverTimer);
             GC.KeepAlive(serverDateTime);
@@ -58,7 +60,14 @@ namespace SAP.BOL.LogicClasses
         private static void TickEvent(object source, ElapsedEventArgs e)
         {
             serverDateTime = DateTime.Now;
-            //TODO: Logika zegarowa zgodnie z dokumentacją
+
+            if (serverDateTime.TimeOfDay == TimeSpan.Zero)
+            {
+                TodoManager.Execute(serverDateTime);
+                TodoManager.InicializeTodayTasks();
+            }
+            else
+                TodoManager.Execute(serverDateTime);
         }
 
         public static void Dispose()

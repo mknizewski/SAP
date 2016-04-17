@@ -1,0 +1,64 @@
+﻿@using SAP.Web.Areas.Tournament.Controllers
+@model SAP.Web.Areas.Tournament.Models.ActionViewModel
+@{
+    ViewBag.Title = Model.Title;
+    int i = 1;
+}
+
+<h2>Turniej - @Model.Title</h2>
+<hr />
+
+<div class="row">
+    <div class="col-md-12">
+        @foreach (var item in Model.Phases)
+        {
+            <div class="well">
+                <h4>Faza: @item.Title</h4>
+                <hr />
+                @foreach (var task in item.Tasks)
+                {
+                    <h4>@i @task.Title</h4>
+                    <div class="col-md-offset-8 col-md-4">
+                        <p>Start: @task.StartDate.ToString("HH:mm:ss, dd.MM.yyyy")</p>
+                        <p>Stop: @task.EndDate.ToString("HH:mm:ss, dd.MM.yyyy")</p>
+                    </div>
+                    if (task.IsActive)
+                    {
+                        <div class="form-group">
+                            <div class="col-md-offset-8 col-md-4">
+                                <a class="btn btn-primary" href='@Url.Action("Task", new { taskId = task.Id, type = ActionController.ActionType.Detials })'>Szczegóły</a>
+                                <a class="btn btn-success" href='@Url.Action("Task", new { taskId = task.Id, type = ActionController.ActionType.Solution })'>Rozwiąż</a>
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="form-group">
+                            <div class="col-md-offset-8 col-md-4">
+                                <a class="btn btn-primary" href='@Url.Action("Task", new { taskId = task.Id, type = ActionController.ActionType.Detials })'>Szczegóły</a>
+                            </div>
+                        </div>
+                    }
+
+                    i += 1;
+                }
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
+            </div>
+
+            i = 1;
+        }
+    </div>
+</div>
+
+<ul class="breadcrumb">
+    <li><a href='@Url.Action("Index", "Home")'>Główna</a></li>
+    <li><a href='@Url.Action("Index", "Home", new { area = "Tournament" })'>Turnieje</a></li>
+    <li>Turniej - @Model.Title</li>
+</ul>
+
+<script type="text/javascript">
+</script>

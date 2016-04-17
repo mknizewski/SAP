@@ -17,11 +17,17 @@ namespace SAP.DAL.Tables
 
         public string Title { get; set; }
         public string Description { get; set; }
-        public string ExampleInput { get; set; }
-        public string ExampleOutput { get; set; }
+        public string Input { get; set; }
+        public string Output { get; set; }
+        public string Example { get; set; }
         public int Order { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
+        public bool IsActive { get; set; }
+        public double MaxExecuteTime { get; set; }
+        public double MaxExecuteMemory { get; set; }
+        public int InputDataTypeId { get; set; }
+        public byte[] PDF { get; set; }
 
         public virtual Tournament Tournament { get; set; }
         public virtual Phase Phase { get; set; }

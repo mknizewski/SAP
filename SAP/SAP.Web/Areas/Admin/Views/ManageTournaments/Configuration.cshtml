@@ -1,0 +1,224 @@
+﻿@model IEnumerable<SAP.Web.Areas.Admin.Models.TournamentsViewModel>
+@{
+    ViewBag.Title = "Konfiguracja turniejów";
+}
+
+<link href="~/Content/data_tables/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.css" rel="stylesheet" />
+<link href="~/Content/data_tables/datatables-responsive/css/responsive.dataTables.scss" rel="stylesheet" />
+<script src="~/Content/data_tables/datatables/media/js/jquery.dataTables.min.js"></script>
+<script src="~/Content/data_tables/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js"></script>
+<link href="//cdn.datatables.net/1.10.11/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css" />
+<h2>Konfiguracja i walidacja utworzonych turniejów.</h2>
+<hr />
+
+<div id="myModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Wybierz jedną z poniższych opcji</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-4">
+                        Zmiana ustawień konta
+                    </div>
+                    <div class="col-md-8">
+                        <a href='@Url.Action("ChangeData", "ManageUser")' class="btn btn-info">Przejdź &raquo;</a>
+                    </div>
+                </div>
+                <br />
+                <div class="row">
+                    <div class="col-md-4">
+                        Zmiana hasła
+                    </div>
+                    <div class="col-md-8">
+                        <a href='@Url.Action("ChangePassword", "ManageUser")' class="btn btn-info">Przejdź &raquo;</a>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Zamknij</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-3">
+        <div class="list-group">
+            <a href='@Url.Action("Index", "Home")' class="list-group-item">
+                <h4 class="list-group-item-heading">Główna</h4>
+            </a>
+            <a href="#" data-toggle="modal" data-target="#myModal" class="list-group-item">
+                <h4 class="list-group-item-heading">Ustawienia</h4>
+            </a>
+            <a href='@Url.Action("ManageAccounts", "ManageUser")' class="list-group-item">
+                <h4 class="list-group-item-heading">Zarządzanie kontami</h4>
+            </a>
+            <a href='@Url.Action("Index", "ManageTournaments")' class="list-group-item active">
+                <h4 class="list-group-item-heading">Zarządzanie turniejami</h4>
+            </a>
+            <a href="#" class="list-group-item">
+                <h4 class="list-group-item-heading">Zarządzanie kompilatorami</h4>
+            </a>
+        </div>
+    </div>
+    <div class="col-md-9">
+        <div class="well well-sm">
+            <b>Informacja:</b> Konfiguracja turnieju polega na walidacji dat oraz danych testowych. W tym celu należy kliknąć na przycisk SPRAWDŹ.
+        </div>
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">Lista nieskonfigurowanych turniejów</h3>
+            </div>
+            <div class="panel-body">
+                <table id="tTable">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Tytuł</th>
+                            <th>Przewidywany start</th>
+                            <th>Konfiguracja</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@item.Id</td>
+                                <td>@item.Title</td>
+                                <td>@item.StartDate.ToString("HH:mm:ss dd-MM-yyyy")</td>
+                                <td>
+                                    <button id="confBtn" class="btn btn-success" onclick="validateTour('@item.Id')">Sprawdź</button>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <h3 id="valTitle" class="panel-title">Wyniki walidacji</h3>
+            </div>
+            <div id="valBody" class="panel-body">
+                <img id="load" class="center-block" src="~/Content/loading.gif" style="display:none;" />
+            </div>
+        </div>
+    </div>
+</div>
+
+<ul class="breadcrumb">
+    <li><a href='@Url.Action("Index", "Home", new { area = "" })'>Główna</a></li>
+    <li><a href='@Url.Action("Index", "Home")'>Administrator</a></li>
+    <li><a href='@Url.Action("Index", "ManageTournaments")'>Zarządzanie turniejami</a></li>
+    <li class="active">Konfiguracja</li>
+</ul>
+
+<script type="text/javascript">
+
+    function active(id)
+    {
+        $.post('@Url.Action("SetConfigure")',
+            {
+                Id: id
+            },
+            function (data)
+            {
+                if (data == true)
+                {
+                    location.reload();
+                }
+            });
+    };
+
+    function validateTour (id)
+    {
+        $("#valTitle").text("Wyniki walidacji turnieju: " + id);
+        var load = document.getElementById("load");
+        load.style.display = "block";
+
+        $.get('@Url.Action("ValidateTournament")',
+            {
+                Id: id
+            },
+            function (data)
+            {
+                load.style.display = "none";
+                var validateBody = $("#valBody");
+                $("#valBody").empty();
+                $("#valBody").append(load);
+
+                if (data.length != 0)
+                {
+                    var list = document.createElement("ul");
+
+                    for (var i = 0; i < data.length; i++)
+                    {
+                        var item = document.createElement("li");
+                        item.innerText = data[i];
+
+                        list.appendChild(item);
+                    }
+
+                    validateBody.append(list);
+                    var p = document.createElement("p");
+                    p.innerText = "Status walidacji: Wystąpiły błedy";
+                    validateBody.append(p);
+                }
+                else
+                {
+                    var p = document.createElement("p");
+                    var well = document.createElement("div");
+                    var b = document.createElement("b");
+                    var btn = document.createElement("button");
+
+                    b.innerText = "Uwaga: ";
+
+                    p.innerText = "Status walidacji: OK";
+
+                    well.className = "well well-sm";
+                    well.innerHTML = b.outerHTML + "Algorytm walidujący nie jest w stanie wychwycić wszystkich błędnych ustawień turnieju! Mimo wszystko, przed aktywacją turnieju zalecane jest sprawdzenie ręczne.";
+
+                    btn.className = "btn btn-default";
+                    btn.style.cssFloat = "right";
+                    btn.innerText = "Aktywuj";
+                    btn.onclick = function () { active(id) };
+
+                    validateBody.append(p);
+                    validateBody.append(well);
+                    validateBody.append(btn);
+                }
+            });
+    }
+
+    $(document).ready(function () {
+        $('#tTable').DataTable({
+            responsive: true,
+            select: true,
+            "language": {
+                processing: "Przetwarzanie...",
+                search: "Szukaj:",
+                lengthMenu: "Pokaż _MENU_ pozycji",
+                info: "Pozycje od _START_ do _END_ z _TOTAL_ łącznie",
+                infoEmpty: "Pozycji 0 z 0 dostępnych",
+                infoFiltered: "(filtrowanie spośród _MAX_ dostępnych pozycji)",
+                infoPostFix: "",
+                loadingRecords: "Wczytywanie...",
+                zeroRecords: "Nie znaleziono pasujących pozycji",
+                emptyTable: "Brak danych",
+                paginate: {
+                    first: "Pierwsza",
+                    previous: "Poprzednia",
+                    next: "Następna",
+                    last: "Ostatnia"
+                },
+                aria: {
+                    sortAscending: ": aktywuj, by posortować kolumnę rosnąco",
+                    sortDescending: ": aktywuj, by posortować kolumnę malejąco"
+                }
+            }
+        });
+    });
+</script>

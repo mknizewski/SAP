@@ -8,7 +8,6 @@ using SAP.Web.Areas.Admin.Models;
 using SAP.Web.HTMLHelpers;
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
@@ -103,59 +102,127 @@ namespace SAP.Web.Areas.Admin.Controllers
                 {
                     await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
                 }
-                return RedirectToAction("Index", new { Message = Message.ChagnePasswordSuccess});
+                return RedirectToAction("Index", new { Message = Message.ChagnePasswordSuccess });
             }
             else
             {
                 TempData["Alert"] = SetAlert.Set("Wprowadzone hasło jest niepoprawne!", "Błąd", AlertType.Danger);
                 return View(model);
             }
-
         }
 
         public ActionResult ManageAccounts()
         {
-            bool isRoot = AspUserManager.IsInRole(User.Identity.GetUserId(), "Root");
+            return View();
+        }
+
+        public ActionResult GetUserData(UserTypeToReturn typeToReturn)
+        {
             List<UsersViewModel> viewModel = new List<UsersViewModel>();
             string userId = User.Identity.GetUserId();
 
-            if (isRoot) // gdy root zwracamy wszystkie konta istniejace w sytstemie oprocz roota
+            switch (typeToReturn)
             {
-               var items = AspUserManager
-                    .Users
-                    .Where(x => x.Id != userId);
+                case UserTypeToReturn.Administrator:
+                    AspUserManager.Users
+                       .Where(x => x.Id != userId)
+                       .ForEach(x =>
+                       {
+                           bool isAdmin = AspUserManager.IsInRole(x.Id, "Admin");
+                           if (isAdmin)
+                           {
+                               viewModel.Add(new UsersViewModel
+                               {
+                                   Id = x.Id,
+                                   FirstName = x.FirstName,
+                                   LastName = x.LastName,
+                                   Email = x.Email,
+                                   Role = "Administrator",
+                                   IsLocked = AspUserManager.IsLockedOut(x.Id)
+                               });
+                           }
+                       });
+                    break;
 
-                foreach(var x in items)
-                {
-                    viewModel.Add(new UsersViewModel
-                    {
-                        Id = x.Id,
-                        FirstName = x.FirstName,
-                        LastName = x.LastName,
-                        Email = x.Email,
-                        Role = AspUserManager.GetRoles(x.Id).FirstOrDefault(),
-                        IsLocked = AspUserManager.IsLockedOut(x.Id)
-                    });
-                }
-                
-            }
-            else // zwyczajny admin na dostęp tylko do kont użytkowników
-            {
-                AspUserManager
-                    .Users
-                    .Where(x => x.Id != userId || AspUserManager.IsInRole(x.Id, "User"))
-                    .ForEach(x => viewModel.Add(new UsersViewModel
-                    {
-                        Id = x.Id,
-                        FirstName = x.FirstName,
-                        LastName = x.LastName,
-                        Email = x.Email,
-                        Role = "User",
-                        IsLocked = AspUserManager.IsLockedOut(x.Id)
-                    }));
+                case UserTypeToReturn.User:
+                    AspUserManager.Users
+                        .Where(x => x.Id != userId)
+                        .ForEach(x =>
+                        {
+                            bool isUser = AspUserManager.IsInRole(x.Id, "User");
+                            if (isUser)
+                            {
+                                viewModel.Add(new UsersViewModel
+                                {
+                                    Id = x.Id,
+                                    FirstName = x.FirstName,
+                                    LastName = x.LastName,
+                                    Email = x.Email,
+                                    Role = "Użytkownik",
+                                    IsLocked = AspUserManager.IsLockedOut(x.Id)
+                                });
+                            }
+                        });
+                    break;
+
+                case UserTypeToReturn.All:
+                    AspUserManager.Users
+                        .Where(x => x.Id != userId)
+                        .ForEach(x => viewModel.Add(new UsersViewModel
+                        {
+                            Id = x.Id,
+                            FirstName = x.FirstName,
+                            LastName = x.LastName,
+                            Email = x.Email,
+                            Role = AspUserManager.GetRoles(x.Id).FirstOrDefault(),
+                            IsLocked = AspUserManager.IsLockedOut(x.Id)
+                        }));
+                    break;
+
+                case UserTypeToReturn.Banned:
+                    AspUserManager.Users
+                        .Where(x => x.Id != userId)
+                        .ForEach(x =>
+                        {
+                            bool result = AspUserManager.IsLockedOut(x.Id);
+                            if (result)
+                            {
+                                viewModel.Add(new UsersViewModel
+                                {
+                                    Id = x.Id,
+                                    FirstName = x.FirstName,
+                                    LastName = x.LastName,
+                                    Email = x.Email,
+                                    Role = AspUserManager.GetRoles(x.Id).FirstOrDefault(),
+                                    IsLocked = true
+                                });
+                            }
+                        });
+                    break;
+
+                case UserTypeToReturn.NotBanned:
+                    AspUserManager.Users
+                        .Where(x => x.Id != userId)
+                        .ForEach(x =>
+                        {
+                            bool result = AspUserManager.IsLockedOut(x.Id);
+                            if (!result)
+                            {
+                                viewModel.Add(new UsersViewModel
+                                {
+                                    Id = x.Id,
+                                    FirstName = x.FirstName,
+                                    LastName = x.LastName,
+                                    Email = x.Email,
+                                    Role = AspUserManager.GetRoles(x.Id).FirstOrDefault(),
+                                    IsLocked = false
+                                });
+                            }
+                        });
+                    break;
             }
 
-            return View(viewModel);
+            return PartialView("~/Areas/Admin/Views/Shared/UserList.cshtml", viewModel);
         }
 
         [HttpPost]
@@ -168,7 +235,7 @@ namespace SAP.Web.Areas.Admin.Controllers
                 var user = AspUserManager.FindByEmail(name);
                 AspUserManager.SetLockoutEndDate(user.Id, DateTimeOffset.MaxValue);
 
-                alert = Alert.GetAlert(SetAlert.Set("Pernamentnie zbanowano" + name, "Sukces", AlertType.Success));
+                alert = Alert.GetAlert(SetAlert.Set("Pernamentnie zbanowano " + name, "Sukces", AlertType.Success));
             }
             else
             {
@@ -237,7 +304,22 @@ namespace SAP.Web.Areas.Admin.Controllers
             return Json(jsonData);
         }
 
+        public ActionResult SendMessageToUser(string name, string title, string desc)
+        {
+            var user = AspUserManager.FindByName(name);
+            bool result = _userManager.SendMessage(user.Id, title, desc);
+            MvcHtmlString jsonData = null;
+
+            if (result)
+                jsonData = Alert.GetAlert(SetAlert.Set("Poprawnie wysłano wiadomość do " + name, "Sukces", AlertType.Success));
+            else
+                jsonData = Alert.GetAlert(SetAlert.Set("Wystąpił bład. Spróbuj ponownie później.", "Błąd", AlertType.Danger));
+
+            return Json(new { Message = jsonData.ToHtmlString() });
+        }
+
         #region Helpers
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)
@@ -249,6 +331,12 @@ namespace SAP.Web.Areas.Admin.Controllers
                 base.Dispose(disposing);
             }
         }
-        #endregion
+
+        #endregion Helpers
+    }
+
+    public enum UserTypeToReturn
+    {
+        Administrator, User, All, NotBanned, Banned
     }
 }

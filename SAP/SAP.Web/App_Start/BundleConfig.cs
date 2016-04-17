@@ -11,7 +11,8 @@ namespace SAP.Web
                         "~/Scripts/jquery-{version}.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
-                        "~/Scripts/jquery.validate*"));
+                    "~/Scripts/jquery.unobtrusive*",
+                    "~/Scripts/jquery.validate*"));
 
             //obsługa zegara serwerowego
             bundles.Add(new ScriptBundle("~/bundles/time").Include(
@@ -29,8 +30,6 @@ namespace SAP.Web
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
                       "~/Scripts/bootstrap.js",
                       "~/Scripts/respond.js"));
-            
-
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",

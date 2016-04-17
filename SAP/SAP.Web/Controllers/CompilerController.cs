@@ -1,10 +1,6 @@
-﻿using SAP.BOL.Abstract;
-using SAP.BOL.LogicClasses;
+﻿using SAP.BOL.LogicClasses;
 using SAP.Web.Models;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace SAP.Web.Controllers
@@ -45,19 +41,19 @@ namespace SAP.Web.Controllers
             return View(modelToReturn);
         }
 
-
         #region Helpers
 
         private List<SelectListItem> GetCompilersList()
         {
             List<SelectListItem> list = new List<SelectListItem>();
-            list.Add(new SelectListItem { Text = "C", Value = CompilerType.C.ToString() });
-            list.Add(new SelectListItem { Text = "C++", Value = "1" });
-            list.Add(new SelectListItem { Text = "Pascal", Value = "3" });
+            list.Add(new SelectListItem { Text = "C", Value = (((int)(CompilerType.C)) ).ToString() });
+            list.Add(new SelectListItem { Text = "C++", Value = (((int)(CompilerType.Cpp))).ToString() });
+            list.Add(new SelectListItem { Text = "Java", Value = (((int)(CompilerType.Java))).ToString() });
+            list.Add(new SelectListItem { Text = "Pascal", Value = (((int)(CompilerType.Pascal))).ToString() });
 
             return list;
         }
 
-        #endregion
+        #endregion Helpers
     }
 }

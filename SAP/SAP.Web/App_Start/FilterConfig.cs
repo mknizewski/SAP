@@ -7,8 +7,8 @@ namespace SAP.Web
     {
         public static void RegisterGlobalFilters(GlobalFilterCollection filters)
         {
-            filters.Add(new HandleErrorAttribute());
-            filters.Add(new CheckBrowserFilter()); //filtr akcji globalny do sprawdzania przeglądarki
+            filters.Add(new ErrorHandler());
+            filters.Add(new SynchronizeDataFilter()); //filtr akcji do sprawdzania synchronizacji danych
         }
     }
 }

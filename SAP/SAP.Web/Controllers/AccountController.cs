@@ -1,17 +1,16 @@
 ﻿using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
+using reCaptcha;
+using SAP.BOL.HelperClasses;
 using SAP.DAL.DbContext;
 using SAP.DAL.Tables;
 using SAP.Web.Models;
+using System.Configuration;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
-using reCaptcha;
-using System.Configuration;
-using SAP.Web.HTMLHelpers;
-using SAP.BOL.HelperClasses;
 
 namespace SAP.Web.Controllers
 {
@@ -181,9 +180,18 @@ namespace SAP.Web.Controllers
                 if (ModelState.IsValid)
                 {
                     //rejestracja
-                    var user = new ApplicationUser { UserName = model.Email, Email = model.Email, FirstName = model.Name, LastName = model.Surname,
-                        PhoneNumber = model.UserPhone, City = model.UserCity, HouseNumber = model.UserHouseNumber, PostalCode = model.UserPostalCode,
-                        Street = model.UserStreet  };
+                    var user = new ApplicationUser
+                    {
+                        UserName = model.Email,
+                        Email = model.Email,
+                        FirstName = model.Name,
+                        LastName = model.Surname,
+                        PhoneNumber = model.UserPhone,
+                        City = model.UserCity,
+                        HouseNumber = model.UserHouseNumber,
+                        PostalCode = model.UserPostalCode,
+                        Street = model.UserStreet
+                    };
                     var result = await UserManager.CreateAsync(user, model.Password);
                     await UserManager.AddToRoleAsync(user.Id, "User");
                     UserManager.CreateSchool(user.Id, model.SchoolName, model.SchoolClass, model.SchoolCity, model.SchoolHouseNumber,

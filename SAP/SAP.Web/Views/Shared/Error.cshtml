@@ -1,8 +1,19 @@
 ﻿@model System.Web.Mvc.HandleErrorInfo
 
 @{
-    ViewBag.Title = "Error";
+    ViewBag.Title = "Wystąpił błąd";
 }
 
-<h1 class="text-danger">Error.</h1>
-<h2 class="text-danger">An error occurred while processing your request.</h2>
+<div class="jumbotron">
+    <h1 class="text-danger text-center">Przepraszamy, wystąpił błąd.</h1>
+    <p>Możesz wysłać dane o błędzie do administratora lub powrócić na stronę główną.</p>
+    <br />
+    <div class="row">
+        <div class="col-md-6">
+            <p><a href='@Url.Action("Index", "Home", new { area = "" })' class="btn btn-primary btn-lg">Powrót</a></p>
+        </div>
+        <div class="col-md-6">
+            <p style="float:right;"><a class="btn btn-danger btn-lg">Zgłoś błąd</a></p>
+        </div>
+    </div>
+</div>

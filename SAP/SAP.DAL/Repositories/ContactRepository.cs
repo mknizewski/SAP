@@ -1,7 +1,7 @@
 ﻿using SAP.DAL.Abstract;
-using System.Collections.Generic;
 using SAP.DAL.Tables;
 using System;
+using System.Collections.Generic;
 
 namespace SAP.DAL.Repositories
 {
@@ -34,11 +34,12 @@ namespace SAP.DAL.Repositories
         }
 
         #region Dispose
+
         public void Dispose()
         {
             context.Dispose();
         }
 
-        #endregion
+        #endregion Dispose
     }
 }

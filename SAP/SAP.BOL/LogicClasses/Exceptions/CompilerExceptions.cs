@@ -9,7 +9,6 @@ namespace SAP.BOL.LogicClasses.Exceptions
     {
         public ProgramNotFoundException(string message) : base(message)
         {
-
         }
     }
 
@@ -20,7 +19,6 @@ namespace SAP.BOL.LogicClasses.Exceptions
     {
         public LanguageNotFoundException(string message) : base(message)
         {
-
         }
     }
 
@@ -41,9 +39,9 @@ namespace SAP.BOL.LogicClasses.Exceptions
         }
     }
 
-    public class IlegalProgramContentException : Exception
+    public class TimeElasped : Exception
     {
-        public IlegalProgramContentException() : base("W programie znaleziono niedozwolone techniki programistyczne")
+        public TimeElasped() : base("Program przekroczył ograniczony czas")
         {
         }
     }
