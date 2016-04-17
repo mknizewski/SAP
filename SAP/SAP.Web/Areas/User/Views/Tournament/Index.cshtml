@@ -78,6 +78,7 @@
                             <th>Turniej</th>
                             <th>Czas trwania</th>
                             <th>Faza</th>
+                            <th>Tabela wyników</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -87,6 +88,9 @@
                                 <td>@item.Title</td>
                                 <td>@item.StartDate.ToString("HH:mm:ss, dd.MM.yyyy") - @item.EndDate.ToString("HH:mm:ss, dd.MM.yyyy")</td>
                                 <td>@item.Phase</td>
+                                <td>
+                                    <a href="#" class="btn btn-warning">Przejdź</a>
+                                </td>
                             </tr>
                         }
                     </tbody>

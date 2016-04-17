@@ -17,6 +17,10 @@ namespace SAP.DAL.Abstract
 
         void SetTaskActiveFlag(int Id, bool flag);
 
+        void CountScores(int tournamentId, int phaseId);
+
+        void SetPromotions(int tournamentId, int phaseId);
+
         void SetTournamentActiveFlag(int Id, bool flag);
 
         Task<bool> AddTestDataAsync(List<TasksTestData> testData);

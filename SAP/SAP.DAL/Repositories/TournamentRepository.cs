@@ -12,9 +12,9 @@ namespace SAP.DAL.Repositories
     {
         private ApplicationDbContext _context;
 
-        public TournamentRepository(ApplicationDbContext context)
+        public TournamentRepository()
         {
-            _context = context;
+            _context = ApplicationDbContext.Create();
         }
 
         public IEnumerable<HistoryTournamentUsers> HistoryTournamentsUsers
@@ -150,6 +150,56 @@ namespace SAP.DAL.Repositories
             { return false; }
         }
 
+        public void CountScores(int tournamentId, int phaseId)
+        {
+            var solutions = _context.UserSolutions
+                .Where(x => x.TournamentId == tournamentId)
+                .Where(x => x.PhaseId == phaseId)
+                .ToList();
+
+            var users = solutions
+                .Select(x => x.UserId)
+                .Distinct()
+                .ToList();
+
+            var tasks = _context.Tasks
+                .Where(x => x.PhaseId == phaseId)
+                .Where(x => x.TournamentId == tournamentId)
+                .Select(x => x.Id)
+                .ToList();
+
+            //zapisujemy do bazy wyniki z fazy
+            users.ForEach(x =>
+            {
+                decimal totalScore = 0;
+
+                tasks.ForEach(y =>
+                {
+                    var userSolution = solutions
+                        .Where(z => z.TaskId == y)
+                        .Where(z => z.UserId == x)
+                        .Where(z => z.Error != null)
+                        .OrderByDescending(z => z.InsertTime)
+                        .FirstOrDefault();
+
+                    if (userSolution != null)
+                        totalScore += userSolution.Score;
+                });
+
+                var score = new Scores
+                {
+                    UserId = x,
+                    TournamentId = tournamentId,
+                    PhaseId = phaseId,
+                    TotalScore = totalScore
+                };
+
+                _context.Scores.Add(score);
+            });
+
+            _context.SaveChanges();
+        }
+
         public bool CourseSaveChanges(int tourId, int phaseId, int taskId)
         {
             try
@@ -227,6 +277,63 @@ namespace SAP.DAL.Repositories
         {
             var phase = _context.Phase.Find(Id);
             phase.IsActive = flag;
+
+            _context.SaveChanges();
+        }
+
+        public void SetPromotions(int tournamentId, int phaseId)
+        {
+            var phase = _context.Phase.Find(phaseId);
+            var maxUserInPhase = phase.MaxUsers;
+
+            var pervPhaseId = _context.Phase
+                .Where(x => x.TournamentId == tournamentId)
+                .Where(x => x.Order == (phase.Order - 1))
+                .Select(x => x.Id)
+                .FirstOrDefault();
+
+            //sortujemy wyniki
+            var allScoresInPervPhase = _context.Scores
+                .Where(x => x.PhaseId == pervPhaseId)
+                .OrderByDescending(x => x.TotalScore)
+                .ToList();
+
+            //lista osob nieawansujacych - pomijamy osoby które awansowały
+            var userNotAllowed = allScoresInPervPhase
+                .Skip(maxUserInPhase)
+                .ToList();
+
+            //osoby nieawansujące przenosimy do tabeli historycznej i usuwamy rekord w aktualnej tabeli
+            userNotAllowed.ForEach(x =>
+            {
+                var tournamentsUserRow = _context.TournamentUsers.Find(x.UserId);
+                var historyTournamentUser = new HistoryTournamentUsers
+                {
+                    OldId = tournamentsUserRow.Id,
+                    TournamentId = x.TournamentId,
+                    PhaseId = x.PhaseId,
+                    UserId = x.UserId
+                };
+
+                _context.HistoryTournamentUsers.Add(historyTournamentUser);
+                _context.TournamentUsers.Remove(tournamentsUserRow);
+            });
+
+            //przenosimy wyniki do tabelki historycznej i uswamy rekody z aktualnej tabelki
+            allScoresInPervPhase.ForEach(x =>
+            {
+                var historyScores = new HistoryScores
+                {
+                    OldId = x.Id,
+                    PhaseId = x.PhaseId,
+                    TournamentId = x.TournamentId,
+                    UserId = x.UserId,
+                    TotalScore = x.TotalScore
+                };
+
+                _context.HistoryScores.Add(historyScores);
+                _context.Scores.Remove(x);
+            });
 
             _context.SaveChanges();
         }

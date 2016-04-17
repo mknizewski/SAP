@@ -6,6 +6,20 @@
     var type = ViewBag.Type;
     var compilers = ViewBag.Compiler as IEnumerable<SelectListItem>;
     var task = ViewBag.Task as SAP.DAL.Tables.Tasks;
+    string inputType = String.Empty;
+
+    switch (task.InputDataTypeId)
+    {
+        case 0:
+            inputType = "Argumenty przy wywoływaniu";
+            break;
+        case 1:
+            inputType = "Strumień danych";
+            break;
+        case 2:
+            inputType = "Brak";
+            break;
+    }
 }
 
 <script type="text/javascript" src="~/Content/edit_area/edit_area_full.js" language="javascript"></script>
@@ -32,18 +46,19 @@
 
         <h4>Output: </h4>
         <p>@task.Output</p>
-    </div>
-    <div class="col-md-6">
-        <h4>Przykład: </h4>
-        <div class="well">
-            <p>@task.Example</p>
-        </div>
-
         @if (task.PDF != null)
         {
             <h4>PDF :</h4>
             <a href='@Url.Action("GetPDF", new { @taskId = task.Id })' class="btn btn-info">Pobierz <span class="glyphicon glyphicon-download"></span></a>
         }
+    </div>
+    <div class="col-md-6">
+        <h4>Informacje: </h4>
+        <div class="well">
+            <p>Limit czasu wykonania programu: @task.MaxExecuteTime sekund</p>
+            <p>Limit pamięci: @task.MaxExecuteMemory MB</p>
+            <p>Typ wprowadzania danych: @inputType</p>
+        </div>
     </div>
 </div>
 

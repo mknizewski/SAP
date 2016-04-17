@@ -15,5 +15,6 @@ namespace SAP.Web.Areas.User.Models
         public DateTime InsertTime { get; set; }
         public bool IsAccepted { get; set; }
         public string Lang { get; set; }
+        public string Error { get; set; }
     }
 }

@@ -1,5 +1,4 @@
 ﻿using SAP.DAL.Abstract;
-using SAP.DAL.DbContext;
 using SAP.DAL.Repositories;
 using System;
 using System.Collections.Generic;
@@ -7,7 +6,8 @@ using System.Linq;
 
 namespace SAP.BOL.LogicClasses
 {
-    public delegate void ExecuteTask(int Id, bool flag);
+    public delegate void FlagSwitch(int Id, bool flag);
+    public delegate void CountScores(int tournamentId, int phaseId);
 
     public class TodaySystemTask
     {
@@ -15,7 +15,9 @@ namespace SAP.BOL.LogicClasses
 
         private DateTime executeTime;
         private TaskType taskType;
-        private int id;
+        private int taskId;
+        private int tournamentId;
+        private int phaseId;
         private bool flag;
         private bool isRealized = false;
 
@@ -41,10 +43,22 @@ namespace SAP.BOL.LogicClasses
             set { taskType = value; }
         }
 
-        public int Id
+        public int TaskId
         {
-            get { return id; }
-            set { id = value; }
+            get { return taskId; }
+            set { taskId = value; }
+        }
+
+        public int PhaseId
+        {
+            get { return phaseId; }
+            set { phaseId = value; }
+        }
+
+        public int TournamentId
+        {
+            get { return tournamentId; }
+            set { tournamentId = value; }
         }
 
         public bool Flag
@@ -53,7 +67,8 @@ namespace SAP.BOL.LogicClasses
             set { flag = value; }
         }
 
-        public ExecuteTask ExecuteTask = null;
+        public FlagSwitch FlagSwitch = null;
+        public CountScores CountScores = null;
 
         #endregion PublicFields
 
@@ -64,8 +79,21 @@ namespace SAP.BOL.LogicClasses
 
             if (compare == 0)
             {
-                ExecuteTask(id, flag);
-                isRealized = true;
+                switch(taskType)
+                {
+                    case TaskType.ScoreCount:
+                        CountScores(tournamentId, phaseId);
+                        IsRealized = true;
+                        break;
+                    case TaskType.SetPromotions:
+                        CountScores(tournamentId, phaseId);
+                        IsRealized = true;
+                        break;
+                    default:
+                        FlagSwitch(taskId, flag);
+                        isRealized = true;
+                        break;
+                }
                 return true;
             }
             else
@@ -73,21 +101,20 @@ namespace SAP.BOL.LogicClasses
         }
     }
 
-    public static class TodoList
+    public static class TodoManager
     {
         public static List<TodaySystemTask> todayTasks;
         private static ITournamentRepository _tournamentRepo;
         public static DateTime LastSynchronized;
 
-        static TodoList()
+        static TodoManager()
         {
-            _tournamentRepo = new TournamentRepository(ApplicationDbContext.Create());
-            GC.KeepAlive(_tournamentRepo);
+            _tournamentRepo = new TournamentRepository();
         }
 
         public static void InicializeTodayTasks()
         {
-            _tournamentRepo = new TournamentRepository(ApplicationDbContext.Create());
+            _tournamentRepo = new TournamentRepository();
             ServerConfig.SynchronizeData = true;
             todayTasks = new List<TodaySystemTask>();
             DateTime today = DateTime.Now;
@@ -105,8 +132,8 @@ namespace SAP.BOL.LogicClasses
                 {
                     var task = new TodaySystemTask();
 
-                    task.Id = item.Id;
-                    task.ExecuteTask += SetTournament;
+                    task.TaskId = item.Id;
+                    task.FlagSwitch += SetTournament;
                     task.ExecuteTime = item.StartDate;
                     task.Flag = true;
                     task.TaskType = TaskType.StartTournament;
@@ -127,8 +154,8 @@ namespace SAP.BOL.LogicClasses
                 {
                     var task = new TodaySystemTask();
 
-                    task.Id = item.Id;
-                    task.ExecuteTask += SetTournament;
+                    task.TaskId = item.Id;
+                    task.FlagSwitch += SetTournament;
                     task.ExecuteTime = item.EndDate;
                     task.Flag = false;
                     task.TaskType = TaskType.EndTournament;
@@ -149,17 +176,30 @@ namespace SAP.BOL.LogicClasses
                     var activePhase = new TodaySystemTask();
                     var activeTask = new TodaySystemTask();
 
-                    activeTask.Id = item.Id;
+                    activeTask.TaskId = item.Id;
                     activeTask.Flag = true;
                     activeTask.ExecuteTime = item.StartDate;
-                    activeTask.ExecuteTask += SetTask;
+                    activeTask.FlagSwitch += SetTask;
                     activeTask.TaskType = TaskType.StartTask;
 
-                    activePhase.Id = item.PhaseId;
+                    activePhase.TaskId = item.PhaseId;
                     activePhase.Flag = true;
                     activePhase.ExecuteTime = item.StartDate;
-                    activePhase.ExecuteTask += SetPhase;
+                    activePhase.FlagSwitch += SetPhase;
                     activePhase.TaskType = TaskType.StartPhase;
+
+                    if (item.Phase.Order != 1)
+                    {
+                        var setPromo = new TodaySystemTask();
+
+                        setPromo.TournamentId = item.TournamentId;
+                        setPromo.PhaseId = item.PhaseId;
+                        setPromo.ExecuteTime = item.StartDate;
+                        setPromo.CountScores += SetPromotions;
+                        setPromo.TaskType = TaskType.SetPromotions;
+
+                        todayTasks.Add(setPromo);
+                    }
 
                     todayTasks.Add(activeTask);
                     todayTasks.Add(activePhase);
@@ -168,10 +208,10 @@ namespace SAP.BOL.LogicClasses
                 {
                     var activeTask = new TodaySystemTask();
 
-                    activeTask.Id = item.Id;
+                    activeTask.TaskId = item.Id;
                     activeTask.Flag = true;
                     activeTask.ExecuteTime = item.StartDate;
-                    activeTask.ExecuteTask += SetTask;
+                    activeTask.FlagSwitch += SetTask;
                     activeTask.TaskType = TaskType.StartTask;
 
                     todayTasks.Add(activeTask);
@@ -189,32 +229,38 @@ namespace SAP.BOL.LogicClasses
                 {
                     var disableTask = new TodaySystemTask();
                     var disablePhase = new TodaySystemTask();
+                    var countScore = new TodaySystemTask();
 
-                    disableTask.Id = item.Id;
+                    disableTask.TaskId = item.Id;
                     disableTask.ExecuteTime = item.EndDate;
                     disableTask.Flag = false;
-                    disableTask.ExecuteTask += SetTask;
+                    disableTask.FlagSwitch += SetTask;
                     disableTask.TaskType = TaskType.EndTask;
 
-                    disablePhase.Id = item.PhaseId;
+                    disablePhase.TaskId = item.PhaseId;
                     disablePhase.ExecuteTime = item.EndDate;
                     disablePhase.Flag = false;
-                    disablePhase.ExecuteTask += SetPhase;
+                    disablePhase.FlagSwitch += SetPhase;
                     disablePhase.TaskType = TaskType.EndPhase;
 
-                    //TODO: Opracować algorytm zliczania puntków na koniec fazy
+                    countScore.PhaseId = item.PhaseId;
+                    countScore.ExecuteTime = item.EndDate;
+                    countScore.TournamentId = item.TournamentId;
+                    countScore.CountScores += CountScores;
+                    countScore.TaskType = TaskType.ScoreCount;
 
                     todayTasks.Add(disablePhase);
                     todayTasks.Add(disableTask);
+                    todayTasks.Add(countScore);
                 }
                 else
                 {
                     var disableTask = new TodaySystemTask();
 
-                    disableTask.Id = item.Id;
+                    disableTask.TaskId = item.Id;
                     disableTask.ExecuteTime = item.EndDate;
                     disableTask.Flag = false;
-                    disableTask.ExecuteTask += SetTask;
+                    disableTask.FlagSwitch += SetTask;
                     disableTask.TaskType = TaskType.EndTask;
 
                     todayTasks.Add(disableTask);
@@ -230,9 +276,19 @@ namespace SAP.BOL.LogicClasses
             {
                 for (int i = 0; i < todayTasks.Count; i++)
                 {
-                    bool result = todayTasks[i].Execute(now);
+                    todayTasks[i].Execute(now);
                 }
             }
+        }
+
+        public static void SetPromotions(int tournamentId, int phaseId)
+        {
+            _tournamentRepo.SetPromotions(tournamentId, phaseId);
+        }
+
+        public static void CountScores(int tournamentId, int phaseId)
+        {
+            _tournamentRepo.CountScores(tournamentId, phaseId);
         }
 
         public static void SetPhase(int id, bool flag)
@@ -258,6 +314,8 @@ namespace SAP.BOL.LogicClasses
         StartTournament,
         EndTournament,
         StartTask,
-        EndTask
+        EndTask,
+        ScoreCount,
+        SetPromotions
     }
 }

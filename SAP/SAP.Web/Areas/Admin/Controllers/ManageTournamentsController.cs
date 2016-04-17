@@ -246,28 +246,46 @@ namespace SAP.Web.Areas.Admin.Controllers
 
         public ActionResult TodaySystemTask()
         {
-            var todayTask = TodoList.todayTasks;
+            var todayTask = TodoManager.todayTasks;
 
             List<TodaySystemTaskViewModel> viewModel = new List<TodaySystemTaskViewModel>();
 
             todayTask.ForEach(x =>
             {
                 TodaySystemTaskViewModel task = new TodaySystemTaskViewModel();
-                task.Id = x.Id;
+                
+                switch (x.TaskType)
+                {
+                    case TaskType.ScoreCount:
+                        task.TournamentId = x.TournamentId;
+                        task.PhaseId = x.PhaseId;
+                        task.TypeOfTask = "Podsumowanie wyników";
+                        break;
+                    case TaskType.SetPromotions:
+                        task.TournamentId = x.TournamentId;
+                        task.PhaseId = x.PhaseId;
+                        task.TypeOfTask = "Przydzielenie awansów";
+                        break;
+                    default:
+                        task.TaskId = x.TaskId;
+                        task.TypeOfTask = x.TaskType == TaskType.StartPhase ? "Start fazy"
+                        : x.TaskType == TaskType.EndPhase ? "Koniec fazy"
+                        : x.TaskType == TaskType.StartTask ? "Start zadania"
+                        : x.TaskType == TaskType.EndTask ? "Koniec zadania"
+                        : x.TaskType == TaskType.StartTournament ? "Początek turnieju"
+                        : x.TaskType == TaskType.EndTournament ? "Koniec turnieju"
+                        : String.Empty;
+                        break;
+                }
+
                 task.ExecuteTime = x.ExecuteTime;
                 task.IsRealized = x.IsRealized;
-                task.TypeOfTask = x.TaskType == TaskType.StartPhase ? "Start fazy"
-                : x.TaskType == TaskType.EndPhase ? "Koniec fazy"
-                : x.TaskType == TaskType.StartTask ? "Start zadania"
-                : x.TaskType == TaskType.EndTask ? "Koniec zadania"
-                : x.TaskType == TaskType.StartTournament ? "Początek turnieju"
-                : x.TaskType == TaskType.EndTournament ? "Koniec turnieju"
-                : String.Empty;
+                task.TaskType = x.TaskType;
 
                 viewModel.Add(task);
             });
 
-            ViewBag.LastSynchro = TodoList.LastSynchronized;
+            ViewBag.LastSynchro = TodoManager.LastSynchronized;
 
             return View(viewModel);
         }
@@ -291,7 +309,7 @@ namespace SAP.Web.Areas.Admin.Controllers
 
         public ActionResult Synchronize()
         {
-            TodoList.InicializeTodayTasks();
+            TodoManager.InicializeTodayTasks();
 
             return RedirectToAction("TodaySystemTask");
         }

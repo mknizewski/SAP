@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using System.Web.Hosting;
 
 namespace SAP.Web.Areas.Tournament.Controllers
 {
@@ -15,13 +16,11 @@ namespace SAP.Web.Areas.Tournament.Controllers
     public class ActionController : Controller
     {
         private ITournamentManager _tournamentManager;
-        private IProgramManager _programManager;
         private IUserManager _userManager;
 
-        public ActionController(ITournamentManager tournamentManager, IProgramManager programManager, IUserManager userManager)
+        public ActionController(ITournamentManager tournamentManager, IUserManager userManager)
         {
             _tournamentManager = tournamentManager;
-            _programManager = programManager;
             _userManager = userManager;
         }
 
@@ -87,24 +86,26 @@ namespace SAP.Web.Areas.Tournament.Controllers
         [ValidateAntiForgeryToken]
         [ValidateInput(false)]
         [HttpPost]
-        public async Task<ActionResult> Solution(SolutionViewModel viewModel)
+        public ActionResult Solution(SolutionViewModel viewModel)
         {
-            await System.Threading.Tasks.Task.Run(() =>
+            string userId = User.Identity.GetUserId();
+            SolutionManager solutionManager;
+
+            if (viewModel.File != null)
             {
-                string userId = User.Identity.GetUserId();
-                SolutionManager solutionManager;
+                byte[] file = new byte[viewModel.File.ContentLength];
+                viewModel.File.InputStream.Read(file, 0, file.Length); //zapisujemy plik w postaci bitów
 
-                if (viewModel.File != null)
-                {
-                    byte[] file = new byte[viewModel.File.ContentLength];
-                    viewModel.File.InputStream.Read(file, 0, file.Length); //zapisujemy plik w postaci bitów
+                solutionManager = new SolutionManager(file, userId, viewModel.TaskId, (CompilerType)viewModel.SelectedLang);
+            }
+            else
+                solutionManager = new SolutionManager(viewModel.Program, userId, viewModel.TaskId, (CompilerType)viewModel.SelectedLang);
 
-                    solutionManager = new SolutionManager(file, userId, viewModel.TaskId, (CompilerType)viewModel.SelectedLang);
-                }
-                else
-                    solutionManager = new SolutionManager(viewModel.Program, userId, viewModel.TaskId, (CompilerType)viewModel.SelectedLang);
+            solutionManager.IniclizeManagers();
 
-                solutionManager.CheckSolution(_programManager, _userManager, _tournamentManager);
+            HostingEnvironment.QueueBackgroundWorkItem(x => 
+            {         
+                solutionManager.CheckSolution();
             });
 
             TempData["Alert"] = SetAlert.Set("Dziękujemy za przesłanie zgłoszenia! Wynik możesz poznać w sekcji <b>Zgłoszone rozwiązania</b> w menu.", "Sukces", AlertType.Success);
@@ -138,9 +139,6 @@ namespace SAP.Web.Areas.Tournament.Controllers
             {
                 _tournamentManager.Dispose();
                 _tournamentManager = null;
-
-                _programManager.Dispose();
-                _programManager = null;
 
                 _userManager.Dispose();
                 _userManager = null;

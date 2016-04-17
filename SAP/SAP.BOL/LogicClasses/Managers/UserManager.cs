@@ -126,7 +126,7 @@ namespace SAP.BOL.LogicClasses.Managers
             return result;
         }
 
-        public bool AddSolution(int taskId, int tourId, string userId, int compilerId, int score, string program, double memUsage, double timeUsage)
+        public bool AddSolution(int taskId, int tourId, string userId, int compilerId, int score, string program, double memUsage, double timeUsage, string error)
         {
             UserSolutions solution = new UserSolutions
             {
@@ -138,7 +138,8 @@ namespace SAP.BOL.LogicClasses.Managers
                 Program = program,
                 MemoryUsage = memUsage,
                 ExecutedTime = timeUsage,
-                InsertTime = DateTime.Now
+                InsertTime = DateTime.Now,
+                Error = error
             };
 
             bool result = _userRepository.AddSolution(solution);

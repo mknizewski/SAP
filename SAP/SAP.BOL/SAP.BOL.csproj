@@ -57,6 +57,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Abstract\IContactManager.cs" />
+    <Compile Include="Abstract\INewsManager.cs" />
     <Compile Include="Abstract\IProgramManager.cs" />
     <Compile Include="Abstract\ITournamentManager.cs" />
     <Compile Include="Abstract\IUserManager.cs" />
@@ -65,6 +66,7 @@
     <Compile Include="HelperClasses\SetAlert.cs" />
     <Compile Include="HelperClasses\TournamentsPagination.cs" />
     <Compile Include="HelperClasses\UserData.cs" />
+    <Compile Include="LogicClasses\Managers\NewsManager.cs" />
     <Compile Include="LogicClasses\Managers\TournamentManager.cs" />
     <Compile Include="LogicClasses\ProgramManager.cs" />
     <Compile Include="LogicClasses\Managers\ContactManager.cs" />

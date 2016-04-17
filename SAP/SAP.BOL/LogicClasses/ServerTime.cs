@@ -33,7 +33,7 @@ namespace SAP.BOL.LogicClasses
             serverTimer.Interval = 1000; // 1 sekunda
             serverTimer.Start();
 
-            TodoList.InicializeTodayTasks(); //Pierwsza wstępna inicjalizacja tasków
+            TodoManager.InicializeTodayTasks(); //Pierwsza wstępna inicjalizacja tasków
 
             //Ustawienia Garbage Collector w celu zapobiegnięcia usunięcia
             GC.KeepAlive(serverTimer);
@@ -63,11 +63,11 @@ namespace SAP.BOL.LogicClasses
 
             if (serverDateTime.TimeOfDay == TimeSpan.Zero)
             {
-                TodoList.Execute(serverDateTime);
-                TodoList.InicializeTodayTasks();
+                TodoManager.Execute(serverDateTime);
+                TodoManager.InicializeTodayTasks();
             }
             else
-                TodoList.Execute(serverDateTime);
+                TodoManager.Execute(serverDateTime);
         }
 
         public static void Dispose()

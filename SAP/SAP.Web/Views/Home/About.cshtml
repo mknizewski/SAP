@@ -1,7 +1,29 @@
-﻿@{
-    ViewBag.Title = "About";
+﻿@using SAP.Web.HTMLHelpers
+@model SAP.Web.Models.InfoNewsViewModel
+@{
+    ViewBag.Title = "Aktualności";
 }
-<h2>@ViewBag.Title.</h2>
-<h3>@ViewBag.Message</h3>
 
-<p>Use this area to provide additional information.</p>
+<h1>Aktualności</h1>
+<hr />
+
+<div>
+    @foreach (var item in Model.News)
+    {
+        <h2>@item.Title</h2>
+        <p class="text-justify">@item.Description</p>
+        <p class="pull-right">Data publikacji: @item.InsertTime.ToString("HH:mm:ss, dd.MM.yyyy")</p>
+        <br />
+    }
+</div>
+
+<div>
+    @Html.Page(Model.CurrentPage, Model.TotalPages, x => Url.Action("About", new { @page = x }))
+</div>
+
+<br />
+
+<ul class="breadcrumb">
+    <li><a href='@Url.Action("Index", "Home", new { area = ""})'>Główna</a></li>
+    <li class="active">Aktualności</li>
+</ul>

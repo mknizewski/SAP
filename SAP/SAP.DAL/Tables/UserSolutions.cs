@@ -12,6 +12,9 @@ namespace SAP.DAL.Tables
         [ForeignKey("Tournament")]
         public int TournamentId { get; set; }
 
+        [ForeignKey("Phase")]
+        public int PhaseId { get; set; }
+
         [ForeignKey("Task")]
         public int TaskId { get; set; }
 
@@ -26,8 +29,10 @@ namespace SAP.DAL.Tables
         public double MemoryUsage { get; set; }
         public double ExecutedTime { get; set; }
         public DateTime InsertTime { get; set; }
+        public string Error { get; set; }
 
         public virtual Tournament Tournament { get; set; }
+        public virtual Phase Phase { get; set; }
         public virtual Tasks Task { get; set; }
         public virtual ApplicationUser User { get; set; }
         public virtual Compilers Compiler { get; set; }

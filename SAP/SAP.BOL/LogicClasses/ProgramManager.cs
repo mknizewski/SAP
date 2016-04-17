@@ -23,11 +23,12 @@ namespace SAP.BOL.LogicClasses
         private string inputData;
         private bool hasErrors;
         private double maxTime;
-        private Task executeTask;
+        private double maxMemory;
         private Timer timer;
         private string sourceFile;
         private double memoryUsed;
         private InputDataType inputDataType;
+        private Process exec;
 
         public string TempPath { get { return tempPath; } }
         public string CompiledFile { get { return compiledFile; } }
@@ -38,7 +39,8 @@ namespace SAP.BOL.LogicClasses
         public string OutputData { get { return outputData; } }
         public string InputData { get { return inputData; } set { inputData = value; } }
         public bool HasError { get { return hasErrors; } }
-        public double MaxTime { get { return maxTime; } set { maxTime = value; } }
+        public double MaxTime { get { return maxTime; } set { maxTime = value / 0.001; } }
+        public double MaxMemory { get { return maxMemory; } set { maxMemory = value; } }
         public double MemoryUsed { get { return memoryUsed; } }
         public InputDataType InputDataType { get { return inputDataType; } set { inputDataType = value; } }
 
@@ -64,8 +66,6 @@ namespace SAP.BOL.LogicClasses
                 throw new ProgramNotFoundException("Program nie został załadowany do pola Program");
             else if (!language.HasValue)
                 throw new LanguageNotFoundException("Język nie został załadowany do pola Language");
-
-            //TODO: Sprawdzenie programu pod kątem niedozwolonych technik programistycznych
 
             //działanie
             Process compile = new Process();
@@ -124,7 +124,7 @@ namespace SAP.BOL.LogicClasses
             if (compiledFile == String.Empty)
                 throw new ProgramNotCompiledException("Program nie został skompilowany");
 
-            Process exec = new Process();
+            exec = new Process();
             ProcessStartInfo execInfo = new ProcessStartInfo();
 
             execInfo.UseShellExecute = false;
@@ -142,7 +142,7 @@ namespace SAP.BOL.LogicClasses
                 timer.Interval = maxTime;
                 timer.Elapsed += StopTask;
 
-                //timer.Start();
+                timer.Start();
                 switch (inputDataType)
                 {
                     case InputDataType.Arguments:
@@ -181,26 +181,24 @@ namespace SAP.BOL.LogicClasses
                 //TODO: Algorytm wykonania programu javy
             }
 
-            // timer.Stop();
-            // timer.Dispose();
+            timer.Stop();
+            timer.Dispose();
         }
 
         private void StopTask(object state, ElapsedEventArgs e)
         {
-            if (executeTask.Status == TaskStatus.Faulted)
-            {
-                executeTask.Dispose();
-                timer.Stop();
-                timer.Dispose();
+            exec.Kill();
 
-                hasErrors = true;
-                errorInfo = "Program przekroczył wyznaczony czas!";
-            }
+            hasErrors = true;
+            errorInfo = "Program przekroczył zadany czas";
         }
 
         public void Dispose()
         {
             Directory.Delete(tempPath, true);
+
+            exec.Dispose();
+            timer.Dispose();
         }
     }
 

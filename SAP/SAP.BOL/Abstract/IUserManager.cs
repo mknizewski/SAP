@@ -23,7 +23,7 @@ namespace SAP.BOL.Abstract
 
         UsersCounselor GetUserCounselorById(string userId);
 
-        bool AddSolution(int taskId, int tourId, string userId, int compilerId, int score, string program, double memUsage, double timeUsage);
+        bool AddSolution(int taskId, int tourId, string userId, int compilerId, int score, string program, double memUsage, double timeUsage, string error);
 
         void Dispose();
     }

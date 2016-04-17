@@ -1,0 +1,263 @@
+﻿@using SAP.Web.HTMLHelpers
+@model SAP.Web.Areas.Admin.Models.InfoNewsViewModel
+@{
+    ViewBag.Title = "Zarządzanie aktualnościami";
+}
+
+<h2>Zarządzanie aktualnościami.</h2>
+<hr />
+
+<div id="myModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Wybierz jedną z poniższych opcji</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-4">
+                        Zmiana ustawień konta
+                    </div>
+                    <div class="col-md-8">
+                        <a href='@Url.Action("ChangeData", "ManageUser")' class="btn btn-info">Przejdź &raquo;</a>
+                    </div>
+                </div>
+                <br />
+                <div class="row">
+                    <div class="col-md-4">
+                        Zmiana hasła
+                    </div>
+                    <div class="col-md-8">
+                        <a href='@Url.Action("ChangePassword", "ManageUser")' class="btn btn-info">Przejdź &raquo;</a>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Zamknij</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-3">
+        <div class="list-group">
+            <a href='@Url.Action("Index", "Home")' class="list-group-item">
+                <h4 class="list-group-item-heading">Główna</h4>
+            </a>
+            <a href="#" data-toggle="modal" data-target="#myModal" class="list-group-item">
+                <h4 class="list-group-item-heading">Ustawienia</h4>
+            </a>
+            <a href='@Url.Action("ManageAccounts", "ManageUser")' class="list-group-item">
+                <h4 class="list-group-item-heading">Zarządzanie kontami</h4>
+            </a>
+            <a href='@Url.Action("Index", "ManageTournaments")' class="list-group-item active">
+                <h4 class="list-group-item-heading">Zarządzanie turniejami</h4>
+            </a>
+            <a href="#" class="list-group-item">
+                <h4 class="list-group-item-heading">Zarządzanie kompilatorami</h4>
+            </a>
+        </div>
+        <button onclick="addNews(this)" type="button" style="margin-bottom:20px;" class="btn btn-success pull-right btn-block">Dodaj news</button>
+    </div>
+    <div class="col-md-9">
+        <div id="alert"></div>
+        @if (Model.News.Count != 0)
+        {
+            <div class="panel-group" id="accordion">
+                @foreach (var item in Model.News)
+                {
+                  <div class="panel panel-default" id="all-@item.Id">
+                      <div class="panel-heading">
+                          <div class="panel-title">
+                              <a id="title-@item.Id" data-toggle="collapse" data-parent="#accordion" href="#@item.Id">@item.Title</a>
+                              <a href="#" onclick="deleteNews(@item.Id)" class="pull-right"><span class="glyphicon glyphicon-remove-circle"></span></a>
+                              <a href="#" onclick="editNews(@item.Id)" style="margin-right:10px;" class="pull-right"><span class="glyphicon glyphicon-edit"></span></a>
+                          </div>
+                      </div>
+                      <div id="@item.Id" class="panel-collapse collapse in">
+                          <div class="panel-body" id="body-@item.Id">
+                              <p class="text-justify" id="text-@item.Id">@item.Description</p>
+                              <p class="pull-right" id="date-@item.Id">Data publikacji: @item.InsertTime.ToString("HH:mm:ss, dd.MM.yyyy")</p>
+                          </div>
+                      </div>
+                  </div>  
+                }
+            </div>
+        }
+        else
+        {
+            <p class="text-danger">Brak aktualności</p>
+        }
+        <div class="panel panel-primary" style="display:none;" id="addNews">
+            <div class="panel-heading">
+                <div class="panel-title">Dodaj news</div>
+            </div>
+            <div class="panel-body">
+                <form class="form-horizontal">
+
+                    <div class="form-group">
+                        <label for="inputTitle" class="control-label col-md-2">Tytuł</label>
+                        <div class="col-md-10">
+                            <input type="text" class="form-control" name="inputTitle" id="inputTitle" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="inputDesc" class="control-label col-md-2">Treść</label>
+                        <div class="col-md-10">
+                            <textarea name="inputDesc" class="form-control" id="inputDesc"></textarea>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+        <button id="undoBtn" type="button" style="margin-bottom:20px; display:none;" class="btn btn-primary pull-right">Cofnij</button>
+        <div style="margin-bottom:20px;">
+            @Html.Page(Model.CurrentPage, Model.TotalPages, x => Url.Action("Index", new { @page = x }))
+        </div>
+
+    </div>
+</div>
+
+<ul class="breadcrumb">
+    <li><a href='@Url.Action("Index", "Home", new { area = ""})'>Główna</a></li>
+    <li><a href='@Url.Action("Index", "Home")'>Administrator</a></li>
+    <li><a href='@Url.Action("Index", "ManageTournaments")'>Zarządzanie turniejami</a></li>
+    <li class="active">Zarządzanie aktualnościami</li>
+</ul>
+
+<script type="text/javascript">
+
+    function editNews (id)
+    {
+        var body = document.getElementById("body-" + id);
+        var text = document.getElementById("text-" + id);
+        var date = document.getElementById("date-" + id);
+
+        var undoBtn = document.createElement("button");
+        var saveBtn = document.createElement("button");
+        var textArea = document.createElement("textarea");
+
+        undoBtn.style.marginTop = "15px";
+        undoBtn.className = "btn btn-primary";
+        undoBtn.innerText = "Cofnij";
+        undoBtn.onclick = function () {
+            undo (body, text, date);
+        };
+
+        saveBtn.style.marginBottom = "-15px";
+        saveBtn.className = "btn btn-success";
+        saveBtn.innerText = "Zapisz zmiany";
+        saveBtn.onclick = function () {
+            saveChanges (id, textArea, text);
+            undo (body, text, date);
+        };
+
+        textArea.className = "form-control";
+        textArea.value = text.innerText;
+
+        body.removeChild(text);
+        body.removeChild(date);
+
+        body.appendChild(textArea);
+        body.appendChild(undoBtn);
+        body.appendChild(saveBtn);
+        body.appendChild(date);
+    }
+
+    function undo (body, text, date)
+    {
+        while (body.firstChild) {
+            body.removeChild(body.firstChild);
+        }
+
+        body.appendChild(text);
+        body.appendChild(date);
+    }
+
+    function saveChanges (id, textArea, text)
+    {
+        text.innerText = textArea.value;
+
+        $.post('@Url.Action("EditNews")',
+        {
+            id: id,
+            desc: textArea.value
+        },
+        function (data)
+        {
+            $("#alert").empty();
+            $("#alert").append(data);
+        });
+    }
+
+    function deleteNews (id)
+    {
+        var result = confirm("Czy na pewno chcesz usunąć news?");
+
+        if (result == true)
+        {
+            $.post('@Url.Action("DeleteNews")',
+            {
+                id: id
+            },
+            function (data) {
+                $("#alert").empty();
+                $("#alert").append(data);
+                $("#all-" + id).remove();
+            });
+        }
+    }
+
+    function addNews (btn)
+    {
+        var form = document.getElementById("addNews");
+        var undoBtn = document.getElementById("undoBtn");
+
+        form.style.display = "block";
+        undoBtn.style.display = "block";
+
+        btn.onclick = function () {
+            saveNewNews();
+            hideForm(form, undoBtn, btn);
+        };
+
+        undoBtn.onclick = function () {
+            hideForm(form, undoBtn, btn);
+        };
+    }
+
+    function saveNewNews ()
+    {
+        var inTitle = document.getElementById("inputTitle");
+        var inDesc = document.getElementById("inputDesc");
+
+        $.post('@Url.Action("AddNews")',
+            {
+                title: inTitle.value,
+                description: inDesc.value
+            },
+            function (data)
+            {
+                $("#alert").empty();
+                $("#alert").append(data);
+
+                inTitle.value = "";
+                inDesc.value = "";
+            });
+    }
+
+    function hideForm (form, undoBtn, addBtn)
+    {
+        form.style.display = "none";
+        undoBtn.style.display = "none";
+
+        addBtn.onclick = function () {
+            addNews(addBtn);
+        };
+    }
+
+</script>

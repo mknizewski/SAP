@@ -26,8 +26,6 @@ namespace SAP.DAL.DbContext
         public DbSet<Messages> Messages { get; set; }
 
         //tabele -- historyczne
-        public DbSet<HistoryFinalPhaseScores> HistoryFinalPhaseScores { get; set; }
-
         public DbSet<HistoryScores> HistoryScores { get; set; }
         public DbSet<HistoryTournamentUsers> HistoryTournamentUsers { get; set; }
 
@@ -84,7 +82,6 @@ namespace SAP.DAL.DbContext
             modelBuilder.Entity<TournamentUsers>().HasRequired(x => x.User).WithMany().WillCascadeOnDelete(false);
 
             modelBuilder.Entity<Compilers>().HasKey(x => x.Id);
-            modelBuilder.Entity<Tables.TaskStatus>().HasKey(x => x.Id);
 
             modelBuilder.Entity<Scores>().HasKey(x => x.Id);
             modelBuilder.Entity<Scores>().HasRequired(x => x.Phase).WithMany().WillCascadeOnDelete(false);
@@ -93,11 +90,11 @@ namespace SAP.DAL.DbContext
 
             modelBuilder.Entity<UserSolutions>().HasKey(x => x.Id);
             modelBuilder.Entity<UserSolutions>().HasRequired(x => x.Task).WithMany().WillCascadeOnDelete(false);
+            modelBuilder.Entity<UserSolutions>().HasRequired(x => x.Phase).WithMany().WillCascadeOnDelete(false);
             modelBuilder.Entity<UserSolutions>().HasRequired(x => x.Tournament).WithMany().WillCascadeOnDelete(false);
             modelBuilder.Entity<UserSolutions>().HasRequired(x => x.User).WithMany().WillCascadeOnDelete(false);
             modelBuilder.Entity<UserSolutions>().HasRequired(x => x.Compiler).WithMany().WillCascadeOnDelete(false);
 
-            modelBuilder.Entity<HistoryFinalPhaseScores>().HasKey(x => x.Id);
             modelBuilder.Entity<HistoryScores>().HasKey(x => x.Id);
             modelBuilder.Entity<HistoryTournamentUsers>().HasKey(x => x.Id);
         }

@@ -44,6 +44,9 @@ namespace SAP.Web.Infrastructrue.IoC
 
             _kernel.Bind<IUserRepository>().To<UserRepository>();
             _kernel.Bind<IUserManager>().To<UserManager>();
+
+            _kernel.Bind<INewsRepository>().To<NewsRepository>();
+            _kernel.Bind<INewsManager>().To<NewsManager>();
         }
     }
 }

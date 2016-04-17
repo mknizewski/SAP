@@ -2,7 +2,10 @@
 using SAP.BOL.Abstract;
 using SAP.BOL.HelperClasses;
 using SAP.Web.Models;
+using System;
+using System.Collections.Generic;
 using System.Configuration;
+using System.Linq;
 using System.Web.Mvc;
 
 namespace SAP.Web.Controllers
@@ -10,10 +13,12 @@ namespace SAP.Web.Controllers
     public class HomeController : Controller
     {
         private IContactManager _contactManager;
+        private INewsManager _newsManager;
 
-        public HomeController(IContactManager contactManager)
+        public HomeController(IContactManager contactManager, INewsManager newsManager)
         {
             _contactManager = contactManager;
+            _newsManager = newsManager;
         }
 
         public ActionResult Index()
@@ -21,16 +26,36 @@ namespace SAP.Web.Controllers
             return View();
         }
 
-        public ActionResult NotFound(string aspxerrorpath)
+        public ActionResult About(int page = 1)
         {
-            return View();
-        }
+            var viewModel = new InfoNewsViewModel();
+            var dbModel = _newsManager.News.ToList();
+            var listViewModel = new List<NewsViewModel>();
 
-        public ActionResult About()
-        {
-            ViewBag.Message = "Your application description page.";
+            viewModel.CurrentPage = page;
+            viewModel.TotalPages = (int)Math.Ceiling((decimal)dbModel.Count / 5);
 
-            return View();
+            dbModel = dbModel
+                .OrderByDescending(x => x.Id)
+                .Skip((page - 1) * 5)
+                .Take(5)
+                .ToList();
+
+            dbModel.ForEach(x =>
+            {
+                var model = new NewsViewModel
+                {
+                    Title = x.Title,
+                    Description = x.Description,
+                    InsertTime = x.InsertTime
+                };
+
+                listViewModel.Add(model);
+            });
+
+            viewModel.News = listViewModel;
+
+            return View(viewModel);
         }
 
         public ActionResult Contact()
@@ -84,6 +109,9 @@ namespace SAP.Web.Controllers
         {
             _contactManager.Dispose();
             _contactManager = null;
+
+            _newsManager.Dispose();
+            _newsManager = null;
 
             base.Dispose(disposing);
         }

@@ -18,7 +18,6 @@ namespace SAP.DAL.Tables
         public int PhaseId { get; set; }
 
         public decimal TotalScore { get; set; }
-        public bool AllowToNextPhase { get; set; }
 
         public virtual Tournament Tournament { get; set; }
         public virtual ApplicationUser User { get; set; }

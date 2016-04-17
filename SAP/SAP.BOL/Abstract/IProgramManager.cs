@@ -14,6 +14,7 @@ namespace SAP.BOL.Abstract
         string InputData { get; set; }
         bool HasError { get; }
         double MaxTime { get; set; }
+        double MaxMemory { get; set; }
         double MemoryUsed { get; }
         InputDataType InputDataType { get; set; }
 

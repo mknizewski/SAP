@@ -1,4 +1,5 @@
-﻿@model List<SAP.Web.Areas.Admin.Models.TodaySystemTaskViewModel>
+﻿@using SAP.BOL.LogicClasses
+@model List<SAP.Web.Areas.Admin.Models.TodaySystemTaskViewModel>
 @{
     ViewBag.Title = "Dzienne zadania systemowe";
     DateTime lastSync = ViewBag.LastSynchro;
@@ -70,7 +71,18 @@
                     @foreach (var item in Model)
                     {
                         string isRealized = item.IsRealized == true ? "Zrealizowane" : "Niezrealizowane";
-                        <li>@item.TypeOfTask, ID: @item.Id, Godzina: @item.ExecuteTime.ToString("HH:mm:ss, dd.MM.yyyy") - @isRealized</li>
+                        switch (item.TaskType)
+                        {
+                            case TaskType.ScoreCount:
+                                <li>@item.TypeOfTask, Turniej: @item.TournamentId, Faza: @item.PhaseId Godzina: @item.ExecuteTime.ToString("HH:mm:ss, dd.MM.yyyy") - @isRealized</li>
+                                break;
+                            case TaskType.SetPromotions:
+                                <li>@item.TypeOfTask, Turniej: @item.TournamentId, Faza: @item.PhaseId Godzina: @item.ExecuteTime.ToString("HH:mm:ss, dd.MM.yyyy") - @isRealized</li>
+                                break;
+                            default:
+                                <li>@item.TypeOfTask, ID: @item.TaskId, Godzina: @item.ExecuteTime.ToString("HH:mm:ss, dd.MM.yyyy") - @isRealized</li>
+                                break;
+                        }
                     }
                     @if (Model.Count == 0)
                     {

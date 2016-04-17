@@ -42,7 +42,8 @@ namespace SAP.Web.Areas.User.Controllers
                     MemUsage = x.MemoryUsage,
                     TimeUsage = x.ExecutedTime,
                     IsAccepted = x.Score == 0 ? false : true,
-                    Lang = ((CompilerType)x.CompilerId).ToString()
+                    Lang = ((CompilerType)x.CompilerId).ToString(),
+                    Error = x.Error
                 };
 
                 viewModel.Add(ssvm);

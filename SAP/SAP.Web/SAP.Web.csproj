@@ -241,9 +241,11 @@
     <Compile Include="Areas\Admin\Controllers\ManageCompilersController.cs" />
     <Compile Include="Areas\Admin\Controllers\ManageTournamentsController.cs" />
     <Compile Include="Areas\Admin\Controllers\ManageUserController.cs" />
+    <Compile Include="Areas\Admin\Controllers\NewsController.cs" />
     <Compile Include="Areas\Admin\Models\AddTournamentViewModels.cs" />
     <Compile Include="Areas\Admin\Models\ChangePasswordViewModel.cs" />
     <Compile Include="Areas\Admin\Models\AdminDataViewModel.cs" />
+    <Compile Include="Areas\Admin\Models\NewsViewModel.cs" />
     <Compile Include="Areas\Admin\Models\TestDataViewModel.cs" />
     <Compile Include="Areas\Admin\Models\TodaySystemTaskViewModel.cs" />
     <Compile Include="Areas\Admin\Models\TournamentsCourseViewModel.cs" />
@@ -274,7 +276,6 @@
     </Compile>
     <Compile Include="HTMLHelpers\Alert.cs" />
     <Compile Include="HTMLHelpers\PageLinks.cs" />
-    <Compile Include="Infrastructrue\Filters\CheckBrowserFilter.cs" />
     <Compile Include="Infrastructrue\Filters\ErrorHandler.cs" />
     <Compile Include="Infrastructrue\Filters\SynchronizeDataFilter.cs" />
     <Compile Include="Infrastructrue\Filters\TournamentsAuth.cs" />
@@ -283,6 +284,7 @@
     <Compile Include="Models\CompilerViewModel.cs" />
     <Compile Include="Models\ContactModel.cs" />
     <Compile Include="Areas\User\Models\ManageViewModels.cs" />
+    <Compile Include="Models\NewsViewModel.cs" />
     <Compile Include="Models\ProgramViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
@@ -735,6 +737,7 @@
     <Content Include="Areas\Tournament\Views\Action\Task.cshtml" />
     <Content Include="Areas\Admin\Views\ManageTournaments\TournamentsCourse.cshtml" />
     <Content Include="Areas\User\Views\Solution\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\News\Index.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />

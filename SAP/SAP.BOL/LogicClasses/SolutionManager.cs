@@ -1,5 +1,9 @@
 ﻿using SAP.BOL.Abstract;
+using SAP.BOL.LogicClasses.Managers;
+using SAP.DAL.Abstract;
+using SAP.DAL.Repositories;
 using SAP.DAL.Tables;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,12 +13,15 @@ namespace SAP.BOL.LogicClasses
     /// <summary>
     /// Klasa kompilująca, sprawdzajaca i testująca solucje uzytkownikow
     /// </summary>
-    public class SolutionManager
+    public class SolutionManager : IDisposable
     {
         private string program;
         private string userId;
         private int taskId;
         private CompilerType compilerType;
+        private IProgramManager _programManager;
+        private IUserManager _userManager;
+        private ITournamentManager _tournamentManager;
 
         public SolutionManager(string program, string userId, int taskId, CompilerType compilerType)
         {
@@ -32,13 +39,18 @@ namespace SAP.BOL.LogicClasses
             this.compilerType = compilerType;
         }
 
-        public void CheckSolution(IProgramManager programManager, IUserManager userManager, ITournamentManager tourManager)
+        public void IniclizeManagers()
         {
-            //Przygotowanie danych
-            var _programManager = programManager;
-            var _userManager = userManager;
-            var _tournamentManager = tourManager;
+            IUserRepository userRepo = new UserRepository();
+            ITournamentRepository tourRepo = new TournamentRepository();
 
+            _programManager = new ProgramManager();
+            _tournamentManager = new TournamentManager(tourRepo);
+            _userManager = new UserManager(userRepo);
+        }
+
+        public void CheckSolution()
+        {
             List<double> allCpuTime = new List<double>();
             List<double> allMemUsage = new List<double>();
 
@@ -55,6 +67,7 @@ namespace SAP.BOL.LogicClasses
             _programManager.Language = compilerType;
             _programManager.InputDataType = (InputDataType)task.InputDataTypeId;
             _programManager.MaxTime = task.MaxExecuteTime;
+            _programManager.MaxMemory = task.MaxExecuteMemory; 
 
             //Działanie program managera
             try
@@ -64,7 +77,8 @@ namespace SAP.BOL.LogicClasses
 
                 if (_programManager.HasError) //w przypadku erroru - koniec działania
                 {
-                    _userManager.AddSolution(task.Id, task.TournamentId, userId, (int)compilerType, 0, program, task.MaxExecuteMemory, task.MaxExecuteTime);
+                    _userManager.AddSolution(task.Id, task.TournamentId, userId, (int)compilerType, 0, program, task.MaxExecuteMemory, task.MaxExecuteTime, _programManager.ErrorInfo);
+                    this.Dispose();
                     return;
                 }
 
@@ -82,13 +96,15 @@ namespace SAP.BOL.LogicClasses
                         }
                         else
                         {
-                            _userManager.AddSolution(task.Id, task.TournamentId, userId, (int)compilerType, 0, program, task.MaxExecuteMemory, task.MaxExecuteTime);
+                            _userManager.AddSolution(task.Id, task.TournamentId, userId, (int)compilerType, 0, program, task.MaxExecuteMemory, task.MaxExecuteTime, _programManager.ErrorInfo);
+                            this.Dispose();
                             return;
                         }
                     }
                     else
                     {
-                        _userManager.AddSolution(task.Id, task.TournamentId, userId, (int)compilerType, 0, program, task.MaxExecuteMemory, task.MaxExecuteTime);
+                        _userManager.AddSolution(task.Id, task.TournamentId, userId, (int)compilerType, 0, program, task.MaxExecuteMemory, task.MaxExecuteTime, _programManager.ErrorInfo);
+                        this.Dispose();
                         return;
                     }
                 }
@@ -102,12 +118,27 @@ namespace SAP.BOL.LogicClasses
                 avgCpuTime = avgCpuTime / allCpuTime.Count;
                 avgMemUsage = avgMemUsage / allMemUsage.Count;
 
-                _userManager.AddSolution(task.Id, task.TournamentId, userId, (int)compilerType, 5, program, avgMemUsage, avgCpuTime);
+                _userManager.AddSolution(task.Id, task.TournamentId, userId, (int)compilerType, 5, program, avgMemUsage, avgCpuTime, _programManager.ErrorInfo);
             }
             catch
             {
-                _userManager.AddSolution(task.Id, task.TournamentId, userId, (int)compilerType, 0, program, task.MaxExecuteMemory, task.MaxExecuteTime);
+                _userManager.AddSolution(task.Id, task.TournamentId, userId, (int)compilerType, 0, program, task.MaxExecuteMemory, task.MaxExecuteTime, _programManager.ErrorInfo);
+                this.Dispose();
             }
+
+            this.Dispose();
+        }
+
+        public void Dispose()
+        {
+            _userManager.Dispose();
+            _userManager = null;
+
+            _programManager.Dispose();
+            _programManager = null;
+
+            _tournamentManager.Dispose();
+            _tournamentManager = null;
         }
     }
 }
