@@ -59,7 +59,7 @@
                                     <a href='@Url.Action("Index", "Action", new { area = "Tournament", tourId = item.Id })' class="btn btn-success">Przejdź &raquo;</a>
                                 </td>
                                 <td>
-                                    <a href="#" class="btn btn-warning">Przejdź</a>
+                                    <a href='@Url.Action("CurrentScores", new { @tournamentId = item.Id })' class="btn btn-warning">Przejdź</a>
                                 </td>
                             </tr>
                         }
@@ -89,7 +89,7 @@
                                 <td>@item.StartDate.ToString("HH:mm:ss, dd.MM.yyyy") - @item.EndDate.ToString("HH:mm:ss, dd.MM.yyyy")</td>
                                 <td>@item.Phase</td>
                                 <td>
-                                    <a href="#" class="btn btn-warning">Przejdź</a>
+                                    <a href='@Url.Action("HistoryScores", new { @tournamentId = item.Id })' class="btn btn-warning">Przejdź</a>
                                 </td>
                             </tr>
                         }

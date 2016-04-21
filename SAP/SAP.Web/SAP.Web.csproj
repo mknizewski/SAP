@@ -262,12 +262,12 @@
     <Compile Include="Areas\User\Controllers\MessagesController.cs" />
     <Compile Include="Areas\User\Controllers\SolutionController.cs" />
     <Compile Include="Areas\User\Controllers\TournamentController.cs" />
+    <Compile Include="Areas\User\Models\ScoresViewModel.cs" />
     <Compile Include="Areas\User\Models\SendsSolutionViewModel.cs" />
     <Compile Include="Areas\User\Models\TournamentsIndexViewModel.cs" />
     <Compile Include="Areas\User\Models\UserDataModels.cs" />
     <Compile Include="Areas\User\UserAreaRegistration.cs" />
     <Compile Include="Controllers\AccountController.cs" />
-    <Compile Include="Controllers\CompilerController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Areas\User\Controllers\ManageController.cs" />
     <Compile Include="Controllers\ServerTimeController.cs" />
@@ -281,7 +281,6 @@
     <Compile Include="Infrastructrue\Filters\TournamentsAuth.cs" />
     <Compile Include="Infrastructrue\IoC\NinjectDepedencyResolver.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
-    <Compile Include="Models\CompilerViewModel.cs" />
     <Compile Include="Models\ContactModel.cs" />
     <Compile Include="Areas\User\Models\ManageViewModels.cs" />
     <Compile Include="Models\NewsViewModel.cs" />
@@ -790,8 +789,6 @@
     <Content Include="Views\Account\ResetPasswordConfirmation.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
-    <Content Include="Views\Compiler\Index.cshtml" />
-    <Content Include="Views\Compiler\Output.cshtml" />
     <Content Include="Views\Shared\SyncData.cshtml" />
     <Content Include="Views\Shared\NotFound.cshtml" />
   </ItemGroup>
