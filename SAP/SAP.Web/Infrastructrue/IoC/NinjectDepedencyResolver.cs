@@ -47,6 +47,9 @@ namespace SAP.Web.Infrastructrue.IoC
 
             _kernel.Bind<INewsRepository>().To<NewsRepository>();
             _kernel.Bind<INewsManager>().To<NewsManager>();
+
+            _kernel.Bind<IScoreRepository>().To<ScoreRepository>();
+            _kernel.Bind<IScoreManager>().To<ScoreManager>();
         }
     }
 }

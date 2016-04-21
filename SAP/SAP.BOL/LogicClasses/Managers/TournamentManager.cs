@@ -151,7 +151,9 @@ namespace SAP.BOL.LogicClasses.Managers
 
         public bool RegisterToTournament(string userId, int tournamentId)
         {
-            throw new NotImplementedException();
+            bool result = _tournamentRepository.RegisterToTournament(userId, tournamentId);
+
+            return result;
         }
 
         public void SetPhaseActiveFlag(int Id, bool flag)

@@ -11,10 +11,12 @@ namespace SAP.Web.Areas.User.Controllers
     public class TournamentController : Controller
     {
         private ITournamentManager _tournamentManager;
+        private IScoreManager _scoreManager;
 
-        public TournamentController(ITournamentManager tournamentManager)
+        public TournamentController(ITournamentManager tournamentManager, IScoreManager scoreManager)
         {
             _tournamentManager = tournamentManager;
+            _scoreManager = scoreManager;
         }
 
         public ActionResult Index()
@@ -75,6 +77,7 @@ namespace SAP.Web.Areas.User.Controllers
                 {
                     var history = new HistoryTournamentsViewModel
                     {
+                        Id = historyT.Id,
                         Title = historyT.Title,
                         StartDate = historyT.StartDate,
                         EndDate = historyT.EndDate,
@@ -91,6 +94,19 @@ namespace SAP.Web.Areas.User.Controllers
             return View(viewModel);
         }
 
+        //TODO: Wypełnić metody zwracajace wyniki
+        public ActionResult CurrentScores(int tournamentId)
+        {
+            
+
+            return View();
+        }
+
+        public ActionResult HistoryScores(int tournamentId)
+        {
+            return View();
+        }
+
         #region Helpers
 
         protected override void Dispose(bool disposing)
@@ -99,6 +115,9 @@ namespace SAP.Web.Areas.User.Controllers
             {
                 _tournamentManager.Dispose();
                 _tournamentManager = null;
+
+                _scoreManager.Dispose();
+                _scoreManager = null;
 
                 base.Dispose(disposing);
             }

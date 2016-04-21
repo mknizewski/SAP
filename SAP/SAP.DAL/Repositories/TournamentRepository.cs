@@ -178,7 +178,7 @@ namespace SAP.DAL.Repositories
                     var userSolution = solutions
                         .Where(z => z.TaskId == y)
                         .Where(z => z.UserId == x)
-                        .Where(z => z.Error != null)
+                        .Where(z => z.Error == null || z.Error.Equals(""))
                         .OrderByDescending(z => z.InsertTime)
                         .FirstOrDefault();
 
