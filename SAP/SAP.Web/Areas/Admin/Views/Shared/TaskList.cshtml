@@ -90,7 +90,7 @@
         <div class="form-group">
             @Html.LabelFor(x => Model[i].Tasks[j].InputData, new { @class = "control-label col-md-3" })
             <div class="col-md-9">
-                @Html.DropDownListFor(x => Model[i].Tasks[j].InputDataId, Model[i].Tasks[j].InputData, new { @class = "form-control" })
+                @Html.DropDownList("TaskContainer[" + i + "].Tasks[" + j + "].InputDataId", Model[i].Tasks[j].InputData, "Wybierz opcje", new { @class = "form-control"})
             </div>
         </div>
     }

@@ -14,12 +14,12 @@ namespace SAP.Web.Areas.User.Controllers
     public class SolutionController : Controller
     {
         private IUserManager _userManager;
-        
+
         public SolutionController(IUserManager userManager)
         {
             _userManager = userManager;
         }
-           
+
         public ActionResult Index()
         {
             string userId = User.Identity.GetUserId();
@@ -72,12 +72,15 @@ namespace SAP.Web.Areas.User.Controllers
                 case CompilerType.C:
                     fileName += "-" + solutionId + ".c";
                     break;
+
                 case CompilerType.Cpp:
                     fileName += "-" + solutionId + ".cpp";
                     break;
+
                 case CompilerType.Java:
                     fileName += "-" + solutionId + ".java";
                     break;
+
                 case CompilerType.Pascal:
                     fileName += "-" + solutionId + ".pas";
                     break;
@@ -87,6 +90,7 @@ namespace SAP.Web.Areas.User.Controllers
         }
 
         #region Helpers
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)
@@ -97,6 +101,7 @@ namespace SAP.Web.Areas.User.Controllers
                 base.Dispose(disposing);
             }
         }
-        #endregion
+
+        #endregion Helpers
     }
 }

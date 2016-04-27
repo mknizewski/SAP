@@ -19,7 +19,7 @@ namespace SAP.BOL.LogicClasses
             CompilersSetup();
         }
 
-        private static void CompilersSetup()
+        public static void CompilersSetup()
         {
             ICompilerRespository _compilerRepo = new CompilerRepository();
 

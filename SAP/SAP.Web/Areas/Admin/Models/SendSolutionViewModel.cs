@@ -1,9 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
 
-namespace SAP.Web.Areas.User.Models
+namespace SAP.Web.Areas.Admin.Models
 {
-    public class SendsSolutionViewModel
+    public class SendSolutionViewModel
     {
+        public string UserName { get; set; }
         public int SolutionId { get; set; }
         public string TournamentTitle { get; set; }
         public string TaskTitle { get; set; }

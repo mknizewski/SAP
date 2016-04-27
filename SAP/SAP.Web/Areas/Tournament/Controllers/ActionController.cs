@@ -6,9 +6,8 @@ using SAP.Web.Areas.Tournament.Models;
 using SAP.Web.Infrastructrue.Filters;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using System.Web.Mvc;
 using System.Web.Hosting;
+using System.Web.Mvc;
 
 namespace SAP.Web.Areas.Tournament.Controllers
 {
@@ -103,8 +102,8 @@ namespace SAP.Web.Areas.Tournament.Controllers
 
             solutionManager.IniclizeManagers();
 
-            HostingEnvironment.QueueBackgroundWorkItem(x => 
-            {         
+            HostingEnvironment.QueueBackgroundWorkItem(x =>
+            {
                 solutionManager.CheckSolution();
             });
 

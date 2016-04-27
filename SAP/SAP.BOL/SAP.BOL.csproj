@@ -56,6 +56,7 @@
     <Reference Include="System.ComponentModel.DataAnnotations" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Abstract\ICompilersManager.cs" />
     <Compile Include="Abstract\IContactManager.cs" />
     <Compile Include="Abstract\INewsManager.cs" />
     <Compile Include="Abstract\IProgramManager.cs" />
@@ -67,6 +68,7 @@
     <Compile Include="HelperClasses\SetAlert.cs" />
     <Compile Include="HelperClasses\TournamentsPagination.cs" />
     <Compile Include="HelperClasses\UserData.cs" />
+    <Compile Include="LogicClasses\Managers\CompilersManager.cs" />
     <Compile Include="LogicClasses\Managers\NewsManager.cs" />
     <Compile Include="LogicClasses\Managers\ScoreManager.cs" />
     <Compile Include="LogicClasses\Managers\TournamentManager.cs" />

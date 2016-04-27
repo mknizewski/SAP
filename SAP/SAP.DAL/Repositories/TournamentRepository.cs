@@ -245,6 +245,32 @@ namespace SAP.DAL.Repositories
             _context.Dispose();
         }
 
+        public bool EditTask(Tasks model)
+        {
+            try
+            {
+                var dbModel = _context.Tasks.Find(model.Id);
+
+                dbModel.Title = model.Title;
+                dbModel.Description = model.Description;
+                dbModel.StartDate = model.StartDate;
+                dbModel.EndDate = model.EndDate;
+                dbModel.Input = dbModel.Input;
+                dbModel.Output = dbModel.Output;
+                dbModel.MaxExecuteMemory = dbModel.MaxExecuteMemory;
+                dbModel.MaxExecuteTime = dbModel.MaxExecuteTime;
+                dbModel.Example = dbModel.Example;
+                dbModel.InputDataTypeId = dbModel.InputDataTypeId;
+
+                if (model.PDF != null)
+                    dbModel.PDF = model.PDF;
+
+                _context.SaveChanges();
+                return true;
+            }
+            catch { return false; }
+        }
+
         public bool RegisterToTournament(string userId, int tournamentId)
         {
             try
@@ -275,7 +301,10 @@ namespace SAP.DAL.Repositories
 
         public void SetPhaseActiveFlag(int Id, bool flag)
         {
-            var phase = _context.Phase.Find(Id);
+            var phase = _context.Phase
+                .Where(x => x.Id == Id)
+                .FirstOrDefault();
+
             phase.IsActive = flag;
 
             _context.SaveChanges();
@@ -283,6 +312,7 @@ namespace SAP.DAL.Repositories
 
         public void SetPromotions(int tournamentId, int phaseId)
         {
+            phaseId++;
             var phase = _context.Phase.Find(phaseId);
             var maxUserInPhase = phase.MaxUsers;
 
@@ -306,7 +336,10 @@ namespace SAP.DAL.Repositories
             //osoby nieawansujące przenosimy do tabeli historycznej i usuwamy rekord w aktualnej tabeli
             userNotAllowed.ForEach(x =>
             {
-                var tournamentsUserRow = _context.TournamentUsers.Find(x.UserId);
+                var tournamentsUserRow = _context.TournamentUsers
+                    .Where(y => y.UserId == x.UserId)
+                    .FirstOrDefault();
+
                 var historyTournamentUser = new HistoryTournamentUsers
                 {
                     OldId = tournamentsUserRow.Id,
@@ -340,7 +373,10 @@ namespace SAP.DAL.Repositories
 
         public void SetTaskActiveFlag(int Id, bool flag)
         {
-            var task = _context.Tasks.Find(Id);
+            var task = _context.Tasks
+                .Where(x => x.Id == Id)
+                .FirstOrDefault();
+
             task.IsActive = flag;
 
             _context.SaveChanges();
@@ -348,7 +384,10 @@ namespace SAP.DAL.Repositories
 
         public void SetTournamentActiveFlag(int Id, bool flag)
         {
-            var tour = _context.Tournament.Find(Id);
+            var tour = _context.Tournament
+                .Where(x => x.Id == Id)
+                .FirstOrDefault();
+
             tour.IsActive = flag;
 
             _context.SaveChanges();

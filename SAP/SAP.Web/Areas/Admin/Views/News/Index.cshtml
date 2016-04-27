@@ -82,7 +82,7 @@
                               <p class="pull-right" id="date-@item.Id">Data publikacji: @item.InsertTime.ToString("HH:mm:ss, dd.MM.yyyy")</p>
                           </div>
                       </div>
-                  </div>  
+                  </div>
                 }
             </div>
         }
@@ -110,7 +110,6 @@
                             <textarea name="inputDesc" class="form-control" id="inputDesc"></textarea>
                         </div>
                     </div>
-
                 </form>
             </div>
         </div>
@@ -118,7 +117,6 @@
         <div style="margin-bottom:20px;">
             @Html.Page(Model.CurrentPage, Model.TotalPages, x => Url.Action("Index", new { @page = x }))
         </div>
-
     </div>
 </div>
 
@@ -259,5 +257,4 @@
             addNews(addBtn);
         };
     }
-
 </script>

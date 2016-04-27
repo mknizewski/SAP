@@ -70,16 +70,16 @@
                         <hr />
                         <ul>
                             <li><a href='@Url.Action("AddTournament")'>Dodaj turniej</a></li>
-                            <li><a href="#">Przeglądaj turnieje</a></li>
-                            <li><a href='@Url.Action("TournamentsCourse")'>Zarządzanie przebiegiem</a></li>
+                            <li><a href='@Url.Action("TournamentList")'>Przeglądaj turnieje</a></li>
+                            <li><a href='#'>Edycja turnieju</a></li>
                         </ul>
                         <br />
                         <h4><span class="glyphicon glyphicon-tasks"></span> Zadania</h4>
                         <hr />
                         <ul>
-                            <li><a href="#">Dodaj zadanie</a></li>
-                            <li><a href="#">Zarządzanie zadaniami</a></li>
-                            <li><a href="#">Przesłane rozwiązania</a></li>
+                            <li><a href='@Url.Action("AddTask", "ManageTask")'>Dodaj zadanie</a></li>
+                            <li><a href='@Url.Action("Index", "ManageTask")'>Zarządzanie zadaniami</a></li>
+                            <li><a href='@Url.Action("UserSolutions", "ManageTask")'>Przesłane rozwiązania</a></li>
                         </ul>
                     </div>
                     <div class="col-md-6">

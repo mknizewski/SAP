@@ -42,8 +42,6 @@
                     <thead>
                         <tr>
                             <th>Turniej</th>
-                            <th>Aktualna Faza</th>
-                            <th>Aktualne Zadanie</th>
                             <th>Przejdź</th>
                             <th>Tabela wyników</th>
                         </tr>
@@ -53,8 +51,6 @@
                         {
                             <tr>
                                 <td>@item.Title</td>
-                                <td>@item.Phase</td>
-                                <td>@item.Task</td>
                                 <td>
                                     <a href='@Url.Action("Index", "Action", new { area = "Tournament", tourId = item.Id })' class="btn btn-success">Przejdź &raquo;</a>
                                 </td>

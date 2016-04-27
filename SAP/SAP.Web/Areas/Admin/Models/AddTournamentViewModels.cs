@@ -64,9 +64,11 @@ namespace SAP.Web.Areas.Admin.Models
         public int TaskCount { get; set; }
     }
 
-    public class TaskViewModel
+    public class ManageTaskViewModel
     {
         public int PhaseId { get; set; }
+
+        public int TaskId { get; set; }
 
         [Required]
         [Display(Name = "Tytuł zadania")]
@@ -123,7 +125,6 @@ namespace SAP.Web.Areas.Admin.Models
         [DataType(DataType.Time)]
         public TimeSpan EndTime { get; set; }
 
-        [Required]
         [Display(Name = "Kolejność")]
         public int Order { get; set; }
 
@@ -136,7 +137,7 @@ namespace SAP.Web.Areas.Admin.Models
 
     public class PhaseTaskContainer
     {
-        public List<TaskViewModel> Tasks { get; set; }
+        public List<ManageTaskViewModel> Tasks { get; set; }
     }
 
     public class AddTournamentViewModel

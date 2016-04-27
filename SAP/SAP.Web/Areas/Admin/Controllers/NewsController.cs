@@ -52,7 +52,7 @@ namespace SAP.Web.Areas.Admin.Controllers
 
             return View(viewModel);
         }
-        
+
         public JsonResult AddNews(string title, string description)
         {
             bool result = _newsManager.AddNews(title, description);

@@ -7,6 +7,7 @@ namespace SAP.DAL.Abstract
     {
         IEnumerable<Scores> Scores { get; }
         IEnumerable<HistoryScores> HistoryScores { get; }
+
         void Dispose();
     }
 }

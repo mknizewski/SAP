@@ -37,6 +37,7 @@ namespace SAP.Web.Infrastructrue.IoC
             _kernel.Bind<ITournamentManager>().To<TournamentManager>();
 
             _kernel.Bind<ICompilerRespository>().To<CompilerRepository>();
+            _kernel.Bind<ICompilersManager>().To<CompilersManager>();
             _kernel.Bind<IProgramManager>().To<ProgramManager>();
 
             _kernel.Bind<IContactRepository>().To<ContactRepository>();

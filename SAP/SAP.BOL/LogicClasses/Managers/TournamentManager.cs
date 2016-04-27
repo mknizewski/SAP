@@ -92,6 +92,11 @@ namespace SAP.BOL.LogicClasses.Managers
             return result;
         }
 
+        public void CountScores(int tournamentId, int phaseId)
+        {
+            _tournamentRepository.CountScores(tournamentId, phaseId);
+        }
+
         public bool CourseSaveChanges(int tourId, int phaseId, int taskId)
         {
             bool result = _tournamentRepository.CourseSaveChanges(tourId, phaseId, taskId);
@@ -104,8 +109,17 @@ namespace SAP.BOL.LogicClasses.Managers
             _tournamentRepository.Dispose();
         }
 
+        public bool EditTask(Tasks model)
+        {
+            bool result = _tournamentRepository.EditTask(model);
+
+            return result;
+        }
+
         public List<Phase> GetActiveAndEndPhase(int tourId)
         {
+            //TODO: Zmienić
+
             var activePhase = _tournamentRepository.Phase
                 .Where(x => x.TournamentId == tourId)
                 .Where(x => x.IsActive)
@@ -159,6 +173,11 @@ namespace SAP.BOL.LogicClasses.Managers
         public void SetPhaseActiveFlag(int Id, bool flag)
         {
             _tournamentRepository.SetPhaseActiveFlag(Id, flag);
+        }
+
+        public void SetPromotions(int tournamentId, int phaseId)
+        {
+            _tournamentRepository.SetPromotions(tournamentId, phaseId);
         }
 
         public void SetTaskActiveFlag(int Id, bool flag)

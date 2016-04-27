@@ -27,6 +27,7 @@ namespace SAP.DAL.DbContext
 
         //tabele -- historyczne
         public DbSet<HistoryScores> HistoryScores { get; set; }
+
         public DbSet<HistoryTournamentUsers> HistoryTournamentUsers { get; set; }
 
         public ApplicationDbContext()
@@ -96,6 +97,10 @@ namespace SAP.DAL.DbContext
             modelBuilder.Entity<UserSolutions>().HasRequired(x => x.Compiler).WithMany().WillCascadeOnDelete(false);
 
             modelBuilder.Entity<HistoryScores>().HasKey(x => x.Id);
+            modelBuilder.Entity<HistoryScores>().HasRequired(x => x.Tournament).WithMany().WillCascadeOnDelete(false);
+            modelBuilder.Entity<HistoryScores>().HasRequired(x => x.Phase).WithMany().WillCascadeOnDelete(false);
+            modelBuilder.Entity<HistoryScores>().HasRequired(x => x.User).WithMany().WillCascadeOnDelete(false);
+
             modelBuilder.Entity<HistoryTournamentUsers>().HasKey(x => x.Id);
         }
 

@@ -1,0 +1,220 @@
+﻿@model SAP.Web.Areas.Admin.Models.ManageTourViewModel
+@{
+    ViewBag.Title = "Zarządzanie - " + Model.Title;
+    string active = Model.IsActive ? "TAK" : "NIE";
+    int iteration = 0;
+}
+
+<h2>Zarządzanie turniejem - @Model.Title</h2>
+<hr />
+
+<div id="myModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Wybierz jedną z poniższych opcji</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-4">
+                        Zmiana ustawień konta
+                    </div>
+                    <div class="col-md-8">
+                        <a href='@Url.Action("ChangeData", "ManageUser")' class="btn btn-info">Przejdź &raquo;</a>
+                    </div>
+                </div>
+                <br />
+                <div class="row">
+                    <div class="col-md-4">
+                        Zmiana hasła
+                    </div>
+                    <div class="col-md-8">
+                        <a href='@Url.Action("ChangePassword", "ManageUser")' class="btn btn-info">Przejdź &raquo;</a>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Zamknij</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-3">
+        <div class="list-group">
+            <a href='@Url.Action("Index", "Home")' class="list-group-item">
+                <h4 class="list-group-item-heading">Główna</h4>
+            </a>
+            <a href="#" data-toggle="modal" data-target="#myModal" class="list-group-item">
+                <h4 class="list-group-item-heading">Ustawienia</h4>
+            </a>
+            <a href='@Url.Action("ManageAccounts", "ManageUser")' class="list-group-item">
+                <h4 class="list-group-item-heading">Zarządzanie kontami</h4>
+            </a>
+            <a href='@Url.Action("Index", "ManageTournaments")' class="list-group-item active">
+                <h4 class="list-group-item-heading">Zarządzanie turniejami</h4>
+            </a>
+            <a href="#" class="list-group-item">
+                <h4 class="list-group-item-heading">Zarządzanie kompilatorami</h4>
+            </a>
+        </div>
+    </div>
+    <div class="col-md-9">
+        <h4>Turniej</h4>
+        <hr />
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">Turniej - @Model.Title</h3>
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <p>Start: @Model.StartDate.ToString()</p>
+                        <p>Aktywny: @active</p>
+                    </div>
+                    <div class="col-md-6">
+                        <p>Koniec: @Model.EndDate.ToString()</p>
+                    </div>
+                </div>
+                <div style="float:right;">
+                    @if (Model.IsActive)
+                    {
+                        using (Html.BeginForm("SetTourFlag", "ManageTournaments", FormMethod.Post))
+                        {
+                            @Html.Hidden("tournamentId", Model.TournamentId)
+                            @Html.Hidden("flag", false)
+                            <button type="submit" class="btn btn-danger">Dezaktywuj</button>
+                        }
+                    }
+                    else
+                    {
+                        using (Html.BeginForm("SetTourFlag", "ManageTournaments", FormMethod.Post))
+                        {
+                            @Html.Hidden("tournamentId", Model.TournamentId)
+                            @Html.Hidden("flag", true)
+                            <button type="submit" class="btn btn-success">Aktywuj</button>
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+        <h4>Fazy i zadania</h4>
+        <hr />
+        @foreach (var phase in Model.Phases)
+        {
+            string phaseActive = phase.IsActive ? "AKTYWNA" : "NIEAKTYWNA";
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h3 class="panel-title">
+                                Faza - @phase.Title
+                            </h3>
+                        </div>
+                        <div class="col-md-6">
+                            <text style="float:right;">@phaseActive</text>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    @foreach (var task in phase.Tasks)
+                    {
+                        string activeTask = task.IsActive ? "TAK" : "NIE";
+                        <div class="well">
+                            <h4>Zadanie - @task.Title</h4>
+                            <hr />
+                            <p>Start: @task.StartDate.ToString()</p>
+                            <p>Koniec: @task.EndDate.ToString()</p>
+                            <p>Aktywny: @activeTask</p>
+                            <div style="float:right;">
+                                @if (task.IsActive)
+                                {
+                                    using (Html.BeginForm("SetTaskFlag", "ManageTournaments", FormMethod.Post))
+                                    {
+                                        @Html.Hidden("tournamentId", Model.TournamentId)
+                                        @Html.Hidden("phaseId", phase.PhaseId)
+                                        @Html.Hidden("taskId", task.TaskId)
+                                        @Html.Hidden("flag", false)
+                                        <button type="submit" class="btn btn-danger">Dezaktywuj</button>
+                                    }
+                                }
+                                else
+                                {
+                                    using (Html.BeginForm("SetTaskFlag", "ManageTournaments", FormMethod.Post))
+                                    {
+                                        @Html.Hidden("tournamentId", Model.TournamentId)
+                                        @Html.Hidden("taskId", task.TaskId)
+                                        @Html.Hidden("flag", true)
+                                        <button type="submit" class="btn btn-primary">Aktywuj</button>
+                                    }
+                                }
+                            </div>
+                            <br />
+                            <br />
+                        </div>
+                    }
+                    <div class="btn-group">
+                        <a href="#" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                            Opcje
+                            <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                @if (phase.IsActive)
+                                {
+                                    using (Html.BeginForm("SetPhaseFlag", "ManageTournaments", FormMethod.Post, new { @id = "phase-" + phase.PhaseId }))
+                                    {
+                                        @Html.Hidden("tournamentId", Model.TournamentId)
+                                        @Html.Hidden("phaseId", phase.PhaseId)
+                                        @Html.Hidden("flag", false)
+                                    }
+
+                                    <a href="javascript:document.getElementById('phase-@phase.PhaseId').submit()">Dezaktywuj</a>
+                                }
+                                else
+                                {
+                                    using (Html.BeginForm("SetPhaseFlag", "ManageTournaments", FormMethod.Post, new { @id = "phase-" + phase.PhaseId }))
+                                    {
+                                        @Html.Hidden("tournamentId", Model.TournamentId)
+                                        @Html.Hidden("phaseId", phase.PhaseId)
+                                        @Html.Hidden("flag", true)
+                                    }
+                                    <a href="javascript:document.getElementById('phase-@phase.PhaseId').submit()">Aktywuj</a>
+                                }
+                            </li>
+                            <li>
+                                @using (Html.BeginForm("CountScores", "ManageTournaments", FormMethod.Post, new { @id = "scores-" + phase.PhaseId }))
+                                {
+                                    @Html.Hidden("tournamentId", Model.TournamentId)
+                                    @Html.Hidden("phaseId", phase.PhaseId)
+                                }
+                                <a href="javascript:document.getElementById('scores-@phase.PhaseId').submit()">Zlicz punkty uczestników</a>
+                            </li>
+                            @if (iteration != Model.Phases.Count - 1)
+                            {
+                               <li>
+                                   @using (Html.BeginForm("SetPromotions", "ManageTournaments", FormMethod.Post, new { @id = "awans-" + phase.PhaseId }))
+                                   {
+                                        @Html.Hidden("tournamentId", Model.TournamentId)
+                                        @Html.Hidden("phaseId", phase.PhaseId)
+                                   }
+                                   <a href="javascript:document.getElementById('awans-@phase.PhaseId').submit()">Awans uczestników do nast. fazy</a>
+                               </li>
+                            }
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            iteration++;
+        }
+    </div>
+ </div>
+
+<ul class="breadcrumb">
+    <li><a href='@Url.Action("Index", "Home", new { area = "" })'>Główna</a></li>
+    <li><a href='@Url.Action("Index", "Home")'>Administrator</a></li>
+    <li><a href='@Url.Action("Index", "ManageTournaments")'>Zarządzanie turniejami</a></li>
+    <li class="active">Przeglądanie turniejów - @Model.Title</li>
+</ul>

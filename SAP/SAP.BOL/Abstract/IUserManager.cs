@@ -1,6 +1,5 @@
 ﻿using SAP.BOL.HelperClasses;
 using SAP.DAL.Tables;
-using System.Collections;
 using System.Collections.Generic;
 
 namespace SAP.BOL.Abstract
@@ -23,7 +22,7 @@ namespace SAP.BOL.Abstract
 
         UsersCounselor GetUserCounselorById(string userId);
 
-        bool AddSolution(int taskId, int tourId, string userId, int compilerId, int score, string program, double memUsage, double timeUsage, string error);
+        bool AddSolution(int taskId, int tourId, int phaseId, string userId, int compilerId, int score, string program, double memUsage, double timeUsage, string error);
 
         void Dispose();
     }

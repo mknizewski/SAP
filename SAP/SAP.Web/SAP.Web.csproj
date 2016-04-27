@@ -239,15 +239,22 @@
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Admin\Controllers\HomeController.cs" />
     <Compile Include="Areas\Admin\Controllers\ManageCompilersController.cs" />
+    <Compile Include="Areas\Admin\Controllers\ManageTaskController.cs" />
     <Compile Include="Areas\Admin\Controllers\ManageTournamentsController.cs" />
     <Compile Include="Areas\Admin\Controllers\ManageUserController.cs" />
     <Compile Include="Areas\Admin\Controllers\NewsController.cs" />
+    <Compile Include="Areas\Admin\Controllers\ScoreController.cs" />
+    <Compile Include="Areas\Admin\Models\ScoresViewModel.cs" />
     <Compile Include="Areas\Admin\Models\AddTournamentViewModels.cs" />
     <Compile Include="Areas\Admin\Models\ChangePasswordViewModel.cs" />
     <Compile Include="Areas\Admin\Models\AdminDataViewModel.cs" />
+    <Compile Include="Areas\Admin\Models\CompilerViewModel.cs" />
+    <Compile Include="Areas\Admin\Models\ManageTourViewModel.cs" />
     <Compile Include="Areas\Admin\Models\NewsViewModel.cs" />
+    <Compile Include="Areas\Admin\Models\SendSolutionViewModel.cs" />
     <Compile Include="Areas\Admin\Models\TestDataViewModel.cs" />
     <Compile Include="Areas\Admin\Models\TodaySystemTaskViewModel.cs" />
+    <Compile Include="Areas\Admin\Models\TournamentListViewModel.cs" />
     <Compile Include="Areas\Admin\Models\TournamentsCourseViewModel.cs" />
     <Compile Include="Areas\Admin\Models\TournamentsViewModel.cs" />
     <Compile Include="Areas\Admin\Models\UsersViewModel.cs" />
@@ -737,6 +744,15 @@
     <Content Include="Areas\Admin\Views\ManageTournaments\TournamentsCourse.cshtml" />
     <Content Include="Areas\User\Views\Solution\Index.cshtml" />
     <Content Include="Areas\Admin\Views\News\Index.cshtml" />
+    <Content Include="Areas\User\Views\Tournament\CurrentScores.cshtml" />
+    <Content Include="Areas\User\Views\Tournament\HistoryScores.cshtml" />
+    <Content Include="Areas\Admin\Views\ManageTournaments\TournamentList.cshtml" />
+    <Content Include="Areas\Admin\Views\ManageTournaments\Manage.cshtml" />
+    <Content Include="Areas\Admin\Views\ManageCompilers\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\ManageTask\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\ManageTask\EditTask.cshtml" />
+    <Content Include="Areas\Admin\Views\ManageTask\UserSolutions.cshtml" />
+    <Content Include="Areas\Admin\Views\Score\Index.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -794,7 +810,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Areas\Admin\Views\ManageCompilers\" />
     <Folder Include="Areas\Tournament\Views\Shared\" />
     <Folder Include="Areas\User\Views\Messages\" />
     <Folder Include="Areas\User\Views\Shared\" />

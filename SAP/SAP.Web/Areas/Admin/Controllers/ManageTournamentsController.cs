@@ -27,6 +27,124 @@ namespace SAP.Web.Areas.Admin.Controllers
             return View();
         }
 
+        public ActionResult TournamentList()
+        {
+            var viewModel = new List<TournamentListViewModel>();
+            var dbTournaments = _tournamentManager.Tournaments
+                .Where(x => x.IsConfigured)
+                .ToList();
+
+            dbTournaments.ForEach(x =>
+            {
+                var tour = new TournamentListViewModel
+                {
+                    TournamentId = x.Id,
+                    Title = x.Title
+                };
+
+                viewModel.Add(tour);
+            });
+
+            return View(viewModel);
+        }
+
+        public ActionResult Manage(int tournamentId)
+        {
+            var viewModel = new ManageTourViewModel();
+            var tourDb = _tournamentManager.Tournaments
+                .Where(x => x.Id == tournamentId)
+                .FirstOrDefault();
+
+            viewModel.TournamentId = tournamentId;
+            viewModel.IsActive = tourDb.IsActive;
+            viewModel.StartDate = tourDb.StartDate;
+            viewModel.EndDate = tourDb.EndDate;
+            viewModel.Title = tourDb.Title;
+
+            var phases = new List<ManagePhaseViewModel>();
+            var dbPhases = _tournamentManager.Phases
+                .Where(x => x.TournamentId == tournamentId)
+                .ToList();
+
+            dbPhases.ForEach((Action<Phase>)(x =>
+            {
+                var phase = new ManagePhaseViewModel();
+                phase.PhaseId = x.Id;
+                phase.Title = x.Name;
+                phase.IsActive = x.IsActive;
+
+                var tasks = new List<MTaskViewModel>();
+                var dbTasksPerPhase = _tournamentManager.Tasks
+                    .Where(y => y.PhaseId == x.Id)
+                    .ToList();
+
+                dbTasksPerPhase.ForEach((Action<Tasks>)(y =>
+                {
+                    var task = new MTaskViewModel
+                    {
+                        TaskId = y.Id,
+                        Title = y.Title,
+                        StartDate = y.StartDate,
+                        EndDate = y.EndDate,
+                        IsActive = y.IsActive
+                    };
+
+                    tasks.Add(task);
+                }));
+
+                phase.Tasks = tasks;
+                phases.Add(phase);
+            }));
+
+            viewModel.Phases = phases;
+
+            return View(viewModel);
+        }
+
+        [HttpPost]
+        public ActionResult SetTourFlag(int tournamentId, bool flag)
+        {
+            _tournamentManager.SetTournamentActiveFlag(tournamentId, flag);
+
+            TempData["Alert"] = SetAlert.Set("Poprawnie wykonano działanie!", "Sukces", AlertType.Success);
+            return RedirectToAction("Manage", new { @tournamentId = tournamentId });
+        }
+
+        [HttpPost]
+        public ActionResult SetTaskFlag(int taskId, int tournamentId, bool flag)
+        {
+            _tournamentManager.SetTaskActiveFlag(taskId, flag);
+
+            TempData["Alert"] = SetAlert.Set("Poprawnie wykonano działanie!", "Sukces", AlertType.Success);
+            return RedirectToAction("Manage", new { @tournamentId = tournamentId });
+        }
+
+        public ActionResult SetPhaseFlag(int phaseId, int tournamentId, bool flag)
+        {
+            _tournamentManager.SetPhaseActiveFlag(phaseId, flag);
+
+            TempData["Alert"] = SetAlert.Set("Poprawnie wykonano działanie!", "Sukces", AlertType.Success);
+            return RedirectToAction("Manage", new { @tournamentId = tournamentId });
+        }
+
+        [HttpPost]
+        public ActionResult CountScores(int tournamentId, int phaseId)
+        {
+            _tournamentManager.CountScores(tournamentId, phaseId);
+
+            TempData["Alert"] = SetAlert.Set("Poprawnie wykonano działanie!", "Sukces", AlertType.Success);
+            return RedirectToAction("Manage", new { @tournamentId = tournamentId });
+        }
+
+        [HttpPost]
+        public ActionResult SetPromotions(int tournamentId, int phaseId)
+        {
+            _tournamentManager.SetPromotions(tournamentId, phaseId);
+
+            TempData["Alert"] = SetAlert.Set("Poprawnie wykonano działanie!", "Sukces", AlertType.Success);
+            return RedirectToAction("Manage", new { @tournamentId = tournamentId });
+        }
+
         public ActionResult AddTournament()
         {
             return View();
@@ -134,10 +252,10 @@ namespace SAP.Web.Areas.Admin.Controllers
 
             for (int i = 0; i < taskCount.Length; i++)
             {
-                var taskList = new List<TaskViewModel>();
+                var taskList = new List<ManageTaskViewModel>();
 
                 for (int j = 0; j < taskCount[i]; j++)
-                    taskList.Add(new TaskViewModel { PhaseId = i, InputData = GetDataInputList(), StartTime = timeNow, EndTime = timeNow, StartDate = dateNow, EndDate = dateNow });
+                    taskList.Add(new ManageTaskViewModel { PhaseId = i, InputData = GetDataInputList(), StartTime = timeNow, EndTime = timeNow, StartDate = dateNow, EndDate = dateNow });
 
                 taskContainer.Add(new PhaseTaskContainer { Tasks = taskList });
             }
@@ -246,48 +364,51 @@ namespace SAP.Web.Areas.Admin.Controllers
 
         public ActionResult TodaySystemTask()
         {
-            var todayTask = TodoManager.todayTasks;
+            //var todayTask = TodoManager.todayTasks;
 
-            List<TodaySystemTaskViewModel> viewModel = new List<TodaySystemTaskViewModel>();
+            //List<TodaySystemTaskViewModel> viewModel = new List<TodaySystemTaskViewModel>();
 
-            todayTask.ForEach(x =>
-            {
-                TodaySystemTaskViewModel task = new TodaySystemTaskViewModel();
-                
-                switch (x.TaskType)
-                {
-                    case TaskType.ScoreCount:
-                        task.TournamentId = x.TournamentId;
-                        task.PhaseId = x.PhaseId;
-                        task.TypeOfTask = "Podsumowanie wyników";
-                        break;
-                    case TaskType.SetPromotions:
-                        task.TournamentId = x.TournamentId;
-                        task.PhaseId = x.PhaseId;
-                        task.TypeOfTask = "Przydzielenie awansów";
-                        break;
-                    default:
-                        task.TaskId = x.TaskId;
-                        task.TypeOfTask = x.TaskType == TaskType.StartPhase ? "Start fazy"
-                        : x.TaskType == TaskType.EndPhase ? "Koniec fazy"
-                        : x.TaskType == TaskType.StartTask ? "Start zadania"
-                        : x.TaskType == TaskType.EndTask ? "Koniec zadania"
-                        : x.TaskType == TaskType.StartTournament ? "Początek turnieju"
-                        : x.TaskType == TaskType.EndTournament ? "Koniec turnieju"
-                        : String.Empty;
-                        break;
-                }
+            //todayTask.ForEach(x =>
+            //{
+            //    TodaySystemTaskViewModel task = new TodaySystemTaskViewModel();
 
-                task.ExecuteTime = x.ExecuteTime;
-                task.IsRealized = x.IsRealized;
-                task.TaskType = x.TaskType;
+            //    switch (x.TaskType)
+            //    {
+            //        case TaskType.ScoreCount:
+            //            task.TournamentId = x.TournamentId;
+            //            task.PhaseId = x.PhaseId;
+            //            task.TypeOfTask = "Podsumowanie wyników";
+            //            break;
+            //        case TaskType.SetPromotions:
+            //            task.TournamentId = x.TournamentId;
+            //            task.PhaseId = x.PhaseId;
+            //            task.TypeOfTask = "Przydzielenie awansów";
+            //            break;
+            //        default:
+            //            task.TaskId = x.TaskId;
+            //            task.TypeOfTask = x.TaskType == TaskType.StartPhase ? "Start fazy"
+            //            : x.TaskType == TaskType.EndPhase ? "Koniec fazy"
+            //            : x.TaskType == TaskType.StartTask ? "Start zadania"
+            //            : x.TaskType == TaskType.EndTask ? "Koniec zadania"
+            //            : x.TaskType == TaskType.StartTournament ? "Początek turnieju"
+            //            : x.TaskType == TaskType.EndTournament ? "Koniec turnieju"
+            //            : String.Empty;
+            //            break;
+            //    }
 
-                viewModel.Add(task);
-            });
+            //    task.ExecuteTime = x.ExecuteTime;
+            //    task.IsRealized = x.IsRealized;
+            //    task.TaskType = x.TaskType;
 
-            ViewBag.LastSynchro = TodoManager.LastSynchronized;
+            //    viewModel.Add(task);
+            //});
 
-            return View(viewModel);
+            //ViewBag.LastSynchro = TodoManager.LastSynchronized;
+
+            //return View(viewModel);
+
+            TempData["Alert"] = SetAlert.Set("Opcja w tej wersji jest niedostępna.", "Uwaga", AlertType.Warning);
+            return RedirectToAction("Index");
         }
 
         public ActionResult Configuration()
@@ -431,9 +552,9 @@ namespace SAP.Web.Areas.Admin.Controllers
         {
             List<SelectListItem> dataList = new List<SelectListItem>();
 
-            dataList.Add(new SelectListItem { Text = "Argumenty wywołania", Value = InputDataType.Arguments.ToString() });
-            dataList.Add(new SelectListItem { Text = "Strumień danych", Value = InputDataType.Stream.ToString() });
-            dataList.Add(new SelectListItem { Text = "Brak", Value = InputDataType.None.ToString() });
+            dataList.Add(new SelectListItem { Text = "Argumenty wywołania", Value = ((int)(InputDataType.Arguments)).ToString() });
+            dataList.Add(new SelectListItem { Text = "Strumień danych", Value = ((int)(InputDataType.Stream)).ToString() });
+            dataList.Add(new SelectListItem { Text = "Brak", Value = ((int)(InputDataType.None)).ToString() });
 
             return dataList;
         }

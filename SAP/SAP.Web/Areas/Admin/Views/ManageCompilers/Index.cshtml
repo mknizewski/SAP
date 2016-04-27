@@ -1,0 +1,150 @@
+﻿@model SAP.Web.Areas.Admin.Models.CompilerViewModel
+@{
+    ViewBag.Title = "Zarządzanie kompilatorami";
+}
+
+<h2>Zarządzanie kompilatorami</h2>
+<hr />
+
+<div id="myModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Wybierz jedną z poniższych opcji</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-4">
+                        Zmiana ustawień konta
+                    </div>
+                    <div class="col-md-8">
+                        <a href='@Url.Action("ChangeData", "ManageUser")' class="btn btn-info">Przejdź &raquo;</a>
+                    </div>
+                </div>
+
+                <br />
+
+                <div class="row">
+                    <div class="col-md-4">
+                        Zmiana hasła
+                    </div>
+                    <div class="col-md-8">
+                        <a href='@Url.Action("ChangePassword", "ManageUser")' class="btn btn-info">Przejdź &raquo;</a>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Zamknij</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-3">
+        <div class="list-group">
+            <a href='@Url.Action("Index", "Home")' class="list-group-item">
+                <h4 class="list-group-item-heading">Główna</h4>
+            </a>
+            <a href="#" data-toggle="modal" data-target="#myModal" class="list-group-item">
+                <h4 class="list-group-item-heading">Ustawienia</h4>
+            </a>
+            <a href='@Url.Action("ManageAccounts", "ManageUser")' class="list-group-item">
+                <h4 class="list-group-item-heading">Zarządzanie kontami</h4>
+            </a>
+            <a href='@Url.Action("Index", "ManageTournaments")' class="list-group-item">
+                <h4 class="list-group-item-heading">Zarządzanie turniejami</h4>
+            </a>
+            <a href='@Url.Action("Index", "ManageCompilers")' class="list-group-item active">
+                <h4 class="list-group-item-heading">Zarządzanie kompilatorami</h4>
+            </a>
+        </div>
+    </div>
+    <div class="col-md-9">
+        @using (Html.BeginForm("ChangePath", "ManageCompilers", FormMethod.Post, new { @role = "form" }))
+        {
+            <div class="row">
+                <div class="col-md-9">
+                    <div class="form-group">
+                        @Html.LabelFor(x => x.CPath, new { @class = "col-md-2 control-label", @style = "margin-top:7px;" })
+                        <div class="col-md-10">
+                            @Html.Hidden("systemId", Model.CSystemId)
+                            @Html.EditorFor(x => x.CPath, "", "path", new { htmlAttributes = new { @class = "form-control" }})
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <button type="submit" class="btn btn-primary">Zapisz zmiany</button>
+                </div>
+            </div>
+        }
+
+        <br />
+
+        @using (Html.BeginForm("ChangePath", "ManageCompilers", FormMethod.Post, new { @role = "form" }))
+        {
+            <div class="row">
+                <div class="col-md-9">
+                    <div class="form-group">
+                        @Html.LabelFor(x => x.CppPath, new { @class = "col-md-2 control-label", @style = "margin-top:7px;" })
+                        <div class="col-md-10">
+                            @Html.Hidden("systemId", Model.CppSystemId)
+                            @Html.EditorFor(x => x.CppPath, "", "path", new { htmlAttributes = new { @class = "form-control" } })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <button type="submit" class="btn btn-primary">Zapisz zmiany</button>
+                </div>
+            </div>
+        }
+
+        <br />
+
+        @using (Html.BeginForm("ChangePath", "ManageCompilers", FormMethod.Post, new { @role = "form" }))
+        {
+            <div class="row">
+                <div class="col-md-9">
+                    <div class="form-group">
+                        @Html.LabelFor(x => x.PascalPath, new { @class = "col-md-2 control-label", @style = "margin-top:7px;" })
+                        <div class="col-md-10">
+                            @Html.Hidden("systemId", Model.PascalSystemId)
+                            @Html.EditorFor(x => x.PascalPath, "", "path", new { htmlAttributes = new { @class = "form-control" } })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <button type="submit" class="btn btn-primary">Zapisz zmiany</button>
+                </div>
+            </div>
+        }
+
+        <br />
+
+        @using (Html.BeginForm("ChangePath", "ManageCompilers", FormMethod.Post, new { @role = "form" }))
+        {
+            <div class="row">
+                <div class="col-md-9">
+                    <div class="form-group">
+                        @Html.LabelFor(x => x.JavaPath, new { @class = "col-md-2 control-label", @style = "margin-top:7px;" })
+                        <div class="col-md-10">
+                            @Html.Hidden("systemId", Model.JavaSystemId)
+                            @Html.EditorFor(x => x.JavaPath, "", "path", new { htmlAttributes = new { @class = "form-control" } })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <button type="submit" class="btn btn-primary">Zapisz zmiany</button>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+<ul class="breadcrumb">
+    <li><a href='@Url.Action("Index", "Home", new { area = "" })'>Główna</a></li>
+    <li><a href='@Url.Action("Index", "Home")'>Administrator</a></li>
+    <li class="active">Zarządzanie kompilatorami</li>
+</ul>

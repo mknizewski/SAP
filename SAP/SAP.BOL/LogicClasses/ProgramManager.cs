@@ -3,7 +3,6 @@ using SAP.BOL.LogicClasses.Exceptions;
 using System;
 using System.Diagnostics;
 using System.IO;
-using System.Threading.Tasks;
 using System.Timers;
 
 namespace SAP.BOL.LogicClasses
@@ -148,28 +147,30 @@ namespace SAP.BOL.LogicClasses
                     case InputDataType.Arguments:
                         exec.StartInfo.Arguments = inputData;
                         exec.Start();
+                        memoryUsed = 0; // (exec.PrivateMemorySize64 / 1024f) / 1024f;
+                        outputData = exec.StandardOutput.ReadToEnd();
                         break;
 
                     case InputDataType.Stream:
                         string[] arguments = inputData.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries); // rozdzielanie spacją
                         exec.Start();
+                        memoryUsed = 0; // (exec.PrivateMemorySize64 / 1024f) / 1024f;
 
                         StreamWriter writer = exec.StandardInput;
                         foreach (string arg in arguments)
                             writer.WriteLine(arg);
+
+                        outputData = exec.StandardOutput.ReadToEnd();
                         break;
 
                     case InputDataType.None:
                         exec.Start();
+                        memoryUsed = 0; //(exec.PrivateMemorySize64 / 1024f) / 1024f;
+                        outputData = exec.StandardOutput.ReadToEnd();
                         break;
                 }
 
-                memoryUsed = (exec.PrivateMemorySize64 / 1024f) / 1024f;
-                outputData = exec.StandardOutput.ReadToEnd();
-                errorInfo = exec.StandardError.ReadToEnd();
-
                 exec.WaitForExit();
-                exec.Refresh();
                 executedTime = exec.TotalProcessorTime.Milliseconds;
 
                 if (errorInfo != String.Empty)
@@ -203,7 +204,7 @@ namespace SAP.BOL.LogicClasses
     }
 
     /// <summary>
-    /// Klasa przechowująca metadane kompilatorów
+    /// Klasa przechowująca sciezki kompilatorów
     /// </summary>
     public static class CompilerInfo
     {
