@@ -23,6 +23,8 @@ namespace SAP.BOL.LogicClasses
         private IUserManager _userManager;
         private ITournamentManager _tournamentManager;
 
+        public string JavaMainClass { get; set; }
+
         public SolutionManager(string program, string userId, int taskId, CompilerType compilerType)
         {
             this.program = program;
@@ -68,6 +70,7 @@ namespace SAP.BOL.LogicClasses
             _programManager.InputDataType = (InputDataType)task.InputDataTypeId;
             _programManager.MaxTime = task.MaxExecuteTime;
             _programManager.MaxMemory = task.MaxExecuteMemory;
+            _programManager.JavaMainClass = JavaMainClass;
 
             //Działanie program managera
             try
@@ -88,7 +91,8 @@ namespace SAP.BOL.LogicClasses
 
                     if (!_programManager.HasError)
                     {
-                        if (_programManager.OutputData == item.OutputData)
+                        string output = BlankChars.Remove(_programManager.OutputData);
+                        if (output == item.OutputData)
                         {
                             allCpuTime.Add(_programManager.ExecutedTime * 0.001); //zamieniamy ms na s
                             allMemUsage.Add(_programManager.MemoryUsed);

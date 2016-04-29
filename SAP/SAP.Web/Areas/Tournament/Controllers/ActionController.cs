@@ -101,6 +101,7 @@ namespace SAP.Web.Areas.Tournament.Controllers
                 solutionManager = new SolutionManager(viewModel.Program, userId, viewModel.TaskId, (CompilerType)viewModel.SelectedLang);
 
             solutionManager.IniclizeManagers();
+            solutionManager.JavaMainClass = viewModel.JavaMainClassName;
 
             HostingEnvironment.QueueBackgroundWorkItem(x =>
             {
