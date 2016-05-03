@@ -24,6 +24,14 @@ namespace SAP.DAL.Repositories
             }
         }
 
+        public IEnumerable<Messages> Messages
+        {
+            get
+            {
+                return _context.Messages;
+            }
+        }
+
         public IEnumerable<UsersSchools> Schools
         {
             get
@@ -65,6 +73,23 @@ namespace SAP.DAL.Repositories
             try
             {
                 _context.UsersCounselor.Add(model);
+                _context.SaveChanges();
+
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        public bool DeleteMessage(int messageId)
+        {
+            try
+            {
+                var message = _context.Messages.Find(messageId);
+
+                _context.Messages.Remove(message);
                 _context.SaveChanges();
 
                 return true;

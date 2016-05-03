@@ -7,7 +7,7 @@ namespace SAP.BOL.Abstract
     public interface IUserManager
     {
         IEnumerable<UserSolutions> Solutions { get; }
-
+        IEnumerable<Messages> Messages { get; }
         UserData GetUserDataById(string userId);
 
         bool ChangeUserSchool(string userId, string name, string sclass, string city, string houseNumber, string postalCode, string street, string phone);
@@ -17,6 +17,8 @@ namespace SAP.BOL.Abstract
         bool AddUserCounselot(string userId, string firstName, string lastName);
 
         bool SendMessage(string userId, string title, string desc);
+
+        bool DeleteMessage(int messageId);
 
         UsersSchools GetUserSchoolById(string userId);
 

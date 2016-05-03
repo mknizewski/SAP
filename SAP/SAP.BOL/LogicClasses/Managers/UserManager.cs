@@ -20,6 +20,14 @@ namespace SAP.BOL.LogicClasses.Managers
             }
         }
 
+        public IEnumerable<Messages> Messages
+        {
+            get
+            {
+                return _userRepository.Messages;
+            }
+        }
+
         public UserManager(IUserRepository userRepository)
         {
             _userRepository = userRepository;
@@ -144,6 +152,13 @@ namespace SAP.BOL.LogicClasses.Managers
             };
 
             bool result = _userRepository.AddSolution(solution);
+            return result;
+        }
+
+        public bool DeleteMessage(int messageId)
+        {
+            bool result = _userRepository.DeleteMessage(messageId);
+
             return result;
         }
     }

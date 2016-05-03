@@ -1,0 +1,856 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<modelStoreModel xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm4="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm5="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/LogicalClassDesigner" xmlns:dm9="http://schemas.microsoft.com/dsltools/SimpleShapesModel" xmlns:dm10="http://schemas.microsoft.com/dsltools/UseCaseModel"
+  dslVersion="1.0.0.0"
+  Id="73a1766e-a29a-4982-a88a-ead9450b3a52"
+  name="SAP.Diagram" xmlns="http://schemas.microsoft.com/dsltools/ModelStore">
+  <profileInstances>
+    <packageHasProfileInstances
+      Id="0caec977-1f8c-4ba3-a7db-8cc9ad9cc73b">
+      <profileInstance
+        Id="e34d544e-0fea-4ed6-ac5e-1b74119ac791"
+        name="StandardProfileL2" />
+    </packageHasProfileInstances>
+    <packageHasProfileInstances
+      Id="29349502-908c-4fda-9054-c48619c59ed0">
+      <profileInstance
+        Id="532ea607-fb19-44b8-8502-3351b05452be"
+        name="StandardProfileL3" />
+    </packageHasProfileInstances>
+  </profileInstances>
+  <packagedElements>
+    <packageHasNamedElement>
+      <actor
+        Id="1d673542-8a23-488c-91a1-923b2d565121"
+        name="Uczestnik"
+        isAbstract="false"
+        isLeaf="false">
+        <targetEnds>
+          <association
+            Id="9176856b-7669-4f31-9bb1-1c3182437ee3"
+            isDerived="false"
+            sourceEndRoleName="Uczestnik"
+            targetEndRoleName="Rejestruj się"
+            isLeaf="false"
+            isAbstract="false">
+            <useCaseMoniker
+              Id="edff8083-969f-4a78-aee0-47d30232677c"
+              LastKnownName="Rejestruj się"
+              LastKnownLocation="SAP.Diagram.uml" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="856a2ad7-f2a9-4b58-8ac0-7f3adc9a533d"
+                  name="Uczestnik"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false"
+                  isNavigableOwned="false" />
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="cda18b8c-8b6c-4b26-9b20-3eb8e48588ef"
+                  name="Rejestruj się"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false" />
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+          </association>
+          <association
+            Id="d3030dfc-15a6-4cf1-8280-279505c588a6"
+            isDerived="false"
+            sourceEndRoleName="Uczestnik"
+            targetEndRoleName="Wyświetlanie aktualności"
+            isLeaf="false"
+            isAbstract="false">
+            <useCaseMoniker
+              Id="892ece34-52f3-443a-abcf-82478a154eec"
+              LastKnownName="Wyświetlanie aktualności"
+              LastKnownLocation="SAP.Diagram.uml" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="c3e0a0ea-376c-4707-9d1b-83c4169c560c"
+                  name="Uczestnik"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false"
+                  isNavigableOwned="false" />
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="df348d83-3c2d-4181-9ca4-a3cdb4e08d4d"
+                  name="Wyświetlanie aktualności"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false" />
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+          </association>
+          <association
+            Id="0605f1ef-b4ef-4f5f-9386-184ab78b06aa"
+            isDerived="false"
+            sourceEndRoleName="Uczestnik"
+            targetEndRoleName="Wyślij wiadomość do administratora"
+            isLeaf="false"
+            isAbstract="false">
+            <useCaseMoniker
+              Id="b1fba4c3-4a73-4a45-922e-cb62a2052ebc"
+              LastKnownName="Wyślij wiadomość do administratora"
+              LastKnownLocation="SAP.Diagram.uml" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="64a8da4c-bdd5-4bc6-85cb-21c510f80dff"
+                  name="Uczestnik"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false"
+                  isNavigableOwned="false" />
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="8c305adf-3cdf-4cfb-b306-d177dbabe716"
+                  name="Wyślij wiadomość do administratora"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false" />
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+          </association>
+          <association
+            Id="18b63925-b01c-4ea7-9521-7e0ffe7d324e"
+            isDerived="false"
+            sourceEndRoleName="Uczestnik"
+            targetEndRoleName="Zaloguj się"
+            isLeaf="false"
+            isAbstract="false">
+            <useCaseMoniker
+              Id="750c6d4c-b709-4908-a0d9-e440a53461d7"
+              LastKnownName="Zaloguj się"
+              LastKnownLocation="SAP.Diagram.uml" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="3dea42ba-ee65-44b5-b6f0-5d4338aff903"
+                  name="Uczestnik"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false"
+                  isNavigableOwned="false" />
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="5dd379b9-16d8-4585-b82c-b8abb63b260f"
+                  name="Zaloguj się"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false" />
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+          </association>
+          <association
+            Id="6a950b03-3a29-4ab6-9deb-402f83e6df21"
+            isDerived="false"
+            sourceEndRoleName="Uczestnik"
+            targetEndRoleName="Wyświetl zadanie"
+            isLeaf="false"
+            isAbstract="false">
+            <useCaseMoniker
+              Id="bd5916e9-9d55-4076-a043-6a6e26aef52b"
+              LastKnownName="Wyświetl zadanie"
+              LastKnownLocation="SAP.Diagram.uml" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="67e6f7f4-4f60-4f79-8475-c7b53a9f58b5"
+                  name="Uczestnik"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false"
+                  isNavigableOwned="false" />
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="69782f15-6989-4572-8b52-97fdf936c6ff"
+                  name="Wyświetl zadanie"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false" />
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+          </association>
+          <association
+            Id="db5dd569-d3b8-44f3-952f-b4436e01016f"
+            isDerived="false"
+            sourceEndRoleName="Uczestnik"
+            targetEndRoleName="Zapisz się do turnieju"
+            isLeaf="false"
+            isAbstract="false">
+            <useCaseMoniker
+              Id="6bf4b0bc-6d87-435d-bafa-4b998b2848e4"
+              LastKnownName="Zapisz się do turnieju"
+              LastKnownLocation="SAP.Diagram.uml" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="944f4781-e5a4-4068-bfc7-830dc9c16391"
+                  name="Uczestnik"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false"
+                  isNavigableOwned="false" />
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="3d44e7d7-404d-418c-8348-aa2500d7b18a"
+                  name="Zapisz się do turnieju"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false" />
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+          </association>
+          <association
+            Id="93086f9c-abf6-43e6-8d10-14de4cc2bed7"
+            isDerived="false"
+            sourceEndRoleName="Uczestnik"
+            targetEndRoleName="Sprawdź wyniki"
+            isLeaf="false"
+            isAbstract="false">
+            <useCaseMoniker
+              Id="171b778d-bc6d-41c9-9bd5-f9d2f9f1f7a0"
+              LastKnownName="Sprawdź wyniki"
+              LastKnownLocation="SAP.Diagram.uml" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="04e5a6be-7825-435f-9336-6734c0d713d2"
+                  name="Uczestnik"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false"
+                  isNavigableOwned="false" />
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="29102059-dc49-432f-9472-75f3d4d585ed"
+                  name="Sprawdź wyniki"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false" />
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+          </association>
+          <association
+            Id="95a4e7a2-a222-4215-828f-9ea496c472fb"
+            isDerived="false"
+            sourceEndRoleName="Uczestnik"
+            targetEndRoleName="Przesłane rozwiązania"
+            isLeaf="false"
+            isAbstract="false">
+            <useCaseMoniker
+              Id="c7744fd7-9120-4532-a649-ab6a6b9a2790"
+              LastKnownName="Przesłane rozwiązania"
+              LastKnownLocation="SAP.Diagram.uml" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="ac9b67fa-97ca-4c70-9359-38c098978bd8"
+                  name="Uczestnik"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false"
+                  isNavigableOwned="false" />
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="2e34b70a-6a32-4f97-9260-ee6725a9e3b2"
+                  name="Przesłane rozwiązania"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false" />
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+          </association>
+          <association
+            Id="67ea56b4-9861-48b6-807b-abb35df8c737"
+            isDerived="false"
+            sourceEndRoleName="Uczestnik"
+            targetEndRoleName="Edycja danych personalnych"
+            isLeaf="false"
+            isAbstract="false">
+            <useCaseMoniker
+              Id="4599e77a-3370-4fe5-bdc3-934a30811f3f"
+              LastKnownName="Edycja danych personalnych"
+              LastKnownLocation="SAP.Diagram.uml" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="f541686f-751f-4096-89a5-e3fc753cd229"
+                  name="Uczestnik"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false"
+                  isNavigableOwned="false" />
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="216bb06e-0b4a-44ef-8cb4-f7d75973d5ba"
+                  name="Edycja danych personalnych"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false" />
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+          </association>
+        </targetEnds>
+      </actor>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <actor
+        Id="d5e760d7-91d9-4553-8223-345f761ab27a"
+        name="Administrator"
+        isAbstract="false"
+        isLeaf="false">
+        <targetEnds>
+          <association
+            Id="2a03192e-e2f3-4d74-8894-3b8aa40a0c1d"
+            isDerived="false"
+            sourceEndRoleName="Administrator"
+            targetEndRoleName="         &lt;&lt;CRUD&gt;&gt;&#xD;&#xA; Zarządzanie turniejami"
+            isLeaf="false"
+            isAbstract="false">
+            <useCaseMoniker
+              Id="2200b2f9-28b1-47bc-9be1-2537fff107b5"
+              LastKnownName="         &lt;&lt;CRUD&gt;&gt;&#xD;&#xA; Zarządzanie turniejami"
+              LastKnownLocation="SAP.Diagram.uml" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="e9035090-aa9c-446c-8fb0-ccf702a1a528"
+                  name="Administrator"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false"
+                  isNavigableOwned="false" />
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="78756cf8-a313-4187-b597-9825353c8b75"
+                  name="         &lt;&lt;CRUD&gt;&gt;&#xD;&#xA; Zarządzanie turniejami"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false" />
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+          </association>
+          <association
+            Id="5acc346e-9b9f-49ae-a84b-ba731fa43cac"
+            isDerived="false"
+            sourceEndRoleName="Administrator"
+            targetEndRoleName="           &lt;&lt;CRUD&gt;&gt;&#xD;&#xA;Zarządzanie aktualnościami"
+            isLeaf="false"
+            isAbstract="false">
+            <useCaseMoniker
+              Id="db5a1966-b401-4f74-82ff-bd83ff4e8e53"
+              LastKnownName="           &lt;&lt;CRUD&gt;&gt;&#xD;&#xA;Zarządzanie aktualnościami"
+              LastKnownLocation="SAP.Diagram.uml" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="631ce87c-e9e4-44ce-bdc4-d4f827665e82"
+                  name="Administrator"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false"
+                  isNavigableOwned="false" />
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="2d5806c1-974f-4b4c-96c2-b7c53928f521"
+                  name="           &lt;&lt;CRUD&gt;&gt;&#xD;&#xA;Zarządzanie aktualnościami"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false" />
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+          </association>
+          <association
+            Id="e89d2904-a57e-4bf4-bce6-4fb3a7aea897"
+            isDerived="false"
+            sourceEndRoleName="Administrator"
+            targetEndRoleName="Obsługa pytań"
+            isLeaf="false"
+            isAbstract="false">
+            <useCaseMoniker
+              Id="0199b494-7c52-4b95-8694-1250e03b26ce"
+              LastKnownName="Obsługa pytań"
+              LastKnownLocation="SAP.Diagram.uml" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="82d0688e-ac33-4d3d-90d0-237e9674b346"
+                  name="Administrator"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false"
+                  isNavigableOwned="false" />
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="e64ccda7-b524-4e28-af6b-06f70b16efff"
+                  name="Obsługa pytań"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false" />
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+          </association>
+          <association
+            Id="e4616bf0-678c-481d-bcee-e19fb8544d10"
+            isDerived="false"
+            sourceEndRoleName="Administrator"
+            targetEndRoleName="Przesłane rozwiązania"
+            isLeaf="false"
+            isAbstract="false">
+            <useCaseMoniker
+              Id="4c61f2b6-3b7e-45f2-a57d-5736f59138bf"
+              LastKnownName="Przesłane rozwiązania"
+              LastKnownLocation="SAP.Diagram.uml" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="cdf69632-13ec-49fb-aa80-56cfeb209b83"
+                  name="Administrator"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false"
+                  isNavigableOwned="false" />
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="b06356e0-70f2-43e5-b5f5-4dd4c8bc1c23"
+                  name="Przesłane rozwiązania"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false" />
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+          </association>
+          <association
+            Id="58ad4d72-9091-4f2b-be9c-7a067e7228a2"
+            isDerived="false"
+            sourceEndRoleName="Administrator"
+            targetEndRoleName="Edycja ścieżek"
+            isLeaf="false"
+            isAbstract="false">
+            <useCaseMoniker
+              Id="b7299775-b56e-4c79-bd95-1041b82c6a87"
+              LastKnownName="Edycja ścieżek"
+              LastKnownLocation="SAP.Diagram.uml" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="54487cf1-eb9e-46e8-9e16-aace74788308"
+                  name="Administrator"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false"
+                  isNavigableOwned="false" />
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="9553af89-4e65-4249-be52-8ca83e338aa6"
+                  name="Edycja ścieżek"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false" />
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+          </association>
+          <association
+            Id="2da7aa70-10de-4967-a8be-c21479d15f82"
+            isDerived="false"
+            sourceEndRoleName="Administrator"
+            targetEndRoleName="         &lt;&lt;CRUD&gt;&gt; &#xD;&#xA;Zarządzanie uczestnikami"
+            isLeaf="false"
+            isAbstract="false">
+            <useCaseMoniker
+              Id="8694cfe1-47d4-45d3-a3a9-a84749826492"
+              LastKnownName="         &lt;&lt;CRUD&gt;&gt; &#xD;&#xA;Zarządzanie uczestnikami"
+              LastKnownLocation="SAP.Diagram.uml" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="883d0407-60b4-4698-8f5a-1cadf33cb63b"
+                  name="Administrator"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false"
+                  isNavigableOwned="false" />
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="fbbce588-0107-47ee-925e-7d8bc630b9b0"
+                  name="         &lt;&lt;CRUD&gt;&gt; &#xD;&#xA;Zarządzanie uczestnikami"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false" />
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+          </association>
+          <association
+            Id="308b69f6-02b8-457b-a570-23cdeadaf063"
+            isDerived="false"
+            sourceEndRoleName="Administrator"
+            targetEndRoleName="Zarządzanie przebiegiem turniejów"
+            isLeaf="false"
+            isAbstract="false">
+            <useCaseMoniker
+              Id="c705638e-6629-4fb8-af07-1d44f9ba41df"
+              LastKnownName="Zarządzanie przebiegiem turniejów"
+              LastKnownLocation="SAP.Diagram.uml" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="ada2d354-a4ad-4f26-b125-e3fcb631dcbe"
+                  name="Administrator"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false"
+                  isNavigableOwned="false" />
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="042839c6-fe78-4fdb-b4c2-ec19b8132cdb"
+                  name="Zarządzanie przebiegiem turniejów"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false" />
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+          </association>
+        </targetEnds>
+      </actor>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase
+        Id="edff8083-969f-4a78-aee0-47d30232677c"
+        name="Rejestruj się"
+        isAbstract="false"
+        isLeaf="false" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase
+        Id="750c6d4c-b709-4908-a0d9-e440a53461d7"
+        name="Zaloguj się"
+        isAbstract="false"
+        isLeaf="false">
+        <extendedCases>
+          <extend
+            Id="8b667626-42c0-45c4-8a11-8bdb4be22768">
+            <useCaseMoniker
+              Id="edff8083-969f-4a78-aee0-47d30232677c"
+              LastKnownName="Rejestruj się"
+              LastKnownLocation="SAP.Diagram.uml" />
+          </extend>
+        </extendedCases>
+      </useCase>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase
+        Id="892ece34-52f3-443a-abcf-82478a154eec"
+        name="Wyświetlanie aktualności"
+        isAbstract="false"
+        isLeaf="false" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase
+        Id="b1fba4c3-4a73-4a45-922e-cb62a2052ebc"
+        name="Wyślij wiadomość do administratora"
+        isAbstract="false"
+        isLeaf="false" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase
+        Id="bd5916e9-9d55-4076-a043-6a6e26aef52b"
+        name="Wyświetl zadanie"
+        isAbstract="false"
+        isLeaf="false">
+        <additions>
+          <include
+            Id="08bb235f-25a1-4006-abe9-235a9261e2b2">
+            <useCaseMoniker
+              Id="3d5aa098-03e3-4537-9f6c-bb8a87f6fe9e"
+              LastKnownName="Prześlij rozwiązanie"
+              LastKnownLocation="SAP.Diagram.uml" />
+          </include>
+        </additions>
+      </useCase>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase
+        Id="3d5aa098-03e3-4537-9f6c-bb8a87f6fe9e"
+        name="Prześlij rozwiązanie"
+        isAbstract="false"
+        isLeaf="false" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase
+        Id="6bf4b0bc-6d87-435d-bafa-4b998b2848e4"
+        name="Zapisz się do turnieju"
+        isAbstract="false"
+        isLeaf="false" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase
+        Id="171b778d-bc6d-41c9-9bd5-f9d2f9f1f7a0"
+        name="Sprawdź wyniki"
+        isAbstract="false"
+        isLeaf="false" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase
+        Id="c7744fd7-9120-4532-a649-ab6a6b9a2790"
+        name="Przesłane rozwiązania"
+        isAbstract="false"
+        isLeaf="false" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase
+        Id="4599e77a-3370-4fe5-bdc3-934a30811f3f"
+        name="Edycja danych personalnych"
+        isAbstract="false"
+        isLeaf="false" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase
+        Id="2200b2f9-28b1-47bc-9be1-2537fff107b5"
+        name="         &lt;&lt;CRUD&gt;&gt;&#xD;&#xA; Zarządzanie turniejami"
+        isAbstract="false"
+        isLeaf="false" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase
+        Id="db5a1966-b401-4f74-82ff-bd83ff4e8e53"
+        name="           &lt;&lt;CRUD&gt;&gt;&#xD;&#xA;Zarządzanie aktualnościami"
+        isAbstract="false"
+        isLeaf="false" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase
+        Id="8694cfe1-47d4-45d3-a3a9-a84749826492"
+        name="         &lt;&lt;CRUD&gt;&gt; &#xD;&#xA;Zarządzanie uczestnikami"
+        isAbstract="false"
+        isLeaf="false" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase
+        Id="0199b494-7c52-4b95-8694-1250e03b26ce"
+        name="Obsługa pytań"
+        isAbstract="false"
+        isLeaf="false" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase
+        Id="c705638e-6629-4fb8-af07-1d44f9ba41df"
+        name="Zarządzanie przebiegiem turniejów"
+        isAbstract="false"
+        isLeaf="false">
+        <additions>
+          <include
+            Id="adbc7683-a4d1-4eba-ad22-971fa6cf7ba8">
+            <useCaseMoniker
+              Id="41b54ea3-092d-4767-bade-d63acebaa901"
+              LastKnownName="Awansuj"
+              LastKnownLocation="SAP.Diagram.uml" />
+          </include>
+          <include
+            Id="03931c72-7a5d-4bd4-9ea6-f3e88029b417">
+            <useCaseMoniker
+              Id="5339e9e1-4cd8-4709-acf7-aebf407f501d"
+              LastKnownName="Zlicz punkty"
+              LastKnownLocation="SAP.Diagram.uml" />
+          </include>
+        </additions>
+      </useCase>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase
+        Id="41b54ea3-092d-4767-bade-d63acebaa901"
+        name="Awansuj"
+        isAbstract="false"
+        isLeaf="false" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase
+        Id="5339e9e1-4cd8-4709-acf7-aebf407f501d"
+        name="Zlicz punkty"
+        isAbstract="false"
+        isLeaf="false" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase
+        Id="4c61f2b6-3b7e-45f2-a57d-5736f59138bf"
+        name="Przesłane rozwiązania"
+        isAbstract="false"
+        isLeaf="false" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <useCase
+        Id="b7299775-b56e-4c79-bd95-1041b82c6a87"
+        name="Edycja ścieżek"
+        isAbstract="false"
+        isLeaf="false" />
+    </packageHasNamedElement>
+  </packagedElements>
+  <primitiveType
+    Id="220a3521-e091-4221-bae9-3ef9018e845c"
+    name="Integer"
+    isAbstract="false"
+    isLeaf="false" />
+  <primitiveType
+    Id="8943dc84-709e-4f62-b15a-a3273aa6f165"
+    name="Boolean"
+    isAbstract="false"
+    isLeaf="false" />
+  <primitiveType
+    Id="59259974-6d55-42c6-b7bd-763d77ac8ef9"
+    name="String"
+    isAbstract="false"
+    isLeaf="false" />
+  <primitiveType
+    Id="3ab42e7d-4969-445a-b209-471f5cb8209c"
+    name="UnlimitedNatural"
+    isAbstract="false"
+    isLeaf="false" />
+</modelStoreModel>

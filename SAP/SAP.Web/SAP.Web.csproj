@@ -271,6 +271,7 @@
     <Compile Include="Areas\User\Controllers\MessagesController.cs" />
     <Compile Include="Areas\User\Controllers\SolutionController.cs" />
     <Compile Include="Areas\User\Controllers\TournamentController.cs" />
+    <Compile Include="Areas\User\Models\MessagesViewModel.cs" />
     <Compile Include="Areas\User\Models\ScoresViewModel.cs" />
     <Compile Include="Areas\User\Models\SendsSolutionViewModel.cs" />
     <Compile Include="Areas\User\Models\TournamentsIndexViewModel.cs" />
@@ -756,6 +757,7 @@
     <Content Include="Areas\Admin\Views\ManageTask\UserSolutions.cshtml" />
     <Content Include="Areas\Admin\Views\Score\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Contact\Index.cshtml" />
+    <Content Include="Areas\User\Views\Messages\Index.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -814,7 +816,6 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Tournament\Views\Shared\" />
-    <Folder Include="Areas\User\Views\Messages\" />
     <Folder Include="Areas\User\Views\Shared\" />
   </ItemGroup>
   <ItemGroup>
