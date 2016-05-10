@@ -46,5 +46,16 @@
       <SubType>Content</SubType>
       <DependentUpon>LayerDiagram.layerdiagram</DependentUpon>
     </Validate>
+    <Validate Include="TournamentsLayer.layerdiagram">
+      <SubType>Content</SubType>
+    </Validate>
+    <Validate Include="TournamentsLayer.layerdiagram.layout">
+      <SubType>Content</SubType>
+      <DependentUpon>TournamentsLayer.layerdiagram</DependentUpon>
+    </Validate>
+    <Validate Include="TournamentsLayer.layerdiagram.suppressions">
+      <SubType>Content</SubType>
+      <DependentUpon>TournamentsLayer.layerdiagram</DependentUpon>
+    </Validate>
   </ItemGroup>
 </Project>
