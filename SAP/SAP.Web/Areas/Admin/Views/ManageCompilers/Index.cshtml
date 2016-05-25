@@ -57,89 +57,101 @@
             <a href='@Url.Action("Index", "ManageTournaments")' class="list-group-item">
                 <h4 class="list-group-item-heading">Zarządzanie turniejami</h4>
             </a>
-            <a href='@Url.Action("Index", "ManageCompilers")' class="list-group-item active">
+            <a href='@Url.Action("Index", "ManageCompilers")' class="list-group-item">
                 <h4 class="list-group-item-heading">Zarządzanie kompilatorami</h4>
+            </a>
+            <a href='@Url.Action("Index", "Contact")' class="list-group-item active">
+                <h4 class="list-group-item-heading">Wiadomości</h4>
             </a>
         </div>
     </div>
     <div class="col-md-9">
-        @using (Html.BeginForm("ChangePath", "ManageCompilers", FormMethod.Post, new { @role = "form" }))
-        {
-            <div class="row">
-                <div class="col-md-9">
-                    <div class="form-group">
-                        @Html.LabelFor(x => x.CPath, new { @class = "col-md-2 control-label", @style = "margin-top:7px;" })
-                        <div class="col-md-10">
-                            @Html.Hidden("systemId", Model.CSystemId)
-                            @Html.EditorFor(x => x.CPath, "", "path", new { htmlAttributes = new { @class = "form-control" }})
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">Scieżki kompilatorów</h3>
+            </div>
+            <div class="panel-body">
+                @using (Html.BeginForm("ChangePath", "ManageCompilers", FormMethod.Post, new { @role = "form" }))
+                {
+                    <div class="row">
+                        <div class="col-md-9">
+                            <div class="form-group">
+                                @Html.LabelFor(x => x.CPath, new { @class = "col-md-2 control-label", @style = "margin-top:7px;" })
+                                <div class="col-md-10">
+                                    @Html.Hidden("systemId", Model.CSystemId)
+                                    @Html.EditorFor(x => x.CPath, "", "path", new { htmlAttributes = new { @class = "form-control" } })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <button type="submit" class="btn btn-primary">Zapisz zmiany</button>
                         </div>
                     </div>
-                </div>
-                <div class="col-md-3">
-                    <button type="submit" class="btn btn-primary">Zapisz zmiany</button>
-                </div>
-            </div>
-        }
+                }
 
-        <br />
+                <br />
 
-        @using (Html.BeginForm("ChangePath", "ManageCompilers", FormMethod.Post, new { @role = "form" }))
-        {
-            <div class="row">
-                <div class="col-md-9">
-                    <div class="form-group">
-                        @Html.LabelFor(x => x.CppPath, new { @class = "col-md-2 control-label", @style = "margin-top:7px;" })
-                        <div class="col-md-10">
-                            @Html.Hidden("systemId", Model.CppSystemId)
-                            @Html.EditorFor(x => x.CppPath, "", "path", new { htmlAttributes = new { @class = "form-control" } })
+                @using (Html.BeginForm("ChangePath", "ManageCompilers", FormMethod.Post, new { @role = "form" }))
+                {
+                    <div class="row">
+                        <div class="col-md-9">
+                            <div class="form-group">
+                                @Html.LabelFor(x => x.CppPath, new { @class = "col-md-2 control-label", @style = "margin-top:7px;" })
+                                <div class="col-md-10">
+                                    @Html.Hidden("systemId", Model.CppSystemId)
+                                    @Html.EditorFor(x => x.CppPath, "", "path", new { htmlAttributes = new { @class = "form-control" } })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <button type="submit" class="btn btn-primary">Zapisz zmiany</button>
                         </div>
                     </div>
-                </div>
-                <div class="col-md-3">
-                    <button type="submit" class="btn btn-primary">Zapisz zmiany</button>
-                </div>
-            </div>
-        }
+                }
 
-        <br />
+                <br />
 
-        @using (Html.BeginForm("ChangePath", "ManageCompilers", FormMethod.Post, new { @role = "form" }))
-        {
-            <div class="row">
-                <div class="col-md-9">
-                    <div class="form-group">
-                        @Html.LabelFor(x => x.PascalPath, new { @class = "col-md-2 control-label", @style = "margin-top:7px;" })
-                        <div class="col-md-10">
-                            @Html.Hidden("systemId", Model.PascalSystemId)
-                            @Html.EditorFor(x => x.PascalPath, "", "path", new { htmlAttributes = new { @class = "form-control" } })
+                @using (Html.BeginForm("ChangePath", "ManageCompilers", FormMethod.Post, new { @role = "form" }))
+                {
+                    <div class="row">
+                        <div class="col-md-9">
+                            <div class="form-group">
+                                @Html.LabelFor(x => x.PascalPath, new { @class = "col-md-2 control-label", @style = "margin-top:7px;" })
+                                <div class="col-md-10">
+                                    @Html.Hidden("systemId", Model.PascalSystemId)
+                                    @Html.EditorFor(x => x.PascalPath, "", "path", new { htmlAttributes = new { @class = "form-control" } })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <button type="submit" class="btn btn-primary">Zapisz zmiany</button>
                         </div>
                     </div>
-                </div>
-                <div class="col-md-3">
-                    <button type="submit" class="btn btn-primary">Zapisz zmiany</button>
-                </div>
-            </div>
-        }
+                }
 
-        <br />
+                <br />
 
-        @using (Html.BeginForm("ChangePath", "ManageCompilers", FormMethod.Post, new { @role = "form" }))
-        {
-            <div class="row">
-                <div class="col-md-9">
-                    <div class="form-group">
-                        @Html.LabelFor(x => x.JavaPath, new { @class = "col-md-2 control-label", @style = "margin-top:7px;" })
-                        <div class="col-md-10">
-                            @Html.Hidden("systemId", Model.JavaSystemId)
-                            @Html.EditorFor(x => x.JavaPath, "", "path", new { htmlAttributes = new { @class = "form-control" } })
+                @using (Html.BeginForm("ChangePath", "ManageCompilers", FormMethod.Post, new { @role = "form" }))
+                {
+                    <div class="row">
+                        <div class="col-md-9">
+                            <div class="form-group">
+                                @Html.LabelFor(x => x.JavaPath, new { @class = "col-md-2 control-label", @style = "margin-top:7px;" })
+                                <div class="col-md-10">
+                                    @Html.Hidden("systemId", Model.JavaSystemId)
+                                    @Html.EditorFor(x => x.JavaPath, "", "path", new { htmlAttributes = new { @class = "form-control" } })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <button type="submit" class="btn btn-primary">Zapisz zmiany</button>
                         </div>
                     </div>
-                </div>
-                <div class="col-md-3">
-                    <button type="submit" class="btn btn-primary">Zapisz zmiany</button>
-                </div>
+                }
+                <br />
+                <a href='@Url.Action("Test")' class="btn btn-default" style="margin-bottom: 15px;">Test ustawień</a>
             </div>
-        }
+        </div>
     </div>
 </div>
 

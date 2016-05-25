@@ -57,6 +57,7 @@ namespace SAP.Web.Areas.User.Controllers
         }
 
         #region Helpers
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)
@@ -67,6 +68,7 @@ namespace SAP.Web.Areas.User.Controllers
                 base.Dispose(disposing);
             }
         }
-        #endregion
+
+        #endregion Helpers
     }
 }

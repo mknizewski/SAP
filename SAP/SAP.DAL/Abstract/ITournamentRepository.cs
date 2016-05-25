@@ -14,6 +14,7 @@ namespace SAP.DAL.Abstract
         IEnumerable<HistoryTournamentUsers> HistoryTournamentsUsers { get; }
 
         bool EditTask(Tasks model);
+
         void SetPhaseActiveFlag(int Id, bool flag);
 
         void SetTaskActiveFlag(int Id, bool flag);

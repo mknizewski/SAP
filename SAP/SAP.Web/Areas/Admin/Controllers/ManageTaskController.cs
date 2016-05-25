@@ -7,7 +7,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Web;
 using System.Web.Mvc;
 
 namespace SAP.Web.Areas.Admin.Controllers
@@ -77,8 +76,8 @@ namespace SAP.Web.Areas.Admin.Controllers
                 Output = model.Output,
                 MaxExecuteMemory = model.MaxExecutedMemory,
                 MaxExecuteTime = model.MaxExecutedTime
-            }; 
-            
+            };
+
             if (model.PDF != null)
             {
                 byte[] newPDF = new byte[model.PDF.ContentLength];
@@ -118,6 +117,7 @@ namespace SAP.Web.Areas.Admin.Controllers
             var viewModel = new List<SendSolutionViewModel>();
             var dbModel = _userManager.Solutions
                 .Where(x => x.UserId == userId)
+                .OrderBy(x => x.InsertTime)
                 .ToList();
 
             dbModel.ForEach(x =>
@@ -180,6 +180,7 @@ namespace SAP.Web.Areas.Admin.Controllers
         }
 
         #region Helpers
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)
@@ -210,6 +211,7 @@ namespace SAP.Web.Areas.Admin.Controllers
 
             return dataList;
         }
-        #endregion
+
+        #endregion Helpers
     }
 }

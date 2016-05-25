@@ -9,7 +9,7 @@ namespace SAP.BOL.LogicClasses.Managers
     public class CompilersManager : ICompilersManager, IDisposable
     {
         private ICompilerRespository _compilerRepository;
-   
+
         public CompilersManager(ICompilerRespository compilerRepository)
         {
             _compilerRepository = compilerRepository;

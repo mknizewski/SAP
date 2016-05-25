@@ -26,8 +26,8 @@
             <a href='@Url.Action("Index", "Solution")' class="list-group-item active">
                 <h4 class="list-group-item-heading">Zgłoszone rozwiązania</h4>
             </a>
-            <a href="#" class="list-group-item">
-                <h4 class="list-group-item-heading">Powiadomienia <span class="badge">69</span></h4>
+            <a href='@Url.Action("Index", "Messages")' class="list-group-item">
+                <h4 class="list-group-item-heading">Powiadomienia</h4>
             </a>
         </div>
     </div>
@@ -49,8 +49,8 @@
                             <th>Zadanie</th>
                             <th>Język</th>
                             <th>Data</th>
-                            <th>Pamięć (MB)</th>
-                            <th>Czas (s)</th>
+                            @*<th>Pamięć (MB)</th>
+                            <th>Czas (s)</th>*@
                             <th>Rozwiązanie</th>
                             <th>Status</th>
                         </tr>
@@ -64,8 +64,8 @@
                                     <td>@item.TournamentTitle</td>
                                     <td>@item.TaskTitle</td>
                                     <td>@item.Lang</td>
-                                    <td>@item.InsertTime.ToString("dd.MM.yyyy HH:mm:ss")</td>
-                                    <td>@item.MemUsage.ToString("F")</td>
+                                    @*<td>@item.InsertTime.ToString("dd.MM.yyyy HH:mm:ss")</td>
+                                    <td>@item.MemUsage.ToString("F")</td>*@
                                     <td>@item.TimeUsage</td>
                                     <td>
                                         <a href='@Url.Action("GetSolutionFile", new { @solutionId = item.SolutionId })' class="btn btn-info"><span class="glyphicon glyphicon-console"></span></a>

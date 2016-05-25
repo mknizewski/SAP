@@ -1,7 +1,7 @@
 ﻿using SAP.BOL.Abstract;
 using SAP.DAL.Abstract;
-using System;
 using SAP.DAL.Tables;
+using System;
 using System.Collections.Generic;
 
 namespace SAP.BOL.LogicClasses.Managers

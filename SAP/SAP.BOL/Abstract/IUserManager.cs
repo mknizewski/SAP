@@ -8,6 +8,7 @@ namespace SAP.BOL.Abstract
     {
         IEnumerable<UserSolutions> Solutions { get; }
         IEnumerable<Messages> Messages { get; }
+
         UserData GetUserDataById(string userId);
 
         bool ChangeUserSchool(string userId, string name, string sclass, string city, string houseNumber, string postalCode, string street, string phone);

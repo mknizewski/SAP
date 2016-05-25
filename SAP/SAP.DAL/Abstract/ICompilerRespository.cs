@@ -8,6 +8,7 @@ namespace SAP.DAL.Abstract
         IEnumerable<Compilers> Compilers { get; }
 
         bool EditPath(int systemId, string path);
+
         void Dispose();
     }
 }

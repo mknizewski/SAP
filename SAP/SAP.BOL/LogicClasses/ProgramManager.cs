@@ -220,8 +220,11 @@ namespace SAP.BOL.LogicClasses
         {
             Directory.Delete(tempPath, true);
 
-            exec.Dispose();
-            timer.Dispose();
+            if (exec != null && timer != null)
+            {
+                exec.Dispose();
+                timer.Dispose();
+            }
         }
     }
 

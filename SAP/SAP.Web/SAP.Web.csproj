@@ -230,6 +230,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="App_GlobalResources\CompilersResource.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CompilersResource.resx</DependentUpon>
+    </Compile>
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\NinjectWebCommon.cs" />
@@ -254,6 +259,7 @@
     <Compile Include="Areas\Admin\Models\ManageTourViewModel.cs" />
     <Compile Include="Areas\Admin\Models\NewsViewModel.cs" />
     <Compile Include="Areas\Admin\Models\SendSolutionViewModel.cs" />
+    <Compile Include="Areas\Admin\Models\TestCompilerViewModel.cs" />
     <Compile Include="Areas\Admin\Models\TestDataViewModel.cs" />
     <Compile Include="Areas\Admin\Models\TodaySystemTaskViewModel.cs" />
     <Compile Include="Areas\Admin\Models\TournamentListViewModel.cs" />
@@ -622,7 +628,7 @@
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="Images\mapka.png" />
-    <Content Include="Images\rki - logo.jpg" />
+    <Content Include="Images\rki-logo.jpg" />
     <Content Include="Scripts\ai.0.15.0-build58334.js" />
     <Content Include="Scripts\ai.0.15.0-build58334.min.js" />
     <Content Include="ApplicationInsights.config">
@@ -758,6 +764,7 @@
     <Content Include="Areas\Admin\Views\Score\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Contact\Index.cshtml" />
     <Content Include="Areas\User\Views\Messages\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\ManageCompilers\Test.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -832,6 +839,12 @@
       <Project>{d950b3b5-63a5-4934-82bb-e80521d8a8d2}</Project>
       <Name>SAP.DAL</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_GlobalResources\CompilersResource.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>CompilersResource.Designer.cs</LastGenOutput>
+    </Content>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
