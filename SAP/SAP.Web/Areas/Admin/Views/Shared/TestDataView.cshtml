@@ -1,0 +1,42 @@
+﻿@model List<SAP.Web.Areas.Admin.Models.TestDataViewModel>
+
+@{ 
+    int i = 1;
+}
+
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        <h3 class="panel-title">Dane testowe</h3>
+    </div>
+    <div class="panel-body">
+        @foreach (var item in Model)
+        {
+            <div id="test-@item.Id">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h4>Dane testowe nr @i</h4>
+                    </div>
+                    <div class="col-md-6">
+                        <a href="#" onclick="deleteTestData('@item.Id')" class="btn btn-danger pull-right">Usuń</a>
+                    </div>
+                </div>
+                <hr />
+                <div class="row">
+                    <div class="col-md-6">
+                        @Html.LabelFor(x => item.InputData, new { @class = "control-label col-md-3" })
+                        <div class="col-md-9">
+                            @Html.EditorFor(x => item.InputData, new { @class = "form-control" })   
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        @Html.LabelFor(x => item.OutputData, new { @class = "control-label col-md-3" })
+                        <div class="col-md-9">
+                            @Html.EditorFor(x => item.OutputData, new { @class = "form-control" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+            i++;
+        }
+    </div>
+</div>

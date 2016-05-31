@@ -765,6 +765,8 @@
     <Content Include="Areas\Admin\Views\Contact\Index.cshtml" />
     <Content Include="Areas\User\Views\Messages\Index.cshtml" />
     <Content Include="Areas\Admin\Views\ManageCompilers\Test.cshtml" />
+    <Content Include="Areas\Admin\Views\ManageTournaments\ManageTestData.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\TestDataView.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />

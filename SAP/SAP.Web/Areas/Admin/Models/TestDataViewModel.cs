@@ -6,6 +6,8 @@ namespace SAP.Web.Areas.Admin.Models
     {
         public int TaskId { get; set; }
 
+        public int Id { get; set; }
+
         [Required]
         [DataType(DataType.MultilineText)]
         [Display(Name = "Dane wyjścia")]

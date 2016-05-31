@@ -104,6 +104,13 @@ namespace SAP.BOL.LogicClasses.Managers
             return result;
         }
 
+        public bool DeleteTestData(int Id)
+        {
+            bool result = _tournamentRepository.DeleteTestData(Id);
+
+            return result;
+        }
+
         public void Dispose()
         {
             _tournamentRepository.Dispose();

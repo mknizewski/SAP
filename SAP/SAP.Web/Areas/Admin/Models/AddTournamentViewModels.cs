@@ -110,6 +110,7 @@ namespace SAP.Web.Areas.Admin.Models
         [Required]
         [Display(Name = "Start zadania")]
         [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:yyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime StartDate { get; set; }
 
         [Required]
@@ -119,6 +120,7 @@ namespace SAP.Web.Areas.Admin.Models
         [Required]
         [Display(Name = "Koniec zadania")]
         [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:yyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime EndDate { get; set; }
 
         [Required]

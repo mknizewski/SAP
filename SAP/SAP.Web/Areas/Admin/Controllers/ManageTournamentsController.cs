@@ -277,6 +277,58 @@ namespace SAP.Web.Areas.Admin.Controllers
             return View();
         }
 
+        public ActionResult ManageTestData()
+        {
+            var tournamnets = _tournamentManager.Tournaments;
+
+            List<SelectListItem> tourList = new List<SelectListItem>();
+            foreach (var item in tournamnets)
+                tourList.Add(new SelectListItem { Value = item.Id.ToString(), Text = item.Title });
+
+            ViewBag.TourList = tourList;
+            return View();
+        }
+
+        public ActionResult GetTestData(int taskId)
+        {
+            var dbModel = _tournamentManager.TasksTestData
+                .Where(x => x.TaskId == taskId)
+                .ToList();
+
+            var viewModel = new List<TestDataViewModel>();
+
+            dbModel.ForEach(x =>
+            {
+                var model = new TestDataViewModel
+                {
+                    Id = x.Id,
+                    TaskId = x.TaskId,
+                    InputData = x.InputData,
+                    OutputData = x.OutputData
+                };
+
+                viewModel.Add(model);
+            });
+
+            return PartialView("~/Areas/Admin/Views/Shared/TestDataView.cshtml", viewModel);
+        }
+
+        public JsonResult DeleteTestData(int testId)
+        {
+            bool result = _tournamentManager.DeleteTestData(testId);
+
+            if (result)
+            {
+                var alert = SetAlert.Set("Poprawnie usunięto dane testowe!", "Sukces", AlertType.Success);
+                return Json(Alert.GetAlert(alert).ToHtmlString());
+            }
+            else
+            {
+                var alert = SetAlert.Set("Wystąpił błąd, spróbuj ponownie później", "Błąd", AlertType.Danger);
+                return Json(Alert.GetAlert(alert).ToHtmlString());
+            }
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> AddTestDataTask(List<TestDataViewModel> viewModel)

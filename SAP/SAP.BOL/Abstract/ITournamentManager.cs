@@ -22,6 +22,8 @@ namespace SAP.BOL.Abstract
 
         bool EditTask(Tasks model);
 
+        bool DeleteTestData(int Id);
+
         bool ConfigureSet(int Id, bool flag);
 
         bool CourseSaveChanges(int tourId, int phaseId, int taskId);

@@ -31,6 +31,8 @@ namespace SAP.DAL.Abstract
 
         bool ConfigureSet(int Id, bool flag);
 
+        bool DeleteTestData(int Id);
+
         bool RegisterToTournament(string userId, int tournamentId);
 
         bool AddTaskTestingData(TasksTestData testData);

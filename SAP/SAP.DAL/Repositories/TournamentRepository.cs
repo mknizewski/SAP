@@ -235,6 +235,23 @@ namespace SAP.DAL.Repositories
             { return false; }
         }
 
+        public bool DeleteTestData(int Id)
+        {
+            try
+            {
+                var model = _context.TasksTestData.Find(Id);
+
+                _context.TasksTestData.Remove(model);
+                _context.SaveChanges();
+
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
         public bool DeleteTournament(int tournamentId)
         {
             throw new NotImplementedException();
@@ -255,12 +272,12 @@ namespace SAP.DAL.Repositories
                 dbModel.Description = model.Description;
                 dbModel.StartDate = model.StartDate;
                 dbModel.EndDate = model.EndDate;
-                dbModel.Input = dbModel.Input;
-                dbModel.Output = dbModel.Output;
-                dbModel.MaxExecuteMemory = dbModel.MaxExecuteMemory;
-                dbModel.MaxExecuteTime = dbModel.MaxExecuteTime;
-                dbModel.Example = dbModel.Example;
-                dbModel.InputDataTypeId = dbModel.InputDataTypeId;
+                dbModel.Input = model.Input;
+                dbModel.Output = model.Output;
+                dbModel.MaxExecuteMemory = model.MaxExecuteMemory;
+                dbModel.MaxExecuteTime = model.MaxExecuteTime;
+                dbModel.Example = model.Example;
+                dbModel.InputDataTypeId = model.InputDataTypeId;
 
                 if (model.PDF != null)
                     dbModel.PDF = model.PDF;
