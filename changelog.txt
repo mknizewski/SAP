@@ -32,3 +32,4 @@ Wersja 0.30
 UWAGA: Aplikacja SAP od wersji 0.30 nie ma mo¿liwoœci korzystania z bibliotek .NET Framework wczeœniejszych ni¿ 4.5.2
 
 Wersja 0.8
+In Progress
