@@ -1,0 +1,145 @@
+﻿@model List<SAP.Web.Areas.Admin.Models.TournamentListViewModel>
+@{
+    ViewBag.Title = "Przegląd turniejów";
+}
+
+<link href="~/Content/data_tables/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.css" rel="stylesheet" />
+<link href="~/Content/data_tables/datatables-responsive/css/responsive.dataTables.scss" rel="stylesheet" />
+<script src="~/Content/data_tables/datatables/media/js/jquery.dataTables.min.js"></script>
+<script src="~/Content/data_tables/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js"></script>
+<link href="//cdn.datatables.net/1.10.11/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css" />
+<h2>Przegląd turniejów</h2>
+<hr />
+
+<div id="myModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Wybierz jedną z poniższych opcji</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-4">
+                        Zmiana ustawień konta
+                    </div>
+                    <div class="col-md-8">
+                        <a href='@Url.Action("ChangeData", "ManageUser")' class="btn btn-info">Przejdź &raquo;</a>
+                    </div>
+                </div>
+                <br />
+                <div class="row">
+                    <div class="col-md-4">
+                        Zmiana hasła
+                    </div>
+                    <div class="col-md-8">
+                        <a href='@Url.Action("ChangePassword", "ManageUser")' class="btn btn-info">Przejdź &raquo;</a>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Zamknij</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-3">
+        <div class="list-group">
+            <a href='@Url.Action("Index", "Home")' class="list-group-item">
+                <h4 class="list-group-item-heading">Główna</h4>
+            </a>
+            <a href="#" data-toggle="modal" data-target="#myModal" class="list-group-item">
+                <h4 class="list-group-item-heading">Ustawienia</h4>
+            </a>
+            <a href='@Url.Action("ManageAccounts", "ManageUser")' class="list-group-item">
+                <h4 class="list-group-item-heading">Zarządzanie kontami</h4>
+            </a>
+            <a href='@Url.Action("Index", "ManageTournaments")' class="list-group-item active">
+                <h4 class="list-group-item-heading">Zarządzanie turniejami</h4>
+            </a>
+            <a href='@Url.Action("Index", "ManageCompilers")' class="list-group-item">
+                <h4 class="list-group-item-heading">Zarządzanie kompilatorami</h4>
+            </a>
+            <a href='@Url.Action("Index", "Contact")' class="list-group-item">
+                <h4 class="list-group-item-heading">Wiadomości</h4>
+            </a>
+        </div>
+    </div>
+    <div class="col-md-9">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">Lista turniejów</h3>
+            </div>
+            <div class="panel-body">
+                <table id="tourTable">
+                    <thead>
+                        <tr>
+                            <th>Tytuł</th>
+                            <th>Zarządzaj</th>
+                            <th>Wyniki</th>
+                            <th>Uczestnicy</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@item.Title</td>
+                                <td>
+                                    <a href='@Url.Action("Manage", new { @tournamentId = item.TournamentId })' class="btn btn-success">Przejdź</a>
+                                </td>
+                                <td>
+                                    <a href='@Url.Action("Index", "Score", new { @tournamentId = item.TournamentId })' class="btn btn-warning">Wyniki</a>
+                                </td>
+                                <td>
+                                    <a href='@Url.Action("TournamentUsers", new { @tournamentId = item.TournamentId })' class="btn btn-primary">Uczestnicy</a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<ul class="breadcrumb">
+    <li><a href='@Url.Action("Index", "Home", new { area = ""})'>Główna</a></li>
+    <li><a href='@Url.Action("Index", "Home")'>Administrator</a></li>
+    <li><a href='@Url.Action("Index")'>Zarządzanie turniejami</a></li>
+    <li class="active">Przegląd turniejów</li>
+</ul>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $('#tourTable').DataTable({
+            responsive: true,
+            select: true,
+            "language": {
+                processing: "Przetwarzanie...",
+                search: "Szukaj:",
+                lengthMenu: "Pokaż _MENU_ pozycji",
+                info: "Pozycje od _START_ do _END_ z _TOTAL_ łącznie",
+                infoEmpty: "Pozycji 0 z 0 dostępnych",
+                infoFiltered: "(filtrowanie spośród _MAX_ dostępnych pozycji)",
+                infoPostFix: "",
+                loadingRecords: "Wczytywanie...",
+                zeroRecords: "Nie znaleziono pasujących pozycji",
+                emptyTable: "Brak danych",
+                paginate: {
+                    first: "Pierwsza",
+                    previous: "Poprzednia",
+                    next: "Następna",
+                    last: "Ostatnia"
+                },
+                aria: {
+                    sortAscending: ": aktywuj, by posortować kolumnę rosnąco",
+                    sortDescending: ": aktywuj, by posortować kolumnę malejąco"
+                }
+            }
+        });
+    });
+</script>

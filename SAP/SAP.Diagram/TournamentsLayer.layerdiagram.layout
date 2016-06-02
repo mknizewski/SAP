@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<layerDiagram dslVersion="1.0.0.0" Id="3c038e80-126e-40d0-8808-aac4ac44883d" absoluteBounds="0, 0, 11, 8.5" name="TournamentsLayer">
+  <layerModelMoniker Id="42f4a415-bf7e-4bd2-b850-8d2bc80e8894" />
+  <nestedChildShapes>
+    <layerShape Id="3e2bb7ef-93d1-4a6c-90a0-072bd5eff7ab" absoluteBounds="0.5, 1, 6.625, 2.125" customColor="161, 199, 231">
+      <layerMoniker Id="bdb82935-7b5e-4ca5-8ea6-e40ab0f5ce77" />
+      <nestedChildShapes>
+        <layerShape Id="60310771-4666-444e-8818-dca1c87e4534" absoluteBounds="0.75, 1.375, 3, 1.375" customColor="Yellow">
+          <layerMoniker Id="0e0229dc-cc75-491e-8667-a4181fbbbe02" />
+          <nestedChildShapes>
+            <layerShape Id="0ff37d95-81b4-49e7-9788-5fa3f83ceb5f" absoluteBounds="1, 2, 1.125, 0.375" customColor="192, 0, 0">
+              <layerMoniker Id="85aa6fce-e131-4bd9-8d46-a073585b354a" />
+            </layerShape>
+            <layerShape Id="4f63ab2f-c788-4658-84fd-7d33e50be528" absoluteBounds="2.375, 2, 1.125, 0.375" customColor="192, 0, 0">
+              <layerMoniker Id="1ebe4407-e48f-429a-be04-1faea9520591" />
+            </layerShape>
+          </nestedChildShapes>
+        </layerShape>
+        <layerShape Id="5f05b0b5-2c32-422e-9e2a-fe4f37f939fa" absoluteBounds="3.875, 1.375, 3, 1.375" customColor="Yellow">
+          <layerMoniker Id="57ed53db-cc33-4967-841d-42e63a7e50aa" />
+          <nestedChildShapes>
+            <layerShape Id="cf752409-8935-41d9-8be8-3cefe6b7b66e" absoluteBounds="4.125, 2, 1.125, 0.375" customColor="192, 0, 0">
+              <layerMoniker Id="931a3baa-e7b4-4c8d-b158-bc58e93c7508" />
+            </layerShape>
+            <layerShape Id="b39bff5e-9306-4e95-ba65-f10ab0fbfc0c" absoluteBounds="5.5, 2, 1.125, 0.375" customColor="192, 0, 0">
+              <layerMoniker Id="4568d95b-c0f2-41c4-b9d6-c78db4608ae7" />
+            </layerShape>
+          </nestedChildShapes>
+        </layerShape>
+      </nestedChildShapes>
+    </layerShape>
+  </nestedChildShapes>
+</layerDiagram>

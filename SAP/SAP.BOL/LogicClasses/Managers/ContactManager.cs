@@ -1,6 +1,8 @@
 ﻿using SAP.BOL.Abstract;
 using SAP.DAL.Abstract;
+using SAP.DAL.Tables;
 using System;
+using System.Collections.Generic;
 
 namespace SAP.BOL.LogicClasses.Managers
 {
@@ -11,6 +13,14 @@ namespace SAP.BOL.LogicClasses.Managers
         public ContactManager(IContactRepository contactRepository)
         {
             _contactRepository = contactRepository;
+        }
+
+        public IEnumerable<Contact> Contacts
+        {
+            get
+            {
+                return _contactRepository.Contact;
+            }
         }
 
         public bool AddNewContact(string firstName, string lastName, string email, string message)
@@ -24,6 +34,13 @@ namespace SAP.BOL.LogicClasses.Managers
             };
 
             bool result = _contactRepository.TryAdd(modelToSave);
+
+            return result;
+        }
+
+        public bool Delete(int messageId)
+        {
+            bool result = _contactRepository.TryDelete(messageId);
 
             return result;
         }

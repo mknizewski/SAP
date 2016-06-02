@@ -11,10 +11,12 @@ namespace SAP.Web.Areas.User.Controllers
     public class TournamentController : Controller
     {
         private ITournamentManager _tournamentManager;
+        private IScoreManager _scoreManager;
 
-        public TournamentController(ITournamentManager tournamentManager)
+        public TournamentController(ITournamentManager tournamentManager, IScoreManager scoreManager)
         {
             _tournamentManager = tournamentManager;
+            _scoreManager = scoreManager;
         }
 
         public ActionResult Index()
@@ -34,28 +36,13 @@ namespace SAP.Web.Areas.User.Controllers
                     .Where(x => x.IsActive)
                     .FirstOrDefault();
 
-                var actualP = _tournamentManager.Phases
-                    .Where(x => x.TournamentId == actualT.Id)
-                    .Where(x => x.IsActive)
-                    .FirstOrDefault();
-
-                var actualTask = _tournamentManager.Tasks
-                    .Where(x => x.TournamentId == actualT.Id)
-                    .Where(x => x.IsActive)
-                    .FirstOrDefault();
-
-                if (actualTask != null && actualP != null)
+                var tour = new ActualTournamentsViewModel
                 {
-                    var tour = new ActualTournamentsViewModel
-                    {
-                        Id = actualT.Id,
-                        Title = actualT.Title,
-                        Phase = actualP.Name,
-                        Task = actualTask.Title
-                    };
+                    Id = actualT.Id,
+                    Title = actualT.Title,
+                };
 
-                    actualList.Add(tour);
-                }
+                actualList.Add(tour);
             }
 
             var historyTour = _tournamentManager.HistoryTournamentsUsers
@@ -75,6 +62,7 @@ namespace SAP.Web.Areas.User.Controllers
                 {
                     var history = new HistoryTournamentsViewModel
                     {
+                        Id = historyT.Id,
                         Title = historyT.Title,
                         StartDate = historyT.StartDate,
                         EndDate = historyT.EndDate,
@@ -91,6 +79,105 @@ namespace SAP.Web.Areas.User.Controllers
             return View(viewModel);
         }
 
+        public ActionResult CurrentScores(int tournamentId)
+        {
+            var viewModel = new ScoresViewModel();
+            var currentScoresViewModel = new PhaseScoresViewModel();
+            var historyScoresViewModel = new List<PhaseScoresViewModel>();
+
+            var dbCurrentScores = _scoreManager.Scores
+                .Where(x => x.TournamentId == tournamentId)
+                .OrderByDescending(x => x.TotalScore)
+                .ToList();
+
+            var currentPersonalScoresViewModel = new List<PersonScoreViewModel>();
+            dbCurrentScores.ForEach(x =>
+            {
+                currentScoresViewModel.PhaseTitle = x.Phase.Name;
+                PersonScoreViewModel personScoreViewModel = new PersonScoreViewModel
+                {
+                    FirstName = x.User.FirstName,
+                    LastName = x.User.LastName,
+                    Score = x.TotalScore
+                };
+
+                currentPersonalScoresViewModel.Add(personScoreViewModel);
+            });
+
+            currentScoresViewModel.Scores = currentPersonalScoresViewModel;
+
+            var dbHistoryScores = _scoreManager.HistoryScores
+                .Where(x => x.TournamentId == tournamentId)
+                .OrderByDescending(x => x.TotalScore)
+                .GroupBy(x => x.PhaseId)
+                .ToList();
+
+            foreach (var phase in dbHistoryScores)
+            {
+                var historyPhase = new PhaseScoresViewModel();
+                var personalScoresList = new List<PersonScoreViewModel>();
+
+                foreach (var personalScore in phase)
+                {
+                    historyPhase.PhaseTitle = personalScore.Phase.Name;
+
+                    var person = new PersonScoreViewModel
+                    {
+                        FirstName = personalScore.User.FirstName,
+                        LastName = personalScore.User.LastName,
+                        Score = personalScore.TotalScore
+                    };
+
+                    personalScoresList.Add(person);
+                }
+
+                historyPhase.Scores = personalScoresList;
+                historyScoresViewModel.Add(historyPhase);
+            }
+
+            viewModel.CurrentPhase = currentScoresViewModel;
+            viewModel.HistoryPhases = historyScoresViewModel;
+
+            return View(viewModel);
+        }
+
+        public ActionResult HistoryScores(int tournamentId)
+        {
+            var viewModel = new ScoresViewModel();
+            var historyScoresViewModel = new List<PhaseScoresViewModel>();
+
+            var dbHistoryScores = _scoreManager.HistoryScores
+                .Where(x => x.TournamentId == tournamentId)
+                .OrderByDescending(x => x.TotalScore)
+                .GroupBy(x => x.PhaseId)
+                .ToList();
+
+            foreach (var phase in dbHistoryScores)
+            {
+                var historyPhase = new PhaseScoresViewModel();
+                var personalScoresList = new List<PersonScoreViewModel>();
+
+                foreach (var personalScore in phase)
+                {
+                    var person = new PersonScoreViewModel
+                    {
+                        FirstName = personalScore.User.FirstName,
+                        LastName = personalScore.User.LastName,
+                        Score = personalScore.TotalScore
+                    };
+
+                    personalScoresList.Add(person);
+                }
+
+                historyPhase.Scores = personalScoresList;
+                historyScoresViewModel.Add(historyPhase);
+            }
+
+            viewModel.HistoryPhases = historyScoresViewModel;
+
+            return View(viewModel);
+        }
+
         #region Helpers
 
         protected override void Dispose(bool disposing)
@@ -99,6 +186,9 @@ namespace SAP.Web.Areas.User.Controllers
             {
                 _tournamentManager.Dispose();
                 _tournamentManager = null;
+
+                _scoreManager.Dispose();
+                _scoreManager = null;
 
                 base.Dispose(disposing);
             }

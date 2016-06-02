@@ -20,6 +20,12 @@ namespace SAP.BOL.Abstract
 
         TournamentsPagination GetTourByPage(int page);
 
+        bool EditTournament(Tournament model);
+
+        bool EditTask(Tasks model);
+
+        bool DeleteTestData(int Id);
+
         bool ConfigureSet(int Id, bool flag);
 
         bool CourseSaveChanges(int tourId, int phaseId, int taskId);
@@ -29,6 +35,10 @@ namespace SAP.BOL.Abstract
         void SetTaskActiveFlag(int Id, bool flag);
 
         void SetTournamentActiveFlag(int Id, bool flag);
+
+        void CountScores(int tournamentId, int phaseId);
+
+        void SetPromotions(int tournamentId, int phaseId);
 
         List<string> ValidateTournament(int Id);
 

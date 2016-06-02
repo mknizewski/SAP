@@ -3,8 +3,8 @@ using SAP.BOL.HelperClasses;
 using SAP.DAL.Abstract;
 using SAP.DAL.Tables;
 using System;
-using System.Linq;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace SAP.BOL.LogicClasses.Managers
 {
@@ -17,6 +17,14 @@ namespace SAP.BOL.LogicClasses.Managers
             get
             {
                 return _userRepository.Solutions;
+            }
+        }
+
+        public IEnumerable<Messages> Messages
+        {
+            get
+            {
+                return _userRepository.Messages;
             }
         }
 
@@ -126,12 +134,13 @@ namespace SAP.BOL.LogicClasses.Managers
             return result;
         }
 
-        public bool AddSolution(int taskId, int tourId, string userId, int compilerId, int score, string program, double memUsage, double timeUsage, string error)
+        public bool AddSolution(int taskId, int tourId, int phaseId, string userId, int compilerId, int score, string program, double memUsage, double timeUsage, string error)
         {
             UserSolutions solution = new UserSolutions
             {
                 UserId = userId,
                 TournamentId = tourId,
+                PhaseId = phaseId,
                 TaskId = taskId,
                 CompilerId = compilerId,
                 Score = score,
@@ -143,6 +152,13 @@ namespace SAP.BOL.LogicClasses.Managers
             };
 
             bool result = _userRepository.AddSolution(solution);
+            return result;
+        }
+
+        public bool DeleteMessage(int messageId)
+        {
+            bool result = _userRepository.DeleteMessage(messageId);
+
             return result;
         }
     }

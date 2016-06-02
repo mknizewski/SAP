@@ -55,8 +55,11 @@
             <a href='@Url.Action("Index", "ManageTournaments")' class="list-group-item active">
                 <h4 class="list-group-item-heading">Zarządzanie turniejami</h4>
             </a>
-            <a href="#" class="list-group-item">
+            <a href='@Url.Action("Index", "ManageCompilers")' class="list-group-item">
                 <h4 class="list-group-item-heading">Zarządzanie kompilatorami</h4>
+            </a>
+            <a href='@Url.Action("Index", "Contact")' class="list-group-item">
+                <h4 class="list-group-item-heading">Wiadomości</h4>
             </a>
         </div>
         <button onclick="addNews(this)" type="button" style="margin-bottom:20px;" class="btn btn-success pull-right btn-block">Dodaj news</button>
@@ -82,7 +85,7 @@
                               <p class="pull-right" id="date-@item.Id">Data publikacji: @item.InsertTime.ToString("HH:mm:ss, dd.MM.yyyy")</p>
                           </div>
                       </div>
-                  </div>  
+                  </div>
                 }
             </div>
         }
@@ -110,7 +113,6 @@
                             <textarea name="inputDesc" class="form-control" id="inputDesc"></textarea>
                         </div>
                     </div>
-
                 </form>
             </div>
         </div>
@@ -118,7 +120,6 @@
         <div style="margin-bottom:20px;">
             @Html.Page(Model.CurrentPage, Model.TotalPages, x => Url.Action("Index", new { @page = x }))
         </div>
-
     </div>
 </div>
 
@@ -259,5 +260,4 @@
             addNews(addBtn);
         };
     }
-
 </script>

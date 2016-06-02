@@ -6,10 +6,12 @@ namespace SAP.BOL.LogicClasses
     public static class ServerConfig
     {
         public static bool SynchronizeData;
+        public static bool OnlyLocalConnection;
 
         static ServerConfig()
         {
             SynchronizeData = false;
+            OnlyLocalConnection = false;
         }
 
         public static void Inicialize()
@@ -17,7 +19,7 @@ namespace SAP.BOL.LogicClasses
             CompilersSetup();
         }
 
-        private static void CompilersSetup()
+        public static void CompilersSetup()
         {
             ICompilerRespository _compilerRepo = new CompilerRepository();
 

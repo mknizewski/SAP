@@ -13,6 +13,10 @@ namespace SAP.DAL.Abstract
         IEnumerable<TournamentUsers> TournamentsUsers { get; }
         IEnumerable<HistoryTournamentUsers> HistoryTournamentsUsers { get; }
 
+        bool EditTask(Tasks model);
+
+        bool EditTournament(Tournament model);
+
         void SetPhaseActiveFlag(int Id, bool flag);
 
         void SetTaskActiveFlag(int Id, bool flag);
@@ -28,6 +32,8 @@ namespace SAP.DAL.Abstract
         Task<bool> AddTournamentAsync(Tournament tour, List<Phase> phases, List<Tasks> tasks, int[] taskMetadata);
 
         bool ConfigureSet(int Id, bool flag);
+
+        bool DeleteTestData(int Id);
 
         bool RegisterToTournament(string userId, int tournamentId);
 

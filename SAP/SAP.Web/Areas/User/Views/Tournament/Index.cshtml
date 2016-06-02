@@ -27,8 +27,8 @@
             <a href='@Url.Action("Index", "Solution")' class="list-group-item">
                 <h4 class="list-group-item-heading">Zgłoszone rozwiązania</h4>
             </a>
-            <a href="#" class="list-group-item">
-                <h4 class="list-group-item-heading">Powiadomienia <span class="badge">69</span></h4>
+            <a href='@Url.Action("Index", "Messages")' class="list-group-item">
+                <h4 class="list-group-item-heading">Powiadomienia</h4>
             </a>
         </div>
     </div>
@@ -42,8 +42,6 @@
                     <thead>
                         <tr>
                             <th>Turniej</th>
-                            <th>Aktualna Faza</th>
-                            <th>Aktualne Zadanie</th>
                             <th>Przejdź</th>
                             <th>Tabela wyników</th>
                         </tr>
@@ -53,13 +51,11 @@
                         {
                             <tr>
                                 <td>@item.Title</td>
-                                <td>@item.Phase</td>
-                                <td>@item.Task</td>
                                 <td>
                                     <a href='@Url.Action("Index", "Action", new { area = "Tournament", tourId = item.Id })' class="btn btn-success">Przejdź &raquo;</a>
                                 </td>
                                 <td>
-                                    <a href="#" class="btn btn-warning">Przejdź</a>
+                                    <a href='@Url.Action("CurrentScores", new { @tournamentId = item.Id })' class="btn btn-warning">Przejdź</a>
                                 </td>
                             </tr>
                         }
@@ -89,7 +85,7 @@
                                 <td>@item.StartDate.ToString("HH:mm:ss, dd.MM.yyyy") - @item.EndDate.ToString("HH:mm:ss, dd.MM.yyyy")</td>
                                 <td>@item.Phase</td>
                                 <td>
-                                    <a href="#" class="btn btn-warning">Przejdź</a>
+                                    <a href='@Url.Action("HistoryScores", new { @tournamentId = item.Id })' class="btn btn-warning">Przejdź</a>
                                 </td>
                             </tr>
                         }

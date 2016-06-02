@@ -8,6 +8,8 @@ namespace SAP.Web.Areas.Admin.Models
 {
     public class TournamentViewModel
     {
+        public int Id { get; set; }
+
         [Required]
         [DataType(DataType.Text)]
         [Display(Name = "Tytuł")]
@@ -44,6 +46,48 @@ namespace SAP.Web.Areas.Admin.Models
         public int PhaseCount { get; set; }
     }
 
+    public class EditTournamentViewModel
+    {
+        public int Id { get; set; }
+
+        [Required]
+        [DataType(DataType.Text)]
+        [Display(Name = "Tytuł")]
+        public string Title { get; set; }
+
+        [DataType(DataType.MultilineText)]
+        [Display(Name = "Opis turnieju")]
+        public string Description { get; set; }
+
+        [Required]
+        [DataType(DataType.Date)]
+        [Display(Name = "Start turnieju")]
+        [DisplayFormat(DataFormatString = "{0:yyy-MM-dd}", ApplyFormatInEditMode = true)]
+        public DateTime StartDate { get; set; }
+
+        [Required]
+        [DataType(DataType.Time)]
+        public TimeSpan StartTime { get; set; }
+
+        [Required]
+        [DataType(DataType.Date)]
+        [Display(Name = "Koniec turnieju")]
+        [DisplayFormat(DataFormatString = "{0:yyy-MM-dd}", ApplyFormatInEditMode = true)]
+        public DateTime EndDate { get; set; }
+
+        [Required]
+        [DataType(DataType.Time)]
+        public TimeSpan EndTime { get; set; }
+
+        [Required]
+        [Display(Name = "Max uczestników")]
+        public int MaxUsers { get; set; }
+
+        public bool IsActive { get; set; }
+
+        public bool IsConfigured { get; set; }
+    }
+
     public class PhaseViewModel
     {
         [Required]
@@ -64,9 +108,11 @@ namespace SAP.Web.Areas.Admin.Models
         public int TaskCount { get; set; }
     }
 
-    public class TaskViewModel
+    public class ManageTaskViewModel
     {
         public int PhaseId { get; set; }
+
+        public int TaskId { get; set; }
 
         [Required]
         [Display(Name = "Tytuł zadania")]
@@ -108,6 +154,7 @@ namespace SAP.Web.Areas.Admin.Models
         [Required]
         [Display(Name = "Start zadania")]
         [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:yyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime StartDate { get; set; }
 
         [Required]
@@ -117,13 +164,13 @@ namespace SAP.Web.Areas.Admin.Models
         [Required]
         [Display(Name = "Koniec zadania")]
         [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:yyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime EndDate { get; set; }
 
         [Required]
         [DataType(DataType.Time)]
         public TimeSpan EndTime { get; set; }
 
-        [Required]
         [Display(Name = "Kolejność")]
         public int Order { get; set; }
 
@@ -136,7 +183,7 @@ namespace SAP.Web.Areas.Admin.Models
 
     public class PhaseTaskContainer
     {
-        public List<TaskViewModel> Tasks { get; set; }
+        public List<ManageTaskViewModel> Tasks { get; set; }
     }
 
     public class AddTournamentViewModel

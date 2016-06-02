@@ -16,3 +16,19 @@ Wersja 0.02
 - utworzenie danych testowych
 
 Wersja 0.30
+- konfiguracja kompilatorów jêzyków C, C++, Pascal
+- poprawka bazy do v. 1.3
+- konfiguracja managerow do kompilacji, uruchomienia i testowych
+- utworzenie w pelni funkcjonalnych turniejow
+- poprawka managera do zarzadzania taskami systemowymi
+- dodanie nowych elementów administratorskich
+- dodanie nowych elementów uzytkownikow
+- wstepny algorytm do przetwarzania wynikow
+- poprawki i modyfikacje istniej¹cych elementów
+- utworzenie nowych repozytoriów
+- sprawdzanie rozwi¹zañ u¿ytkowników w tle
+- poprawka dzia³ania managera programów
+
+UWAGA: Aplikacja SAP od wersji 0.30 nie ma mo¿liwoœci korzystania z bibliotek .NET Framework wczeœniejszych ni¿ 4.5.2
+
+Wersja 0.8

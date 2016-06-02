@@ -7,6 +7,7 @@ using System.Linq;
 namespace SAP.BOL.LogicClasses
 {
     public delegate void FlagSwitch(int Id, bool flag);
+
     public delegate void CountScores(int tournamentId, int phaseId);
 
     public class TodaySystemTask
@@ -79,16 +80,18 @@ namespace SAP.BOL.LogicClasses
 
             if (compare == 0)
             {
-                switch(taskType)
+                switch (taskType)
                 {
                     case TaskType.ScoreCount:
                         CountScores(tournamentId, phaseId);
                         IsRealized = true;
                         break;
+
                     case TaskType.SetPromotions:
                         CountScores(tournamentId, phaseId);
                         IsRealized = true;
                         break;
+
                     default:
                         FlagSwitch(taskId, flag);
                         isRealized = true;
@@ -216,6 +219,33 @@ namespace SAP.BOL.LogicClasses
 
                     todayTasks.Add(activeTask);
                 }
+            }
+
+            //ZADANIA KTÓRE STARTUJA W DNIU STARTU TURNIEJU
+            var startTaskSameDayWithTour = _tournamentRepo.Tasks
+                .Where(x => x.StartDate.Date == today.Date)
+                .Where(x => x.Tournament.StartDate.Date == today.Date)
+                .Where(x => x.Tournament.IsConfigured);
+
+            foreach (var item in startTaskSameDayWithTour)
+            {
+                var activeTask = new TodaySystemTask();
+                var activePhase = new TodaySystemTask();
+
+                activeTask.TaskId = item.Id;
+                activeTask.Flag = true;
+                activeTask.ExecuteTime = item.StartDate;
+                activeTask.FlagSwitch += SetTask;
+                activeTask.TaskType = TaskType.StartTask;
+
+                activePhase.TaskId = item.PhaseId;
+                activePhase.Flag = true;
+                activePhase.ExecuteTime = item.StartDate;
+                activePhase.FlagSwitch += SetPhase;
+                activePhase.TaskType = TaskType.StartPhase;
+
+                todayTasks.Add(activeTask);
+                todayTasks.Add(activePhase);
             }
 
             //ZADANIA STOP

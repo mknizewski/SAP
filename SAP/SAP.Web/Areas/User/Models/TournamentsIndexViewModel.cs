@@ -13,12 +13,11 @@ namespace SAP.Web.Areas.User.Models
     {
         public int Id { get; set; }
         public string Title { get; set; }
-        public string Phase { get; set; }
-        public string Task { get; set; }
     }
 
     public class HistoryTournamentsViewModel
     {
+        public int Id { get; set; }
         public string Title { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }

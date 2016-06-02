@@ -1,6 +1,8 @@
-﻿using SAP.BOL.Abstract;
+﻿using Microsoft.AspNet.Identity.Owin;
+using SAP.BOL.Abstract;
 using SAP.BOL.HelperClasses;
 using SAP.BOL.LogicClasses;
+using SAP.DAL.DbContext;
 using SAP.DAL.Tables;
 using SAP.Web.Areas.Admin.Models;
 using SAP.Web.HTMLHelpers;
@@ -8,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Web;
 using System.Web.Mvc;
 
 namespace SAP.Web.Areas.Admin.Controllers
@@ -16,15 +19,258 @@ namespace SAP.Web.Areas.Admin.Controllers
     public class ManageTournamentsController : Controller
     {
         private ITournamentManager _tournamentManager;
+        private ApplicationUserManager _userManager;
 
         public ManageTournamentsController(ITournamentManager tournamentManager)
         {
             _tournamentManager = tournamentManager;
         }
 
+        public ApplicationUserManager UserManager
+        {
+            get
+            {
+                return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            }
+            private set
+            {
+                _userManager = value;
+            }
+        }
+
         public ActionResult Index()
         {
             return View();
+        }
+
+        public ActionResult EditTournamentList()
+        {
+            var viewModel = new List<TournamentListViewModel>();
+            var dbTournaments = _tournamentManager.Tournaments
+                .ToList();
+
+            dbTournaments.ForEach(x =>
+            {
+                var tour = new TournamentListViewModel
+                {
+                    TournamentId = x.Id,
+                    Title = x.Title
+                };
+
+                viewModel.Add(tour);
+            });
+
+            return View(viewModel);
+        }
+
+        [HttpGet]
+        public ActionResult EditTournament(int tournamentId)
+        {
+            var dbModel = _tournamentManager.Tournaments
+                .Where(x => x.Id == tournamentId)
+                .FirstOrDefault();
+
+            var viewModel = new EditTournamentViewModel
+            {
+                Id = dbModel.Id,
+                Title = dbModel.Title,
+                Description = dbModel.Description,
+                StartDate = dbModel.StartDate.Date,
+                EndDate = dbModel.EndDate.Date,
+                StartTime = dbModel.StartDate.TimeOfDay,
+                EndTime = dbModel.EndDate.TimeOfDay,
+                MaxUsers = dbModel.MaxUsers,
+                IsActive = dbModel.IsActive,
+                IsConfigured = dbModel.IsConfigured
+            };
+
+            return View(viewModel);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditTournament(EditTournamentViewModel viewModel)
+        {
+            var tour = new SAP.DAL.Tables.Tournament
+            {
+                Id = viewModel.Id,
+                Title = viewModel.Title,
+                Description = viewModel.Description,
+                StartDate = viewModel.StartDate.Add(viewModel.StartTime),
+                EndDate = viewModel.EndDate.Add(viewModel.EndTime),
+                MaxUsers = viewModel.MaxUsers
+            };
+
+            bool result = _tournamentManager.EditTournament(tour);
+
+            if (result)
+                TempData["Alert"] = SetAlert.Set("Poprawnie zmodfyfikowano turniej " + viewModel.Title, "Sukces", AlertType.Success);
+            else
+                TempData["Alert"] = SetAlert.Set("Wystąpił błąd, prosimy spróbować później", "Błąd", AlertType.Danger);
+
+            return RedirectToAction("Index");
+        }
+
+        public ActionResult TournamentUsers(int tournamentId)
+        {
+            var usersActive = _tournamentManager.TournamentsUsers
+                .Where(x => x.TournamentId == tournamentId)
+                .ToList();
+
+            var usersHistory = _tournamentManager.HistoryTournamentsUsers
+                .Where(x => x.TournamentId == tournamentId)
+                .ToList();
+
+            var viewModel = new ListOfUsersViewModel();
+            var listOfActiveUsers = new List<PersonScoreViewModel>();
+            var listOfHistoryUsers = new List<PersonScoreViewModel>();
+
+            usersActive.ForEach(x =>
+            {
+                var user = new PersonScoreViewModel
+                {
+                    FirstName = x.User.FirstName,
+                    LastName = x.User.LastName
+                };
+
+                listOfActiveUsers.Add(user);
+            });
+
+            usersHistory.ForEach(x =>
+            {
+                ApplicationUser u = UserManager.FindByIdAsync(x.UserId).Result;
+
+                var user = new PersonScoreViewModel
+                {
+                    FirstName = u.FirstName,
+                    LastName = u.LastName
+                };
+
+                listOfHistoryUsers.Add(user);
+            });
+
+            viewModel.ActiveUsers = listOfActiveUsers;
+            viewModel.HistoryUsers = listOfHistoryUsers;
+
+            return View(viewModel);
+        }
+
+        public ActionResult TournamentList()
+        {
+            var viewModel = new List<TournamentListViewModel>();
+            var dbTournaments = _tournamentManager.Tournaments
+                .Where(x => x.IsConfigured)
+                .ToList();
+
+            dbTournaments.ForEach(x =>
+            {
+                var tour = new TournamentListViewModel
+                {
+                    TournamentId = x.Id,
+                    Title = x.Title
+                };
+
+                viewModel.Add(tour);
+            });
+
+            return View(viewModel);
+        }
+
+        public ActionResult Manage(int tournamentId)
+        {
+            var viewModel = new ManageTourViewModel();
+            var tourDb = _tournamentManager.Tournaments
+                .Where(x => x.Id == tournamentId)
+                .FirstOrDefault();
+
+            viewModel.TournamentId = tournamentId;
+            viewModel.IsActive = tourDb.IsActive;
+            viewModel.StartDate = tourDb.StartDate;
+            viewModel.EndDate = tourDb.EndDate;
+            viewModel.Title = tourDb.Title;
+
+            var phases = new List<ManagePhaseViewModel>();
+            var dbPhases = _tournamentManager.Phases
+                .Where(x => x.TournamentId == tournamentId)
+                .ToList();
+
+            dbPhases.ForEach((Action<Phase>)(x =>
+            {
+                var phase = new ManagePhaseViewModel();
+                phase.PhaseId = x.Id;
+                phase.Title = x.Name;
+                phase.IsActive = x.IsActive;
+
+                var tasks = new List<MTaskViewModel>();
+                var dbTasksPerPhase = _tournamentManager.Tasks
+                    .Where(y => y.PhaseId == x.Id)
+                    .ToList();
+
+                dbTasksPerPhase.ForEach((Action<Tasks>)(y =>
+                {
+                    var task = new MTaskViewModel
+                    {
+                        TaskId = y.Id,
+                        Title = y.Title,
+                        StartDate = y.StartDate,
+                        EndDate = y.EndDate,
+                        IsActive = y.IsActive
+                    };
+
+                    tasks.Add(task);
+                }));
+
+                phase.Tasks = tasks;
+                phases.Add(phase);
+            }));
+
+            viewModel.Phases = phases;
+
+            return View(viewModel);
+        }
+
+        [HttpPost]
+        public ActionResult SetTourFlag(int tournamentId, bool flag)
+        {
+            _tournamentManager.SetTournamentActiveFlag(tournamentId, flag);
+
+            TempData["Alert"] = SetAlert.Set("Poprawnie wykonano działanie!", "Sukces", AlertType.Success);
+            return RedirectToAction("Manage", new { @tournamentId = tournamentId });
+        }
+
+        [HttpPost]
+        public ActionResult SetTaskFlag(int taskId, int tournamentId, bool flag)
+        {
+            _tournamentManager.SetTaskActiveFlag(taskId, flag);
+
+            TempData["Alert"] = SetAlert.Set("Poprawnie wykonano działanie!", "Sukces", AlertType.Success);
+            return RedirectToAction("Manage", new { @tournamentId = tournamentId });
+        }
+
+        public ActionResult SetPhaseFlag(int phaseId, int tournamentId, bool flag)
+        {
+            _tournamentManager.SetPhaseActiveFlag(phaseId, flag);
+
+            TempData["Alert"] = SetAlert.Set("Poprawnie wykonano działanie!", "Sukces", AlertType.Success);
+            return RedirectToAction("Manage", new { @tournamentId = tournamentId });
+        }
+
+        [HttpPost]
+        public ActionResult CountScores(int tournamentId, int phaseId)
+        {
+            _tournamentManager.CountScores(tournamentId, phaseId);
+
+            TempData["Alert"] = SetAlert.Set("Poprawnie wykonano działanie!", "Sukces", AlertType.Success);
+            return RedirectToAction("Manage", new { @tournamentId = tournamentId });
+        }
+
+        [HttpPost]
+        public ActionResult SetPromotions(int tournamentId, int phaseId)
+        {
+            _tournamentManager.SetPromotions(tournamentId, phaseId);
+
+            TempData["Alert"] = SetAlert.Set("Poprawnie wykonano działanie!", "Sukces", AlertType.Success);
+            return RedirectToAction("Manage", new { @tournamentId = tournamentId });
         }
 
         public ActionResult AddTournament()
@@ -134,10 +380,10 @@ namespace SAP.Web.Areas.Admin.Controllers
 
             for (int i = 0; i < taskCount.Length; i++)
             {
-                var taskList = new List<TaskViewModel>();
+                var taskList = new List<ManageTaskViewModel>();
 
                 for (int j = 0; j < taskCount[i]; j++)
-                    taskList.Add(new TaskViewModel { PhaseId = i, InputData = GetDataInputList(), StartTime = timeNow, EndTime = timeNow, StartDate = dateNow, EndDate = dateNow });
+                    taskList.Add(new ManageTaskViewModel { PhaseId = i, InputData = GetDataInputList(), StartTime = timeNow, EndTime = timeNow, StartDate = dateNow, EndDate = dateNow });
 
                 taskContainer.Add(new PhaseTaskContainer { Tasks = taskList });
             }
@@ -157,6 +403,58 @@ namespace SAP.Web.Areas.Admin.Controllers
 
             ViewBag.TourList = tourList;
             return View();
+        }
+
+        public ActionResult ManageTestData()
+        {
+            var tournamnets = _tournamentManager.Tournaments;
+
+            List<SelectListItem> tourList = new List<SelectListItem>();
+            foreach (var item in tournamnets)
+                tourList.Add(new SelectListItem { Value = item.Id.ToString(), Text = item.Title });
+
+            ViewBag.TourList = tourList;
+            return View();
+        }
+
+        public ActionResult GetTestData(int taskId)
+        {
+            var dbModel = _tournamentManager.TasksTestData
+                .Where(x => x.TaskId == taskId)
+                .ToList();
+
+            var viewModel = new List<TestDataViewModel>();
+
+            dbModel.ForEach(x =>
+            {
+                var model = new TestDataViewModel
+                {
+                    Id = x.Id,
+                    TaskId = x.TaskId,
+                    InputData = x.InputData,
+                    OutputData = x.OutputData
+                };
+
+                viewModel.Add(model);
+            });
+
+            return PartialView("~/Areas/Admin/Views/Shared/TestDataView.cshtml", viewModel);
+        }
+
+        public JsonResult DeleteTestData(int testId)
+        {
+            bool result = _tournamentManager.DeleteTestData(testId);
+
+            if (result)
+            {
+                var alert = SetAlert.Set("Poprawnie usunięto dane testowe!", "Sukces", AlertType.Success);
+                return Json(Alert.GetAlert(alert).ToHtmlString());
+            }
+            else
+            {
+                var alert = SetAlert.Set("Wystąpił błąd, spróbuj ponownie później", "Błąd", AlertType.Danger);
+                return Json(Alert.GetAlert(alert).ToHtmlString());
+            }
         }
 
         [HttpPost]
@@ -246,48 +544,51 @@ namespace SAP.Web.Areas.Admin.Controllers
 
         public ActionResult TodaySystemTask()
         {
-            var todayTask = TodoManager.todayTasks;
+            //var todayTask = TodoManager.todayTasks;
 
-            List<TodaySystemTaskViewModel> viewModel = new List<TodaySystemTaskViewModel>();
+            //List<TodaySystemTaskViewModel> viewModel = new List<TodaySystemTaskViewModel>();
 
-            todayTask.ForEach(x =>
-            {
-                TodaySystemTaskViewModel task = new TodaySystemTaskViewModel();
-                
-                switch (x.TaskType)
-                {
-                    case TaskType.ScoreCount:
-                        task.TournamentId = x.TournamentId;
-                        task.PhaseId = x.PhaseId;
-                        task.TypeOfTask = "Podsumowanie wyników";
-                        break;
-                    case TaskType.SetPromotions:
-                        task.TournamentId = x.TournamentId;
-                        task.PhaseId = x.PhaseId;
-                        task.TypeOfTask = "Przydzielenie awansów";
-                        break;
-                    default:
-                        task.TaskId = x.TaskId;
-                        task.TypeOfTask = x.TaskType == TaskType.StartPhase ? "Start fazy"
-                        : x.TaskType == TaskType.EndPhase ? "Koniec fazy"
-                        : x.TaskType == TaskType.StartTask ? "Start zadania"
-                        : x.TaskType == TaskType.EndTask ? "Koniec zadania"
-                        : x.TaskType == TaskType.StartTournament ? "Początek turnieju"
-                        : x.TaskType == TaskType.EndTournament ? "Koniec turnieju"
-                        : String.Empty;
-                        break;
-                }
+            //todayTask.ForEach(x =>
+            //{
+            //    TodaySystemTaskViewModel task = new TodaySystemTaskViewModel();
 
-                task.ExecuteTime = x.ExecuteTime;
-                task.IsRealized = x.IsRealized;
-                task.TaskType = x.TaskType;
+            //    switch (x.TaskType)
+            //    {
+            //        case TaskType.ScoreCount:
+            //            task.TournamentId = x.TournamentId;
+            //            task.PhaseId = x.PhaseId;
+            //            task.TypeOfTask = "Podsumowanie wyników";
+            //            break;
+            //        case TaskType.SetPromotions:
+            //            task.TournamentId = x.TournamentId;
+            //            task.PhaseId = x.PhaseId;
+            //            task.TypeOfTask = "Przydzielenie awansów";
+            //            break;
+            //        default:
+            //            task.TaskId = x.TaskId;
+            //            task.TypeOfTask = x.TaskType == TaskType.StartPhase ? "Start fazy"
+            //            : x.TaskType == TaskType.EndPhase ? "Koniec fazy"
+            //            : x.TaskType == TaskType.StartTask ? "Start zadania"
+            //            : x.TaskType == TaskType.EndTask ? "Koniec zadania"
+            //            : x.TaskType == TaskType.StartTournament ? "Początek turnieju"
+            //            : x.TaskType == TaskType.EndTournament ? "Koniec turnieju"
+            //            : String.Empty;
+            //            break;
+            //    }
 
-                viewModel.Add(task);
-            });
+            //    task.ExecuteTime = x.ExecuteTime;
+            //    task.IsRealized = x.IsRealized;
+            //    task.TaskType = x.TaskType;
 
-            ViewBag.LastSynchro = TodoManager.LastSynchronized;
+            //    viewModel.Add(task);
+            //});
 
-            return View(viewModel);
+            //ViewBag.LastSynchro = TodoManager.LastSynchronized;
+
+            //return View(viewModel);
+
+            TempData["Alert"] = SetAlert.Set("Opcja w tej wersji jest niedostępna.", "Uwaga", AlertType.Warning);
+            return RedirectToAction("Index");
         }
 
         public ActionResult Configuration()
@@ -423,6 +724,8 @@ namespace SAP.Web.Areas.Admin.Controllers
             if (disposing)
             {
                 _tournamentManager.Dispose();
+                _tournamentManager = null;
+
                 base.Dispose(disposing);
             }
         }
@@ -431,9 +734,9 @@ namespace SAP.Web.Areas.Admin.Controllers
         {
             List<SelectListItem> dataList = new List<SelectListItem>();
 
-            dataList.Add(new SelectListItem { Text = "Argumenty wywołania", Value = InputDataType.Arguments.ToString() });
-            dataList.Add(new SelectListItem { Text = "Strumień danych", Value = InputDataType.Stream.ToString() });
-            dataList.Add(new SelectListItem { Text = "Brak", Value = InputDataType.None.ToString() });
+            dataList.Add(new SelectListItem { Text = "Argumenty wywołania", Value = ((int)(InputDataType.Arguments)).ToString() });
+            dataList.Add(new SelectListItem { Text = "Strumień danych", Value = ((int)(InputDataType.Stream)).ToString() });
+            dataList.Add(new SelectListItem { Text = "Brak", Value = ((int)(InputDataType.None)).ToString() });
 
             return dataList;
         }

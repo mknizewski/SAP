@@ -6,9 +6,9 @@ using SAP.Web.Areas.Tournament.Models;
 using SAP.Web.Infrastructrue.Filters;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using System.Web.Mvc;
 using System.Web.Hosting;
+using System.Web.Mvc;
+using System.Web.Services;
 
 namespace SAP.Web.Areas.Tournament.Controllers
 {
@@ -86,6 +86,7 @@ namespace SAP.Web.Areas.Tournament.Controllers
         [ValidateAntiForgeryToken]
         [ValidateInput(false)]
         [HttpPost]
+        [WebMethod]
         public ActionResult Solution(SolutionViewModel viewModel)
         {
             string userId = User.Identity.GetUserId();
@@ -102,9 +103,10 @@ namespace SAP.Web.Areas.Tournament.Controllers
                 solutionManager = new SolutionManager(viewModel.Program, userId, viewModel.TaskId, (CompilerType)viewModel.SelectedLang);
 
             solutionManager.IniclizeManagers();
+            solutionManager.JavaMainClass = viewModel.JavaMainClassName;
 
-            HostingEnvironment.QueueBackgroundWorkItem(x => 
-            {         
+            HostingEnvironment.QueueBackgroundWorkItem(x =>
+            {
                 solutionManager.CheckSolution();
             });
 

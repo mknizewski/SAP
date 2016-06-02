@@ -230,6 +230,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="App_GlobalResources\CompilersResource.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CompilersResource.resx</DependentUpon>
+    </Compile>
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\NinjectWebCommon.cs" />
@@ -237,17 +242,27 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
+    <Compile Include="Areas\Admin\Controllers\ContactController.cs" />
     <Compile Include="Areas\Admin\Controllers\HomeController.cs" />
     <Compile Include="Areas\Admin\Controllers\ManageCompilersController.cs" />
+    <Compile Include="Areas\Admin\Controllers\ManageTaskController.cs" />
     <Compile Include="Areas\Admin\Controllers\ManageTournamentsController.cs" />
     <Compile Include="Areas\Admin\Controllers\ManageUserController.cs" />
     <Compile Include="Areas\Admin\Controllers\NewsController.cs" />
+    <Compile Include="Areas\Admin\Controllers\ScoreController.cs" />
+    <Compile Include="Areas\Admin\Models\ContactViewModel.cs" />
+    <Compile Include="Areas\Admin\Models\ScoresViewModel.cs" />
     <Compile Include="Areas\Admin\Models\AddTournamentViewModels.cs" />
     <Compile Include="Areas\Admin\Models\ChangePasswordViewModel.cs" />
     <Compile Include="Areas\Admin\Models\AdminDataViewModel.cs" />
+    <Compile Include="Areas\Admin\Models\CompilerViewModel.cs" />
+    <Compile Include="Areas\Admin\Models\ManageTourViewModel.cs" />
     <Compile Include="Areas\Admin\Models\NewsViewModel.cs" />
+    <Compile Include="Areas\Admin\Models\SendSolutionViewModel.cs" />
+    <Compile Include="Areas\Admin\Models\TestCompilerViewModel.cs" />
     <Compile Include="Areas\Admin\Models\TestDataViewModel.cs" />
     <Compile Include="Areas\Admin\Models\TodaySystemTaskViewModel.cs" />
+    <Compile Include="Areas\Admin\Models\TournamentListViewModel.cs" />
     <Compile Include="Areas\Admin\Models\TournamentsCourseViewModel.cs" />
     <Compile Include="Areas\Admin\Models\TournamentsViewModel.cs" />
     <Compile Include="Areas\Admin\Models\UsersViewModel.cs" />
@@ -262,12 +277,13 @@
     <Compile Include="Areas\User\Controllers\MessagesController.cs" />
     <Compile Include="Areas\User\Controllers\SolutionController.cs" />
     <Compile Include="Areas\User\Controllers\TournamentController.cs" />
+    <Compile Include="Areas\User\Models\MessagesViewModel.cs" />
+    <Compile Include="Areas\User\Models\ScoresViewModel.cs" />
     <Compile Include="Areas\User\Models\SendsSolutionViewModel.cs" />
     <Compile Include="Areas\User\Models\TournamentsIndexViewModel.cs" />
     <Compile Include="Areas\User\Models\UserDataModels.cs" />
     <Compile Include="Areas\User\UserAreaRegistration.cs" />
     <Compile Include="Controllers\AccountController.cs" />
-    <Compile Include="Controllers\CompilerController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Areas\User\Controllers\ManageController.cs" />
     <Compile Include="Controllers\ServerTimeController.cs" />
@@ -281,7 +297,6 @@
     <Compile Include="Infrastructrue\Filters\TournamentsAuth.cs" />
     <Compile Include="Infrastructrue\IoC\NinjectDepedencyResolver.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
-    <Compile Include="Models\CompilerViewModel.cs" />
     <Compile Include="Models\ContactModel.cs" />
     <Compile Include="Areas\User\Models\ManageViewModels.cs" />
     <Compile Include="Models\NewsViewModel.cs" />
@@ -613,7 +628,7 @@
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="Images\mapka.png" />
-    <Content Include="Images\rki - logo.jpg" />
+    <Content Include="Images\rki-logo.jpg" />
     <Content Include="Scripts\ai.0.15.0-build58334.js" />
     <Content Include="Scripts\ai.0.15.0-build58334.min.js" />
     <Content Include="ApplicationInsights.config">
@@ -738,6 +753,24 @@
     <Content Include="Areas\Admin\Views\ManageTournaments\TournamentsCourse.cshtml" />
     <Content Include="Areas\User\Views\Solution\Index.cshtml" />
     <Content Include="Areas\Admin\Views\News\Index.cshtml" />
+    <Content Include="Areas\User\Views\Tournament\CurrentScores.cshtml" />
+    <Content Include="Areas\User\Views\Tournament\HistoryScores.cshtml" />
+    <Content Include="Areas\Admin\Views\ManageTournaments\TournamentList.cshtml" />
+    <Content Include="Areas\Admin\Views\ManageTournaments\Manage.cshtml" />
+    <Content Include="Areas\Admin\Views\ManageCompilers\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\ManageTask\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\ManageTask\EditTask.cshtml" />
+    <Content Include="Areas\Admin\Views\ManageTask\UserSolutions.cshtml" />
+    <Content Include="Areas\Admin\Views\Score\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Contact\Index.cshtml" />
+    <Content Include="Areas\User\Views\Messages\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\ManageCompilers\Test.cshtml" />
+    <Content Include="Areas\Admin\Views\ManageTournaments\ManageTestData.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\TestDataView.cshtml" />
+    <Content Include="Areas\Admin\Views\ManageTournaments\EditTournamentList.cshtml" />
+    <Content Include="Areas\Admin\Views\ManageTournaments\EditTournament.cshtml" />
+    <Content Include="Areas\Admin\Views\ManageTournaments\TournamentUsers.cshtml" />
+    <Content Include="Areas\Admin\Views\ManageUser\AddAdministrator.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -790,16 +823,12 @@
     <Content Include="Views\Account\ResetPasswordConfirmation.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
-    <Content Include="Views\Compiler\Index.cshtml" />
-    <Content Include="Views\Compiler\Output.cshtml" />
     <Content Include="Views\Shared\SyncData.cshtml" />
     <Content Include="Views\Shared\NotFound.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Areas\Admin\Views\ManageCompilers\" />
     <Folder Include="Areas\Tournament\Views\Shared\" />
-    <Folder Include="Areas\User\Views\Messages\" />
     <Folder Include="Areas\User\Views\Shared\" />
   </ItemGroup>
   <ItemGroup>
@@ -816,6 +845,12 @@
       <Project>{d950b3b5-63a5-4934-82bb-e80521d8a8d2}</Project>
       <Name>SAP.DAL</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_GlobalResources\CompilersResource.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>CompilersResource.Designer.cs</LastGenOutput>
+    </Content>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

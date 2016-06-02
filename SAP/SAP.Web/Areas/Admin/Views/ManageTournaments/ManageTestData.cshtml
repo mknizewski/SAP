@@ -1,0 +1,230 @@
+﻿@{
+    ViewBag.Title = "Przeglądaj dane testowe";
+    IEnumerable<SelectListItem> tourList = ViewBag.TourList;
+}
+
+<h2>Przeglądaj dane testowe.</h2>
+<hr />
+
+<div id="myModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Wybierz jedną z poniższych opcji</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-4">
+                        Zmiana ustawień konta
+                    </div>
+                    <div class="col-md-8">
+                        <a href='@Url.Action("ChangeData", "ManageUser")' class="btn btn-info">Przejdź &raquo;</a>
+                    </div>
+                </div>
+                <br />
+                <div class="row">
+                    <div class="col-md-4">
+                        Zmiana hasła
+                    </div>
+                    <div class="col-md-8">
+                        <a href='@Url.Action("ChangePassword", "ManageUser")' class="btn btn-info">Przejdź &raquo;</a>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Zamknij</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-3">
+        <div class="list-group">
+            <a href='@Url.Action("Index", "Home")' class="list-group-item">
+                <h4 class="list-group-item-heading">Główna</h4>
+            </a>
+            <a href="#" data-toggle="modal" data-target="#myModal" class="list-group-item">
+                <h4 class="list-group-item-heading">Ustawienia</h4>
+            </a>
+            <a href='@Url.Action("ManageAccounts", "ManageUser")' class="list-group-item">
+                <h4 class="list-group-item-heading">Zarządzanie kontami</h4>
+            </a>
+            <a href='@Url.Action("Index", "ManageTournaments")' class="list-group-item active">
+                <h4 class="list-group-item-heading">Zarządzanie turniejami</h4>
+            </a>
+            <a href='@Url.Action("Index", "ManageCompilers")' class="list-group-item">
+                <h4 class="list-group-item-heading">Zarządzanie kompilatorami</h4>
+            </a>
+            <a href='@Url.Action("Index", "Contact")' class="list-group-item">
+                <h4 class="list-group-item-heading">Wiadomości</h4>
+            </a>
+        </div>
+    </div>
+    <div class="col-md-9">
+
+        <div id="alert">
+
+        </div>
+
+        <div class="panel panel-primary">
+            <div class="panel-heading">Przeglądaj dane testowe</div>
+            <div class="panel-body">
+
+                <div class="form-group">
+                    @Html.Label("Wybierz turniej", new { @class = "control-label col-md-3" })
+                    <div class="col-md-9">
+                        @Html.DropDownList("TournamentList", tourList, "Wybierz turniej", new { @class = "form-control", @id = "TourList" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.Label("Wybierz fazę", new { @class = "control-label col-md-3" })
+                    <div class="col-md-9">
+                        <select id="PhaseList" class="form-control">
+                            <option value="">Wybierz fazę</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.Label("Wybierz zadanie", new { @class = "control-label col-md-3" })
+                    <div class="col-md-9">
+                        <select id="TaskList" class="form-control">
+                            <option value="">Wybierz zadanie</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-offset-10 col-md-2">
+                        <button type="button" id="btnProcced" class="btn btn-success">Dalej</button>
+                    </div>
+                </div>
+                <hr />
+            </div>
+        </div>
+
+        <div id="result">
+            
+        </div>
+
+    </div>
+</div>
+
+<ul class="breadcrumb">
+    <li><a href='@Url.Action("Index", "Home", new { area = "" })'>Główna</a></li>
+    <li><a href='@Url.Action("Index", "Home")'>Administrator</a></li>
+    <li><a href='@Url.Action("Index")'>Zarządzanie turniejami</a></li>
+    <li class="active">Przeglądaj dane testowe</li>
+</ul>
+
+<script type="text/javascript">
+
+    var selectedTour;
+    var selectedPhase;
+
+    function deleteTestData (taskId)
+    {
+        var alert = confirm("Czy na pewno chcesz usunąć dane testowe?");
+
+        if (alert == true)
+        {
+            $.post('@Url.Action("DeleteTestData")',
+            {
+                testId: taskId
+            },
+            function (data)
+            {
+                $("#alert").append(data);
+                $("#test-" + taskId).remove();
+            });
+        }
+    }
+
+    $("#TourList").change(function () {
+
+        selectedTour = $("#TourList").val();
+
+        if (selectedTour != "")
+        {
+            $.get('@Url.Action("GetPhaseById")',
+            {
+                tournamentId: selectedTour
+            },
+            function (data)
+            {
+                $("#PhaseList").empty();
+                $("#PhaseList").append("<option value=''>Wybierz fazę</option>");
+
+                for (var i = 0; i < data.length; i++) {
+
+                    $("#PhaseList")
+                        .append("<option value='" + data[i].Value + "'>" + data[i].Text + "</option>");
+                }
+            });
+        }
+        else
+        {
+            $("#PhaseList").empty();
+            $("#PhaseList").append("<option value=''>Wybierz fazę</option>");
+        }
+    });
+
+    $("#PhaseList").change(function () {
+
+        selectedPhase = $("#PhaseList").val();
+
+        if (selectedPhase != "")
+        {
+            $.get('@Url.Action("GetTaskById")',
+                {
+                    phaseId: selectedPhase,
+                    tournamentId: selectedTour
+                },
+                function (data)
+                {
+                    $("#TaskList").empty();
+                    $("#TaskList").append("<option value=''>Wybierz zadanie</option>");
+
+                    for (var i = 0; i < data.length; i++) {
+
+                        $("#TaskList")
+                            .append("<option value='" + data[i].Value + "'>" + data[i].Text + "</option>");
+                    }
+                });
+        }
+        else
+        {
+            $("#TaskList").empty();
+            $("#TaskList").append("<option value=''>Wybierz zadanie</option>");
+        }
+    });
+
+    $("#btnProcced").click(function () {
+
+        if (selectedPhase != "" && selectedTour != "")
+        {
+            var taskValue = $("#TaskList").val();
+
+            $("#result").hide();
+
+            $.get('@Url.Action("GetTestData")',
+                {
+                    taskId: taskValue,
+                },
+                function (data)
+                {
+                    $("#result").empty();
+                    $("#result").append(data);
+                    $("#result").show(2000);
+
+                });
+
+        }
+        else
+        {
+            alert("Wybierz poprawnie elementy z listy");
+        }
+
+    });
+</script>
+

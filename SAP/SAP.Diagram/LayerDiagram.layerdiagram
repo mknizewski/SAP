@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<layerModel xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/SimpleShapesModel" dslVersion="1.0.0.0" Id="a2d9a24e-f204-4ff1-ace6-8e487c70090c" xmlns="http://schemas.microsoft.com/VisualStudio/TeamArchitect/LayerDesigner">
+  <layers>
+    <layer Id="bf53ff16-7911-4b37-8c22-6ffea552ec30" name="SAP.DAL">
+      <dependencyToLayers>
+        <dependencyFromLayerToLayer Id="06bcded1-324f-4c2b-8234-48eb1270f8b4" direction="Bidirectional">
+          <layerMoniker Id="1b3d32b6-a86d-4b81-a26b-8fb366b91b29" />
+        </dependencyFromLayerToLayer>
+      </dependencyToLayers>
+    </layer>
+    <layer Id="1b3d32b6-a86d-4b81-a26b-8fb366b91b29" name="SAP.BOL">
+      <dependencyToLayers>
+        <dependencyFromLayerToLayer Id="4d6e69cf-8102-4fe3-aa2e-7d2f46516e40" direction="Bidirectional">
+          <layerMoniker Id="afb62e31-cf5e-4702-8b1c-fdd393ba9f45" />
+        </dependencyFromLayerToLayer>
+      </dependencyToLayers>
+    </layer>
+    <layer Id="afb62e31-cf5e-4702-8b1c-fdd393ba9f45" name="SAP.Web" />
+  </layers>
+</layerModel>

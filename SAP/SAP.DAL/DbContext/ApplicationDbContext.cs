@@ -27,6 +27,7 @@ namespace SAP.DAL.DbContext
 
         //tabele -- historyczne
         public DbSet<HistoryScores> HistoryScores { get; set; }
+
         public DbSet<HistoryTournamentUsers> HistoryTournamentUsers { get; set; }
 
         public ApplicationDbContext()
@@ -96,6 +97,10 @@ namespace SAP.DAL.DbContext
             modelBuilder.Entity<UserSolutions>().HasRequired(x => x.Compiler).WithMany().WillCascadeOnDelete(false);
 
             modelBuilder.Entity<HistoryScores>().HasKey(x => x.Id);
+            modelBuilder.Entity<HistoryScores>().HasRequired(x => x.Tournament).WithMany().WillCascadeOnDelete(false);
+            modelBuilder.Entity<HistoryScores>().HasRequired(x => x.Phase).WithMany().WillCascadeOnDelete(false);
+            modelBuilder.Entity<HistoryScores>().HasRequired(x => x.User).WithMany().WillCascadeOnDelete(false);
+
             modelBuilder.Entity<HistoryTournamentUsers>().HasKey(x => x.Id);
         }
 
@@ -134,28 +139,32 @@ namespace SAP.DAL.DbContext
             {
                 CompilerName = "C",
                 SystemId = 0,
-                FullPath = @"F:\Programy\MiniGW\bin\gcc.exe"
+                FullPath = @"F:\Programy\MiniGW\bin\gcc.exe",
+                IsError = false
             });
 
             context.Compilers.Add(new Tables.Compilers
             {
                 CompilerName = "C++",
                 SystemId = 1,
-                FullPath = @"F:\Programy\MiniGW\bin\g++.exe"
+                FullPath = @"F:\Programy\MiniGW\bin\g++.exe",
+                IsError = false
             });
 
             context.Compilers.Add(new Tables.Compilers
             {
                 CompilerName = "Java",
                 SystemId = 2,
-                FullPath = @"C:\Program Files\Java\jdk1.8.0_65\bin\javac.exe"
+                FullPath = @"C:\Program Files\Java\jdk1.8.0_65\bin\javac.exe",
+                IsError = false
             });
 
             context.Compilers.Add(new Tables.Compilers
             {
                 CompilerName = "Pascal",
                 SystemId = 3,
-                FullPath = @"C:\FPC\3.0.0\bin\i386-win32\fpc.exe"
+                FullPath = @"C:\FPC\3.0.0\bin\i386-win32\fpc.exe",
+                IsError = false
             });
 
             context.SaveChanges();

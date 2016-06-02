@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<layerModel xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/SimpleShapesModel" dslVersion="1.0.0.0" Id="42f4a415-bf7e-4bd2-b850-8d2bc80e8894" xmlns="http://schemas.microsoft.com/VisualStudio/TeamArchitect/LayerDesigner">
+  <layers>
+    <layer Id="bdb82935-7b5e-4ca5-8ea6-e40ab0f5ce77" name="Turniej">
+      <childLayers>
+        <layer Id="0e0229dc-cc75-491e-8667-a4181fbbbe02" name="Faza I">
+          <childLayers>
+            <layer Id="85aa6fce-e131-4bd9-8d46-a073585b354a" name="Zadanie I" />
+            <layer Id="1ebe4407-e48f-429a-be04-1faea9520591" name="Zadanie II" />
+          </childLayers>
+        </layer>
+        <layer Id="57ed53db-cc33-4967-841d-42e63a7e50aa" name="Faza II">
+          <childLayers>
+            <layer Id="931a3baa-e7b4-4c8d-b158-bc58e93c7508" name="Zadanie III" />
+            <layer Id="4568d95b-c0f2-41c4-b9d6-c78db4608ae7" name="Zadanie IV" />
+          </childLayers>
+        </layer>
+      </childLayers>
+    </layer>
+  </layers>
+</layerModel>

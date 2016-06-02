@@ -3,7 +3,6 @@ using SAP.BOL.LogicClasses.Exceptions;
 using System;
 using System.Diagnostics;
 using System.IO;
-using System.Threading.Tasks;
 using System.Timers;
 
 namespace SAP.BOL.LogicClasses
@@ -20,6 +19,7 @@ namespace SAP.BOL.LogicClasses
         private CompilerType? language;
         private string errorInfo;
         private string outputData;
+        private string javaMainClass;
         private string inputData;
         private bool hasErrors;
         private double maxTime;
@@ -33,6 +33,7 @@ namespace SAP.BOL.LogicClasses
         public string TempPath { get { return tempPath; } }
         public string CompiledFile { get { return compiledFile; } }
         public double ExecutedTime { get { return executedTime; } }
+        public string JavaMainClass { get { return javaMainClass; } set { javaMainClass = value; } }
         public string Program { get { return program; } set { program = value; } }
         public CompilerType Language { get { return language.Value; } set { language = value; } }
         public string ErrorInfo { get { return errorInfo; } }
@@ -114,7 +115,21 @@ namespace SAP.BOL.LogicClasses
             else //w przypadku jezyka JAVA wystepuje inne rozwiązanie kompilacji niż w przypadku pozostałych języków
             {
                 compileInfo.EnvironmentVariables.Add("CLASSPATH", tempPath);
-                //TODO: Opisać przypadek javy
+                sourceFile = Path.Combine(tempPath, javaMainClass);
+                File.AppendAllText(sourceFile + ".java", program);
+
+                compileInfo.FileName = CompilerInfo.JavaPath;
+                compileInfo.Arguments = sourceFile + ".java";
+
+                compile.StartInfo = compileInfo;
+                compile.Start();
+                errorInfo = compile.StandardError.ReadToEnd();
+                compile.WaitForExit();
+
+                if (errorInfo != String.Empty)
+                    hasErrors = true;
+                else
+                    compiledFile = sourceFile + ".java";
             }
         }
 
@@ -133,53 +148,61 @@ namespace SAP.BOL.LogicClasses
             execInfo.RedirectStandardInput = true;
             execInfo.RedirectStandardOutput = true;
 
-            execInfo.FileName = compiledFile;
-            exec.StartInfo = execInfo;
+            timer = new Timer();
+            timer.Interval = maxTime;
+            timer.Elapsed += StopTask;
 
             if (language.Value != CompilerType.Java)
             {
-                timer = new Timer();
-                timer.Interval = maxTime;
-                timer.Elapsed += StopTask;
-
-                timer.Start();
-                switch (inputDataType)
-                {
-                    case InputDataType.Arguments:
-                        exec.StartInfo.Arguments = inputData;
-                        exec.Start();
-                        break;
-
-                    case InputDataType.Stream:
-                        string[] arguments = inputData.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries); // rozdzielanie spacją
-                        exec.Start();
-
-                        StreamWriter writer = exec.StandardInput;
-                        foreach (string arg in arguments)
-                            writer.WriteLine(arg);
-                        break;
-
-                    case InputDataType.None:
-                        exec.Start();
-                        break;
-                }
-
-                memoryUsed = (exec.PrivateMemorySize64 / 1024f) / 1024f;
-                outputData = exec.StandardOutput.ReadToEnd();
-                errorInfo = exec.StandardError.ReadToEnd();
-
-                exec.WaitForExit();
-                exec.Refresh();
-                executedTime = exec.TotalProcessorTime.Milliseconds;
-
-                if (errorInfo != String.Empty)
-                    hasErrors = true;
+                execInfo.FileName = compiledFile;
+                exec.StartInfo = execInfo;
             }
             else
             {
                 execInfo.EnvironmentVariables.Add("CLASSPATH", tempPath);
-                //TODO: Algorytm wykonania programu javy
+                execInfo.FileName = "java";
+                execInfo.Arguments = javaMainClass;
+                exec.StartInfo = execInfo;
             }
+
+            timer.Start();
+            switch (inputDataType)
+            {
+                case InputDataType.Arguments:
+                    if (language.Value != CompilerType.Java)
+                        exec.StartInfo.Arguments = inputData;
+                    else
+                        exec.StartInfo.Arguments = javaMainClass + " " + inputData;
+
+                    exec.Start();
+                    memoryUsed = 0; // (exec.PrivateMemorySize64 / 1024f) / 1024f;
+                    outputData = exec.StandardOutput.ReadToEnd();
+                    break;
+
+                case InputDataType.Stream:
+                    string[] arguments = inputData.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries); // rozdzielanie spacją
+                    exec.Start();
+                    memoryUsed = 0; // (exec.PrivateMemorySize64 / 1024f) / 1024f;
+
+                    StreamWriter writer = exec.StandardInput;
+                    foreach (string arg in arguments)
+                        writer.WriteLine(arg);
+
+                    outputData = exec.StandardOutput.ReadToEnd();
+                    break;
+
+                case InputDataType.None:
+                    exec.Start();
+                    memoryUsed = 0; //(exec.PrivateMemorySize64 / 1024f) / 1024f;
+                    outputData = exec.StandardOutput.ReadToEnd();
+                    break;
+            }
+
+            exec.WaitForExit();
+            executedTime = exec.TotalProcessorTime.Milliseconds;
+
+            if (errorInfo != String.Empty)
+                hasErrors = true;
 
             timer.Stop();
             timer.Dispose();
@@ -197,13 +220,16 @@ namespace SAP.BOL.LogicClasses
         {
             Directory.Delete(tempPath, true);
 
-            exec.Dispose();
-            timer.Dispose();
+            if (exec != null && timer != null)
+            {
+                exec.Dispose();
+                timer.Dispose();
+            }
         }
     }
 
     /// <summary>
-    /// Klasa przechowująca metadane kompilatorów
+    /// Klasa przechowująca sciezki kompilatorów
     /// </summary>
     public static class CompilerInfo
     {

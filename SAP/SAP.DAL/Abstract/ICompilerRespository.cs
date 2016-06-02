@@ -7,11 +7,7 @@ namespace SAP.DAL.Abstract
     {
         IEnumerable<Compilers> Compilers { get; }
 
-        bool Add(Compilers compiler);
-
-        bool EditCompiler(Compilers compiler);
-
-        bool RemoveBySystemId(int systemId);
+        bool EditPath(int systemId, string path);
 
         void Dispose();
     }

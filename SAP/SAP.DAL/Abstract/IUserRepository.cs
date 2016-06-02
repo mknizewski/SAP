@@ -9,6 +9,7 @@ namespace SAP.DAL.Abstract
         IEnumerable<UsersSchools> Schools { get; }
         IEnumerable<UsersCounselor> Counselors { get; }
         IEnumerable<UserSolutions> Solutions { get; }
+        IEnumerable<Messages> Messages { get; }
 
         bool AddUserCounselor(UsersCounselor model);
 
@@ -19,6 +20,8 @@ namespace SAP.DAL.Abstract
         bool EditUserCounselor(UsersCounselor model);
 
         bool SendMessage(Messages model);
+
+        bool DeleteMessage(int messageId);
 
         void Dispose();
     }

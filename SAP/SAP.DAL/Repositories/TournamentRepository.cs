@@ -178,7 +178,7 @@ namespace SAP.DAL.Repositories
                     var userSolution = solutions
                         .Where(z => z.TaskId == y)
                         .Where(z => z.UserId == x)
-                        .Where(z => z.Error != null)
+                        .Where(z => z.Error == null || z.Error.Equals(""))
                         .OrderByDescending(z => z.InsertTime)
                         .FirstOrDefault();
 
@@ -195,6 +195,31 @@ namespace SAP.DAL.Repositories
                 };
 
                 _context.Scores.Add(score);
+            });
+
+            //przypadek gdy user nie bd mial zadnych rozwiazan
+            var nonSolutuionUsers = _context.TournamentUsers
+                .Where(x => x.TournamentId == tournamentId)
+                .ToList();
+
+            nonSolutuionUsers.ForEach(x =>
+            {
+                var result = users
+                .Where(y => y == x.UserId)
+                .FirstOrDefault();
+
+                if (String.IsNullOrEmpty(result))
+                {
+                    var score = new Scores
+                    {
+                        UserId = x.UserId,
+                        TournamentId = tournamentId,
+                        PhaseId = phaseId,
+                        TotalScore = 0
+                    };
+
+                    _context.Scores.Add(score);
+                }
             });
 
             _context.SaveChanges();
@@ -235,6 +260,23 @@ namespace SAP.DAL.Repositories
             { return false; }
         }
 
+        public bool DeleteTestData(int Id)
+        {
+            try
+            {
+                var model = _context.TasksTestData.Find(Id);
+
+                _context.TasksTestData.Remove(model);
+                _context.SaveChanges();
+
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
         public bool DeleteTournament(int tournamentId)
         {
             throw new NotImplementedException();
@@ -243,6 +285,53 @@ namespace SAP.DAL.Repositories
         public void Dispose()
         {
             _context.Dispose();
+        }
+
+        public bool EditTask(Tasks model)
+        {
+            try
+            {
+                var dbModel = _context.Tasks.Find(model.Id);
+
+                dbModel.Title = model.Title;
+                dbModel.Description = model.Description;
+                dbModel.StartDate = model.StartDate;
+                dbModel.EndDate = model.EndDate;
+                dbModel.Input = model.Input;
+                dbModel.Output = model.Output;
+                dbModel.MaxExecuteMemory = model.MaxExecuteMemory;
+                dbModel.MaxExecuteTime = model.MaxExecuteTime;
+                dbModel.Example = model.Example;
+                dbModel.InputDataTypeId = model.InputDataTypeId;
+
+                if (model.PDF != null)
+                    dbModel.PDF = model.PDF;
+
+                _context.SaveChanges();
+                return true;
+            }
+            catch { return false; }
+        }
+
+        public bool EditTournament(Tournament model)
+        {
+            try
+            {
+                var dbModel = _context.Tournament.Find(model.Id);
+
+                dbModel.Title = model.Title;
+                dbModel.StartDate = model.StartDate;
+                dbModel.EndDate = model.EndDate;
+                dbModel.Description = model.Description;
+                dbModel.MaxUsers = model.MaxUsers;
+
+                _context.SaveChanges();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
 
         public bool RegisterToTournament(string userId, int tournamentId)
@@ -275,7 +364,10 @@ namespace SAP.DAL.Repositories
 
         public void SetPhaseActiveFlag(int Id, bool flag)
         {
-            var phase = _context.Phase.Find(Id);
+            var phase = _context.Phase
+                .Where(x => x.Id == Id)
+                .FirstOrDefault();
+
             phase.IsActive = flag;
 
             _context.SaveChanges();
@@ -283,6 +375,7 @@ namespace SAP.DAL.Repositories
 
         public void SetPromotions(int tournamentId, int phaseId)
         {
+            phaseId++;
             var phase = _context.Phase.Find(phaseId);
             var maxUserInPhase = phase.MaxUsers;
 
@@ -306,7 +399,10 @@ namespace SAP.DAL.Repositories
             //osoby nieawansujące przenosimy do tabeli historycznej i usuwamy rekord w aktualnej tabeli
             userNotAllowed.ForEach(x =>
             {
-                var tournamentsUserRow = _context.TournamentUsers.Find(x.UserId);
+                var tournamentsUserRow = _context.TournamentUsers
+                    .Where(y => y.UserId == x.UserId)
+                    .FirstOrDefault();
+
                 var historyTournamentUser = new HistoryTournamentUsers
                 {
                     OldId = tournamentsUserRow.Id,
@@ -340,7 +436,10 @@ namespace SAP.DAL.Repositories
 
         public void SetTaskActiveFlag(int Id, bool flag)
         {
-            var task = _context.Tasks.Find(Id);
+            var task = _context.Tasks
+                .Where(x => x.Id == Id)
+                .FirstOrDefault();
+
             task.IsActive = flag;
 
             _context.SaveChanges();
@@ -348,7 +447,10 @@ namespace SAP.DAL.Repositories
 
         public void SetTournamentActiveFlag(int Id, bool flag)
         {
-            var tour = _context.Tournament.Find(Id);
+            var tour = _context.Tournament
+                .Where(x => x.Id == Id)
+                .FirstOrDefault();
+
             tour.IsActive = flag;
 
             _context.SaveChanges();

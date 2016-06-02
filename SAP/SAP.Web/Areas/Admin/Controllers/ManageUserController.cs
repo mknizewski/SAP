@@ -4,6 +4,7 @@ using Microsoft.AspNet.Identity.Owin;
 using SAP.BOL.Abstract;
 using SAP.BOL.HelperClasses;
 using SAP.DAL.DbContext;
+using SAP.DAL.Tables;
 using SAP.Web.Areas.Admin.Models;
 using SAP.Web.HTMLHelpers;
 using System;
@@ -114,6 +115,31 @@ namespace SAP.Web.Areas.Admin.Controllers
         public ActionResult ManageAccounts()
         {
             return View();
+        }
+
+        
+        public ActionResult AddAdministrator()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult AddAdministrator(AddAdminViewModel viewModel)
+        {
+            ApplicationUser user = new ApplicationUser
+            {
+                FirstName = viewModel.FirstName,
+                LastName = viewModel.LastName,
+                UserName = viewModel.Email,
+                Email = viewModel.Email,
+                EmailConfirmed = true
+            };
+
+            AspUserManager.Create(user, viewModel.Password);
+            AspUserManager.AddToRole(user.Id, "Admin");
+
+            TempData["Alert"] = SetAlert.Set("Konto poprawnie stworzone!", "Sukces", AlertType.Success);
+            return RedirectToAction("ManageAccounts");
         }
 
         public ActionResult GetUserData(UserTypeToReturn typeToReturn)

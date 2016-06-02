@@ -11,6 +11,7 @@ namespace SAP.BOL.Abstract
         CompilerType Language { get; set; }
         string ErrorInfo { get; }
         string OutputData { get; }
+        string JavaMainClass { get; set; }
         string InputData { get; set; }
         bool HasError { get; }
         double MaxTime { get; set; }

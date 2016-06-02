@@ -13,7 +13,7 @@ namespace SAP.DAL.Repositories
 
         public CompilerRepository()
         {
-            _dbContext = new ApplicationDbContext();
+            _dbContext = ApplicationDbContext.Create();
         }
 
         public IEnumerable<Compilers> Compilers
@@ -24,56 +24,22 @@ namespace SAP.DAL.Repositories
             }
         }
 
-        public bool Add(Compilers compiler)
-        {
-            try
-            {
-                _dbContext.Compilers.Add(compiler);
-                _dbContext.SaveChanges();
-
-                return true;
-            }
-            catch
-            {
-                return false;
-            }
-        }
-
         public void Dispose()
         {
             _dbContext.Dispose();
-            _dbContext = null;
         }
 
-        public bool EditCompiler(Compilers compiler)
+        public bool EditPath(int systemId, string path)
         {
             try
             {
-                var dbItem = _dbContext.Compilers.Find(compiler.Id);
-
-                dbItem = compiler;
-                _dbContext.SaveChanges();
-
-                return true;
-            }
-            catch
-            {
-                return false;
-            }
-        }
-
-        public bool RemoveBySystemId(int systemId)
-        {
-            try
-            {
-                var modelToRemove = _dbContext.Compilers
-                    .Select(x => x)
+                var compiler = _dbContext.Compilers
                     .Where(x => x.SystemId == systemId)
                     .FirstOrDefault();
 
-                _dbContext.Compilers.Remove(modelToRemove);
-                _dbContext.SaveChanges();
+                compiler.FullPath = path;
 
+                _dbContext.SaveChanges();
                 return true;
             }
             catch

@@ -1,0 +1,409 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<useCaseModelRoot xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm4="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm5="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/ModelStore" xmlns:dm9="http://schemas.microsoft.com/dsltools/LogicalClassDesigner" xmlns:dm10="http://schemas.microsoft.com/dsltools/SimpleShapesModel" dslVersion="1.0.0.0" Id="d7cdbbbc-a76d-415d-b192-9e92d4dacb68" name="UseCaseDiagram" linkedPackageId="9d35def6-0511-4272-9c87-327e85a45d05" xmlns="http://schemas.microsoft.com/dsltools/UseCaseModel">
+  <profileInstances>
+    <packageHasProfileInstances Id="4421ac0d-222d-47f1-bb2c-093882202252">
+      <profileInstance Id="94558138-c36e-4256-a7a9-dc7ec674f7bf" name="StandardProfileL2">
+        <elementDefinition Id="e34d544e-0fea-4ed6-ac5e-1b74119ac791" />
+      </profileInstance>
+      <elementDefinition Id="0caec977-1f8c-4ba3-a7db-8cc9ad9cc73b" />
+    </packageHasProfileInstances>
+    <packageHasProfileInstances Id="939df4ec-0274-41e1-81ea-fe0e3da51810">
+      <profileInstance Id="a8291b26-7aa6-4ac4-8c13-32fe1b983b94" name="StandardProfileL3">
+        <elementDefinition Id="532ea607-fb19-44b8-8502-3351b05452be" />
+      </profileInstance>
+      <elementDefinition Id="29349502-908c-4fda-9054-c48619c59ed0" />
+    </packageHasProfileInstances>
+  </profileInstances>
+  <packagedElements>
+    <useCaseModelRootHasTypes>
+      <actor Id="a407ab51-aff4-4a80-b671-9527b24a402c" name="Uczestnik" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="1d673542-8a23-488c-91a1-923b2d565121" />
+        <targetEnds>
+          <association Id="8c54e92d-2610-4a4f-bdae-b3afccf7e7eb" isDerived="false" sourceEndRoleName="Uczestnik" targetEndRoleName="Rejestruj się" isLeaf="false" isAbstract="false">
+            <useCaseMoniker Id="14792ad0-989f-4fbf-9e47-6053a18ec789" LastKnownName="Rejestruj się" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="a715f96d-6464-49bd-888b-2826ae335a88" name="Uczestnik" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="856a2ad7-f2a9-4b58-8ac0-7f3adc9a533d" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="dbd6b311-82ca-4470-a65c-3f84c0d2f71e" name="Rejestruj się" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="cda18b8c-8b6c-4b26-9b20-3eb8e48588ef" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="9176856b-7669-4f31-9bb1-1c3182437ee3" />
+          </association>
+          <association Id="bb77bacc-b90f-416b-ba64-041e1e699923" isDerived="false" sourceEndRoleName="Uczestnik" targetEndRoleName="Wyświetlanie aktualności" isLeaf="false" isAbstract="false">
+            <useCaseMoniker Id="ee0980f1-48c7-4fa5-8efe-331e84fb180c" LastKnownName="Wyświetlanie aktualności" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="af10c89a-36c6-4f96-acce-53a2de1287b2" name="Uczestnik" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="c3e0a0ea-376c-4707-9d1b-83c4169c560c" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="7a6f0bae-6f4d-4c1b-b5a8-04ed71e31c17" name="Wyświetlanie aktualności" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="df348d83-3c2d-4181-9ca4-a3cdb4e08d4d" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="d3030dfc-15a6-4cf1-8280-279505c588a6" />
+          </association>
+          <association Id="918d29a0-cc6b-4352-9dfd-db23626dc230" isDerived="false" sourceEndRoleName="Uczestnik" targetEndRoleName="Wyślij wiadomość do administratora" isLeaf="false" isAbstract="false">
+            <useCaseMoniker Id="060c2630-3e88-4720-a2c2-e83d7d6e0088" LastKnownName="Wyślij wiadomość do administratora" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="36794990-dd5a-4563-b67a-d606d0fbef1b" name="Uczestnik" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="64a8da4c-bdd5-4bc6-85cb-21c510f80dff" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="1a20fcc5-7350-4bd7-8c37-18e4f161fe24" name="Wyślij wiadomość do administratora" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="8c305adf-3cdf-4cfb-b306-d177dbabe716" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="0605f1ef-b4ef-4f5f-9386-184ab78b06aa" />
+          </association>
+          <association Id="29646aee-188a-434d-a9da-5666a0912a2f" isDerived="false" sourceEndRoleName="Uczestnik" targetEndRoleName="Zaloguj się" isLeaf="false" isAbstract="false">
+            <useCaseMoniker Id="b980a141-df79-4c29-97ac-cf390cb84293" LastKnownName="Zaloguj się" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="e2c42417-fbef-492c-8f96-df37c8f54cf6" name="Uczestnik" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="3dea42ba-ee65-44b5-b6f0-5d4338aff903" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="15af4e03-1d38-4259-a050-4ed625a68963" name="Zaloguj się" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="5dd379b9-16d8-4585-b82c-b8abb63b260f" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="18b63925-b01c-4ea7-9521-7e0ffe7d324e" />
+          </association>
+          <association Id="e30d4374-a7cc-444e-b601-875eede7a9d5" isDerived="false" sourceEndRoleName="Uczestnik" targetEndRoleName="Wyświetl zadanie" isLeaf="false" isAbstract="false">
+            <useCaseMoniker Id="f8153a05-2031-4ff9-a5c9-5c38ddda1b6f" LastKnownName="Wyświetl zadanie" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="08351a49-da59-4c1f-9a28-9d6e3e72c0b5" name="Uczestnik" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="67e6f7f4-4f60-4f79-8475-c7b53a9f58b5" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="94296940-d8d6-43a3-baf1-29fd994eef47" name="Wyświetl zadanie" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="69782f15-6989-4572-8b52-97fdf936c6ff" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="6a950b03-3a29-4ab6-9deb-402f83e6df21" />
+          </association>
+          <association Id="47c6d1b0-1461-49a9-ae91-050dfcc1c6b2" isDerived="false" sourceEndRoleName="Uczestnik" targetEndRoleName="Zapisz się do turnieju" isLeaf="false" isAbstract="false">
+            <useCaseMoniker Id="491b628b-b498-4a76-9ae5-e91f5aca1ecb" LastKnownName="Zapisz się do turnieju" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="ec4feebf-df27-4c5e-bf02-214bc4d80c5d" name="Uczestnik" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="944f4781-e5a4-4068-bfc7-830dc9c16391" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="eeae265d-c49f-4f60-bcb7-80967a0cef86" name="Zapisz się do turnieju" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="3d44e7d7-404d-418c-8348-aa2500d7b18a" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="db5dd569-d3b8-44f3-952f-b4436e01016f" />
+          </association>
+          <association Id="b185d5c8-c71e-4ba5-a376-f25a9e0920c6" isDerived="false" sourceEndRoleName="Uczestnik" targetEndRoleName="Sprawdź wyniki" isLeaf="false" isAbstract="false">
+            <useCaseMoniker Id="8c24fca2-1ca1-4938-9d4e-b17b1cfe1459" LastKnownName="Sprawdź wyniki" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="9fec7080-e8d7-417b-810c-2a8384218534" name="Uczestnik" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="04e5a6be-7825-435f-9336-6734c0d713d2" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="b7b8071c-d0a7-4f31-ac30-6e08e708b40c" name="Sprawdź wyniki" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="29102059-dc49-432f-9472-75f3d4d585ed" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="93086f9c-abf6-43e6-8d10-14de4cc2bed7" />
+          </association>
+          <association Id="21f47ec4-0e48-4c3b-89c8-7771b5c24fec" isDerived="false" sourceEndRoleName="Uczestnik" targetEndRoleName="Przesłane rozwiązania" isLeaf="false" isAbstract="false">
+            <useCaseMoniker Id="a9023a30-6c7d-4866-9d99-26fa66e8c12a" LastKnownName="Przesłane rozwiązania" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="607bd68c-b07e-4588-9a0d-b773801268a0" name="Uczestnik" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="ac9b67fa-97ca-4c70-9359-38c098978bd8" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="e71506d7-724a-4ab8-ba36-628b34b92b05" name="Przesłane rozwiązania" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="2e34b70a-6a32-4f97-9260-ee6725a9e3b2" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="95a4e7a2-a222-4215-828f-9ea496c472fb" />
+          </association>
+          <association Id="9b1af13d-81d8-4f21-8e41-f36fb223d5c3" isDerived="false" sourceEndRoleName="Uczestnik" targetEndRoleName="Edycja danych personalnych" isLeaf="false" isAbstract="false">
+            <useCaseMoniker Id="9c2ae9a9-4ad6-46ac-a155-dcbed5cbe5a0" LastKnownName="Edycja danych personalnych" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="073e161c-5d02-48be-9d8a-5c36684379bd" name="Uczestnik" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="f541686f-751f-4096-89a5-e3fc753cd229" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="c1b936d9-0b73-4e02-81ab-7583be36d517" name="Edycja danych personalnych" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="216bb06e-0b4a-44ef-8cb4-f7d75973d5ba" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="67ea56b4-9861-48b6-807b-abb35df8c737" />
+          </association>
+        </targetEnds>
+      </actor>
+    </useCaseModelRootHasTypes>
+    <useCaseModelRootHasTypes>
+      <actor Id="d0621869-ca13-4fc2-91ea-5fc5eaf89a64" name="Administrator" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="d5e760d7-91d9-4553-8223-345f761ab27a" />
+        <targetEnds>
+          <association Id="7b5d84de-33bc-4f7a-9af1-64e96e465fb1" isDerived="false" sourceEndRoleName="Administrator" targetEndRoleName="         &lt;&lt;CRUD&gt;&gt;&#xD;&#xA; Zarządzanie turniejami" isLeaf="false" isAbstract="false">
+            <useCaseMoniker Id="0c7b0176-c68d-40a0-87cd-ac1f5b3d500f" LastKnownName="         &lt;&lt;CRUD&gt;&gt;&#xD;&#xA; Zarządzanie turniejami" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="c8c4e1f2-be1c-4400-bf4e-ddaddb0565a7" name="Administrator" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="e9035090-aa9c-446c-8fb0-ccf702a1a528" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="3d29a33a-0e09-4766-979c-e70b565150c0" name="         &lt;&lt;CRUD&gt;&gt;&#xD;&#xA; Zarządzanie turniejami" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="78756cf8-a313-4187-b597-9825353c8b75" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="2a03192e-e2f3-4d74-8894-3b8aa40a0c1d" />
+          </association>
+          <association Id="5740d426-af81-4771-b508-139533f93392" isDerived="false" sourceEndRoleName="Administrator" targetEndRoleName="           &lt;&lt;CRUD&gt;&gt;&#xD;&#xA;Zarządzanie aktualnościami" isLeaf="false" isAbstract="false">
+            <useCaseMoniker Id="782189fd-92bc-4453-9f87-1fe4e46f8341" LastKnownName="           &lt;&lt;CRUD&gt;&gt;&#xD;&#xA;Zarządzanie aktualnościami" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="74063e50-108c-4970-bed5-ca416bbd8bc5" name="Administrator" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="631ce87c-e9e4-44ce-bdc4-d4f827665e82" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="bcea5b25-ac29-4b4d-b627-0279007a33d3" name="           &lt;&lt;CRUD&gt;&gt;&#xD;&#xA;Zarządzanie aktualnościami" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="2d5806c1-974f-4b4c-96c2-b7c53928f521" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="5acc346e-9b9f-49ae-a84b-ba731fa43cac" />
+          </association>
+          <association Id="797a0d21-8b4c-4d5a-b3ef-662c27413805" isDerived="false" sourceEndRoleName="Administrator" targetEndRoleName="Obsługa pytań" isLeaf="false" isAbstract="false">
+            <useCaseMoniker Id="37c88194-9bcf-4718-9561-ec86103dd196" LastKnownName="Obsługa pytań" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="8d36ed82-2ec1-4567-848b-566a43022572" name="Administrator" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="82d0688e-ac33-4d3d-90d0-237e9674b346" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="8cb7cb65-23dc-43c5-a23b-86152e566d91" name="Obsługa pytań" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="e64ccda7-b524-4e28-af6b-06f70b16efff" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="e89d2904-a57e-4bf4-bce6-4fb3a7aea897" />
+          </association>
+          <association Id="566f1116-f063-436d-89d8-8ee151c94f04" isDerived="false" sourceEndRoleName="Administrator" targetEndRoleName="Przesłane rozwiązania" isLeaf="false" isAbstract="false">
+            <useCaseMoniker Id="a0285087-aaf2-4c66-8dae-a3d6c33e38e3" LastKnownName="Przesłane rozwiązania" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="7662dbf4-2cca-4a38-abc1-75cc9214c95b" name="Administrator" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="cdf69632-13ec-49fb-aa80-56cfeb209b83" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="0ac50a94-0f69-479b-9438-27fcb4b8ce3f" name="Przesłane rozwiązania" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="b06356e0-70f2-43e5-b5f5-4dd4c8bc1c23" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="e4616bf0-678c-481d-bcee-e19fb8544d10" />
+          </association>
+          <association Id="81384aa1-5b84-4765-8f19-1d88681d05d2" isDerived="false" sourceEndRoleName="Administrator" targetEndRoleName="Edycja ścieżek" isLeaf="false" isAbstract="false">
+            <useCaseMoniker Id="e52dcaaa-0eac-470c-bcc2-6e1befea3037" LastKnownName="Edycja ścieżek" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="01ff1554-6bf3-4d27-841a-e41b649bc555" name="Administrator" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="54487cf1-eb9e-46e8-9e16-aace74788308" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="131b878d-a0fa-40ad-b431-c1c0c8073cb4" name="Edycja ścieżek" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="9553af89-4e65-4249-be52-8ca83e338aa6" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="58ad4d72-9091-4f2b-be9c-7a067e7228a2" />
+          </association>
+          <association Id="9a89531e-8602-446d-a110-64427430c085" isDerived="false" sourceEndRoleName="Administrator" targetEndRoleName="         &lt;&lt;CRUD&gt;&gt; &#xD;&#xA;Zarządzanie uczestnikami" isLeaf="false" isAbstract="false">
+            <useCaseMoniker Id="cf4ef985-09d2-4710-9332-298a4c4e3c43" LastKnownName="         &lt;&lt;CRUD&gt;&gt; &#xD;&#xA;Zarządzanie uczestnikami" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="8df0a178-04b4-4f84-9a03-83af540dcf50" name="Administrator" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="883d0407-60b4-4698-8f5a-1cadf33cb63b" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="b62f16c6-4261-4b23-921e-74acd6148526" name="         &lt;&lt;CRUD&gt;&gt; &#xD;&#xA;Zarządzanie uczestnikami" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="fbbce588-0107-47ee-925e-7d8bc630b9b0" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="2da7aa70-10de-4967-a8be-c21479d15f82" />
+          </association>
+          <association Id="5c4caa68-95b2-4428-aa39-364db1a2464f" isDerived="false" sourceEndRoleName="Administrator" targetEndRoleName="Zarządzanie przebiegiem turniejów" isLeaf="false" isAbstract="false">
+            <useCaseMoniker Id="3058205b-89ad-4dd0-a7f2-14e2641fd23a" LastKnownName="Zarządzanie przebiegiem turniejów" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd Id="9f881d11-f1e0-46f8-bdb4-6ee6a10f4a38" name="Administrator" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false" isNavigableOwned="false">
+                  <elementDefinition Id="ada2d354-a4ad-4f26-b125-e3fcb631dcbe" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd Id="6cb1e1b2-febd-4327-be89-0005a4cacbcc" name="Zarządzanie przebiegiem turniejów" isLeaf="false" isStatic="false" isReadOnly="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+                  <elementDefinition Id="042839c6-fe78-4fdb-b4c2-ec19b8132cdb" />
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+            <elementDefinition Id="308b69f6-02b8-457b-a570-23cdeadaf063" />
+          </association>
+        </targetEnds>
+      </actor>
+    </useCaseModelRootHasTypes>
+    <useCaseModelRootHasTypes>
+      <useCase Id="14792ad0-989f-4fbf-9e47-6053a18ec789" name="Rejestruj się" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="edff8083-969f-4a78-aee0-47d30232677c" />
+      </useCase>
+    </useCaseModelRootHasTypes>
+    <useCaseModelRootHasTypes>
+      <useCase Id="b980a141-df79-4c29-97ac-cf390cb84293" name="Zaloguj się" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="750c6d4c-b709-4908-a0d9-e440a53461d7" />
+        <extendedCases>
+          <extend Id="ff6e48e8-aa49-495c-b7ba-fc9c2bede78b">
+            <useCaseMoniker Id="14792ad0-989f-4fbf-9e47-6053a18ec789" LastKnownName="Rejestruj się" />
+            <elementDefinition Id="8b667626-42c0-45c4-8a11-8bdb4be22768" />
+          </extend>
+        </extendedCases>
+      </useCase>
+    </useCaseModelRootHasTypes>
+    <useCaseModelRootHasTypes>
+      <useCase Id="ee0980f1-48c7-4fa5-8efe-331e84fb180c" name="Wyświetlanie aktualności" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="892ece34-52f3-443a-abcf-82478a154eec" />
+      </useCase>
+    </useCaseModelRootHasTypes>
+    <useCaseModelRootHasTypes>
+      <useCase Id="060c2630-3e88-4720-a2c2-e83d7d6e0088" name="Wyślij wiadomość do administratora" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="b1fba4c3-4a73-4a45-922e-cb62a2052ebc" />
+      </useCase>
+    </useCaseModelRootHasTypes>
+    <useCaseModelRootHasTypes>
+      <useCase Id="f8153a05-2031-4ff9-a5c9-5c38ddda1b6f" name="Wyświetl zadanie" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="bd5916e9-9d55-4076-a043-6a6e26aef52b" />
+        <additions>
+          <include Id="1b5e7fac-b073-4b49-9ef5-35bcc0b12fe1">
+            <useCaseMoniker Id="7cb44a0f-7d65-47eb-b1d2-b169210fe849" LastKnownName="Prześlij rozwiązanie" />
+            <elementDefinition Id="08bb235f-25a1-4006-abe9-235a9261e2b2" />
+          </include>
+        </additions>
+      </useCase>
+    </useCaseModelRootHasTypes>
+    <useCaseModelRootHasTypes>
+      <useCase Id="7cb44a0f-7d65-47eb-b1d2-b169210fe849" name="Prześlij rozwiązanie" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="3d5aa098-03e3-4537-9f6c-bb8a87f6fe9e" />
+      </useCase>
+    </useCaseModelRootHasTypes>
+    <useCaseModelRootHasTypes>
+      <useCase Id="491b628b-b498-4a76-9ae5-e91f5aca1ecb" name="Zapisz się do turnieju" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="6bf4b0bc-6d87-435d-bafa-4b998b2848e4" />
+      </useCase>
+    </useCaseModelRootHasTypes>
+    <useCaseModelRootHasTypes>
+      <useCase Id="8c24fca2-1ca1-4938-9d4e-b17b1cfe1459" name="Sprawdź wyniki" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="171b778d-bc6d-41c9-9bd5-f9d2f9f1f7a0" />
+      </useCase>
+    </useCaseModelRootHasTypes>
+    <useCaseModelRootHasTypes>
+      <useCase Id="a9023a30-6c7d-4866-9d99-26fa66e8c12a" name="Przesłane rozwiązania" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="c7744fd7-9120-4532-a649-ab6a6b9a2790" />
+      </useCase>
+    </useCaseModelRootHasTypes>
+    <useCaseModelRootHasTypes>
+      <useCase Id="9c2ae9a9-4ad6-46ac-a155-dcbed5cbe5a0" name="Edycja danych personalnych" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="4599e77a-3370-4fe5-bdc3-934a30811f3f" />
+      </useCase>
+    </useCaseModelRootHasTypes>
+    <useCaseModelRootHasTypes>
+      <useCase Id="0c7b0176-c68d-40a0-87cd-ac1f5b3d500f" name="         &lt;&lt;CRUD&gt;&gt;&#xD;&#xA; Zarządzanie turniejami" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="2200b2f9-28b1-47bc-9be1-2537fff107b5" />
+      </useCase>
+    </useCaseModelRootHasTypes>
+    <useCaseModelRootHasTypes>
+      <useCase Id="782189fd-92bc-4453-9f87-1fe4e46f8341" name="           &lt;&lt;CRUD&gt;&gt;&#xD;&#xA;Zarządzanie aktualnościami" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="db5a1966-b401-4f74-82ff-bd83ff4e8e53" />
+      </useCase>
+    </useCaseModelRootHasTypes>
+    <useCaseModelRootHasTypes>
+      <useCase Id="cf4ef985-09d2-4710-9332-298a4c4e3c43" name="         &lt;&lt;CRUD&gt;&gt; &#xD;&#xA;Zarządzanie uczestnikami" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="8694cfe1-47d4-45d3-a3a9-a84749826492" />
+      </useCase>
+    </useCaseModelRootHasTypes>
+    <useCaseModelRootHasTypes>
+      <useCase Id="37c88194-9bcf-4718-9561-ec86103dd196" name="Obsługa pytań" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="0199b494-7c52-4b95-8694-1250e03b26ce" />
+      </useCase>
+    </useCaseModelRootHasTypes>
+    <useCaseModelRootHasTypes>
+      <useCase Id="3058205b-89ad-4dd0-a7f2-14e2641fd23a" name="Zarządzanie przebiegiem turniejów" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="c705638e-6629-4fb8-af07-1d44f9ba41df" />
+        <additions>
+          <include Id="4833092b-3870-473d-8782-5de397cc5f6f">
+            <useCaseMoniker Id="91e0d3f4-ad25-4a7a-ac6b-0898d19158bd" LastKnownName="Awansuj" />
+            <elementDefinition Id="adbc7683-a4d1-4eba-ad22-971fa6cf7ba8" />
+          </include>
+          <include Id="f5a86d4f-a272-461b-b24d-063955c44faf">
+            <useCaseMoniker Id="a6b6091e-50b6-463f-992f-1c4d36213297" LastKnownName="Zlicz punkty" />
+            <elementDefinition Id="03931c72-7a5d-4bd4-9ea6-f3e88029b417" />
+          </include>
+        </additions>
+      </useCase>
+    </useCaseModelRootHasTypes>
+    <useCaseModelRootHasTypes>
+      <useCase Id="91e0d3f4-ad25-4a7a-ac6b-0898d19158bd" name="Awansuj" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="41b54ea3-092d-4767-bade-d63acebaa901" />
+      </useCase>
+    </useCaseModelRootHasTypes>
+    <useCaseModelRootHasTypes>
+      <useCase Id="a6b6091e-50b6-463f-992f-1c4d36213297" name="Zlicz punkty" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="5339e9e1-4cd8-4709-acf7-aebf407f501d" />
+      </useCase>
+    </useCaseModelRootHasTypes>
+    <useCaseModelRootHasTypes>
+      <useCase Id="a0285087-aaf2-4c66-8dae-a3d6c33e38e3" name="Przesłane rozwiązania" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="4c61f2b6-3b7e-45f2-a57d-5736f59138bf" />
+      </useCase>
+    </useCaseModelRootHasTypes>
+    <useCaseModelRootHasTypes>
+      <useCase Id="e52dcaaa-0eac-470c-bcc2-6e1befea3037" name="Edycja ścieżek" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="b7299775-b56e-4c79-bd95-1041b82c6a87" />
+      </useCase>
+    </useCaseModelRootHasTypes>
+  </packagedElements>
+  <package Id="9d35def6-0511-4272-9c87-327e85a45d05" name="SAP.Diagram">
+    <elementDefinition Id="73a1766e-a29a-4982-a88a-ead9450b3a52" />
+  </package>
+</useCaseModelRoot>

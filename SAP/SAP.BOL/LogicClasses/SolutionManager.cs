@@ -23,6 +23,8 @@ namespace SAP.BOL.LogicClasses
         private IUserManager _userManager;
         private ITournamentManager _tournamentManager;
 
+        public string JavaMainClass { get; set; }
+
         public SolutionManager(string program, string userId, int taskId, CompilerType compilerType)
         {
             this.program = program;
@@ -67,7 +69,8 @@ namespace SAP.BOL.LogicClasses
             _programManager.Language = compilerType;
             _programManager.InputDataType = (InputDataType)task.InputDataTypeId;
             _programManager.MaxTime = task.MaxExecuteTime;
-            _programManager.MaxMemory = task.MaxExecuteMemory; 
+            _programManager.MaxMemory = task.MaxExecuteMemory;
+            _programManager.JavaMainClass = JavaMainClass;
 
             //Działanie program managera
             try
@@ -77,8 +80,7 @@ namespace SAP.BOL.LogicClasses
 
                 if (_programManager.HasError) //w przypadku erroru - koniec działania
                 {
-                    _userManager.AddSolution(task.Id, task.TournamentId, userId, (int)compilerType, 0, program, task.MaxExecuteMemory, task.MaxExecuteTime, _programManager.ErrorInfo);
-                    this.Dispose();
+                    _userManager.AddSolution(task.Id, task.TournamentId, task.PhaseId, userId, (int)compilerType, 0, program, task.MaxExecuteMemory, task.MaxExecuteTime, _programManager.ErrorInfo);
                     return;
                 }
 
@@ -89,22 +91,21 @@ namespace SAP.BOL.LogicClasses
 
                     if (!_programManager.HasError)
                     {
-                        if (_programManager.OutputData == item.OutputData)
+                        string output = BlankChars.Remove(_programManager.OutputData);
+                        if (output == item.OutputData)
                         {
                             allCpuTime.Add(_programManager.ExecutedTime * 0.001); //zamieniamy ms na s
                             allMemUsage.Add(_programManager.MemoryUsed);
                         }
                         else
                         {
-                            _userManager.AddSolution(task.Id, task.TournamentId, userId, (int)compilerType, 0, program, task.MaxExecuteMemory, task.MaxExecuteTime, _programManager.ErrorInfo);
-                            this.Dispose();
+                            _userManager.AddSolution(task.Id, task.TournamentId, task.PhaseId, userId, (int)compilerType, 0, program, task.MaxExecuteMemory, task.MaxExecuteTime, _programManager.ErrorInfo);
                             return;
                         }
                     }
                     else
                     {
-                        _userManager.AddSolution(task.Id, task.TournamentId, userId, (int)compilerType, 0, program, task.MaxExecuteMemory, task.MaxExecuteTime, _programManager.ErrorInfo);
-                        this.Dispose();
+                        _userManager.AddSolution(task.Id, task.TournamentId, task.PhaseId, userId, (int)compilerType, 0, program, task.MaxExecuteMemory, task.MaxExecuteTime, _programManager.ErrorInfo);
                         return;
                     }
                 }
@@ -118,12 +119,11 @@ namespace SAP.BOL.LogicClasses
                 avgCpuTime = avgCpuTime / allCpuTime.Count;
                 avgMemUsage = avgMemUsage / allMemUsage.Count;
 
-                _userManager.AddSolution(task.Id, task.TournamentId, userId, (int)compilerType, 5, program, avgMemUsage, avgCpuTime, _programManager.ErrorInfo);
+                _userManager.AddSolution(task.Id, task.TournamentId, task.PhaseId, userId, (int)compilerType, 5, program, avgMemUsage, avgCpuTime, _programManager.ErrorInfo);
             }
             catch
             {
-                _userManager.AddSolution(task.Id, task.TournamentId, userId, (int)compilerType, 0, program, task.MaxExecuteMemory, task.MaxExecuteTime, _programManager.ErrorInfo);
-                this.Dispose();
+                _userManager.AddSolution(task.Id, task.TournamentId, task.PhaseId, userId, (int)compilerType, 0, program, task.MaxExecuteMemory, task.MaxExecuteTime, _programManager.ErrorInfo);
             }
 
             this.Dispose();
