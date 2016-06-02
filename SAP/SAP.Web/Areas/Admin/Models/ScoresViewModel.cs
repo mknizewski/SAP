@@ -20,4 +20,10 @@ namespace SAP.Web.Areas.Admin.Models
         public string LastName { get; set; }
         public decimal Score { get; set; }
     }
+
+    public class ListOfUsersViewModel
+    {
+        public List<PersonScoreViewModel> ActiveUsers { get; set; }
+        public List<PersonScoreViewModel> HistoryUsers { get; set; }
+    }
 }

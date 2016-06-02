@@ -767,6 +767,10 @@
     <Content Include="Areas\Admin\Views\ManageCompilers\Test.cshtml" />
     <Content Include="Areas\Admin\Views\ManageTournaments\ManageTestData.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\TestDataView.cshtml" />
+    <Content Include="Areas\Admin\Views\ManageTournaments\EditTournamentList.cshtml" />
+    <Content Include="Areas\Admin\Views\ManageTournaments\EditTournament.cshtml" />
+    <Content Include="Areas\Admin\Views\ManageTournaments\TournamentUsers.cshtml" />
+    <Content Include="Areas\Admin\Views\ManageUser\AddAdministrator.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />

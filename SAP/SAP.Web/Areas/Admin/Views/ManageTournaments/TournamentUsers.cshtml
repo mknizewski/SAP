@@ -1,6 +1,7 @@
-﻿@model List<SAP.Web.Areas.Admin.Models.TournamentListViewModel>
+﻿@model SAP.Web.Areas.Admin.Models.ListOfUsersViewModel
+
 @{
-    ViewBag.Title = "Przegląd turniejów";
+    ViewBag.Title = "Lista uczestników";
 }
 
 <link href="~/Content/data_tables/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.css" rel="stylesheet" />
@@ -8,7 +9,7 @@
 <script src="~/Content/data_tables/datatables/media/js/jquery.dataTables.min.js"></script>
 <script src="~/Content/data_tables/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js"></script>
 <link href="//cdn.datatables.net/1.10.11/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css" />
-<h2>Przegląd turniejów</h2>
+<h2>Lista uczestników</h2>
 <hr />
 
 <div id="myModal" class="modal fade" role="dialog">
@@ -70,32 +71,47 @@
     <div class="col-md-9">
         <div class="panel panel-primary">
             <div class="panel-heading">
-                <h3 class="panel-title">Lista turniejów</h3>
+                <h3 class="panel-title">Lista aktywnych uczestników</h3>
             </div>
             <div class="panel-body">
-                <table id="tourTable">
+                <table id="activeTable">
                     <thead>
                         <tr>
-                            <th>Tytuł</th>
-                            <th>Zarządzaj</th>
-                            <th>Wyniki</th>
-                            <th>Uczestnicy</th>
+                            <th>Imię</th>
+                            <th>Nazwisko</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach (var item in Model)
+                        @foreach (var item in Model.ActiveUsers)
                         {
                             <tr>
-                                <td>@item.Title</td>
-                                <td>
-                                    <a href='@Url.Action("Manage", new { @tournamentId = item.TournamentId })' class="btn btn-success">Przejdź</a>
-                                </td>
-                                <td>
-                                    <a href='@Url.Action("Index", "Score", new { @tournamentId = item.TournamentId })' class="btn btn-warning">Wyniki</a>
-                                </td>
-                                <td>
-                                    <a href='@Url.Action("TournamentUsers", new { @tournamentId = item.TournamentId })' class="btn btn-primary">Uczestnicy</a>
-                                </td>
+                                <td>@item.FirstName</td>
+                                <td>@item.LastName</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">Lista byłych uczestników</h3>
+            </div>
+            <div class="panel-body">
+                <table id="historyTable">
+                    <thead>
+                        <tr>
+                            <th>Imię</th>
+                            <th>Nazwisko</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.HistoryUsers)
+                        {
+                            <tr>
+                                <td>@item.FirstName</td>
+                                <td>@item.LastName</td>
                             </tr>
                         }
                     </tbody>
@@ -109,13 +125,14 @@
     <li><a href='@Url.Action("Index", "Home", new { area = ""})'>Główna</a></li>
     <li><a href='@Url.Action("Index", "Home")'>Administrator</a></li>
     <li><a href='@Url.Action("Index")'>Zarządzanie turniejami</a></li>
-    <li class="active">Przegląd turniejów</li>
+    <li class="active">Uczestnicy</li>
 </ul>
 
 <script type="text/javascript">
 
     $(document).ready(function () {
-        $('#tourTable').DataTable({
+
+        $('#activeTable').DataTable({
             responsive: true,
             select: true,
             "language": {
@@ -141,5 +158,33 @@
                 }
             }
         });
+
+        $('#historyTable').DataTable({
+            responsive: true,
+            select: true,
+            "language": {
+                processing: "Przetwarzanie...",
+                search: "Szukaj:",
+                lengthMenu: "Pokaż _MENU_ pozycji",
+                info: "Pozycje od _START_ do _END_ z _TOTAL_ łącznie",
+                infoEmpty: "Pozycji 0 z 0 dostępnych",
+                infoFiltered: "(filtrowanie spośród _MAX_ dostępnych pozycji)",
+                infoPostFix: "",
+                loadingRecords: "Wczytywanie...",
+                zeroRecords: "Nie znaleziono pasujących pozycji",
+                emptyTable: "Brak danych",
+                paginate: {
+                    first: "Pierwsza",
+                    previous: "Poprzednia",
+                    next: "Następna",
+                    last: "Ostatnia"
+                },
+                aria: {
+                    sortAscending: ": aktywuj, by posortować kolumnę rosnąco",
+                    sortDescending: ": aktywuj, by posortować kolumnę malejąco"
+                }
+            }
+        });
+
     });
 </script>

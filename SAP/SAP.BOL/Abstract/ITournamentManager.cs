@@ -20,6 +20,8 @@ namespace SAP.BOL.Abstract
 
         TournamentsPagination GetTourByPage(int page);
 
+        bool EditTournament(Tournament model);
+
         bool EditTask(Tasks model);
 
         bool DeleteTestData(int Id);

@@ -197,6 +197,31 @@ namespace SAP.DAL.Repositories
                 _context.Scores.Add(score);
             });
 
+            //przypadek gdy user nie bd mial zadnych rozwiazan
+            var nonSolutuionUsers = _context.TournamentUsers
+                .Where(x => x.TournamentId == tournamentId)
+                .ToList();
+
+            nonSolutuionUsers.ForEach(x =>
+            {
+                var result = users
+                .Where(y => y == x.UserId)
+                .FirstOrDefault();
+
+                if (String.IsNullOrEmpty(result))
+                {
+                    var score = new Scores
+                    {
+                        UserId = x.UserId,
+                        TournamentId = tournamentId,
+                        PhaseId = phaseId,
+                        TotalScore = 0
+                    };
+
+                    _context.Scores.Add(score);
+                }
+            });
+
             _context.SaveChanges();
         }
 
@@ -286,6 +311,27 @@ namespace SAP.DAL.Repositories
                 return true;
             }
             catch { return false; }
+        }
+
+        public bool EditTournament(Tournament model)
+        {
+            try
+            {
+                var dbModel = _context.Tournament.Find(model.Id);
+
+                dbModel.Title = model.Title;
+                dbModel.StartDate = model.StartDate;
+                dbModel.EndDate = model.EndDate;
+                dbModel.Description = model.Description;
+                dbModel.MaxUsers = model.MaxUsers;
+
+                _context.SaveChanges();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
 
         public bool RegisterToTournament(string userId, int tournamentId)

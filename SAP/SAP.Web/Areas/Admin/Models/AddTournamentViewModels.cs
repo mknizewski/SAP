@@ -8,6 +8,8 @@ namespace SAP.Web.Areas.Admin.Models
 {
     public class TournamentViewModel
     {
+        public int Id { get; set; }
+
         [Required]
         [DataType(DataType.Text)]
         [Display(Name = "Tytuł")]
@@ -42,6 +44,48 @@ namespace SAP.Web.Areas.Admin.Models
         [Required]
         [Display(Name = "Ilość faz")]
         public int PhaseCount { get; set; }
+    }
+
+    public class EditTournamentViewModel
+    {
+        public int Id { get; set; }
+
+        [Required]
+        [DataType(DataType.Text)]
+        [Display(Name = "Tytuł")]
+        public string Title { get; set; }
+
+        [DataType(DataType.MultilineText)]
+        [Display(Name = "Opis turnieju")]
+        public string Description { get; set; }
+
+        [Required]
+        [DataType(DataType.Date)]
+        [Display(Name = "Start turnieju")]
+        [DisplayFormat(DataFormatString = "{0:yyy-MM-dd}", ApplyFormatInEditMode = true)]
+        public DateTime StartDate { get; set; }
+
+        [Required]
+        [DataType(DataType.Time)]
+        public TimeSpan StartTime { get; set; }
+
+        [Required]
+        [DataType(DataType.Date)]
+        [Display(Name = "Koniec turnieju")]
+        [DisplayFormat(DataFormatString = "{0:yyy-MM-dd}", ApplyFormatInEditMode = true)]
+        public DateTime EndDate { get; set; }
+
+        [Required]
+        [DataType(DataType.Time)]
+        public TimeSpan EndTime { get; set; }
+
+        [Required]
+        [Display(Name = "Max uczestników")]
+        public int MaxUsers { get; set; }
+
+        public bool IsActive { get; set; }
+
+        public bool IsConfigured { get; set; }
     }
 
     public class PhaseViewModel

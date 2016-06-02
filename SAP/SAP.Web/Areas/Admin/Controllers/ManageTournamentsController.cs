@@ -1,6 +1,8 @@
-﻿using SAP.BOL.Abstract;
+﻿using Microsoft.AspNet.Identity.Owin;
+using SAP.BOL.Abstract;
 using SAP.BOL.HelperClasses;
 using SAP.BOL.LogicClasses;
+using SAP.DAL.DbContext;
 using SAP.DAL.Tables;
 using SAP.Web.Areas.Admin.Models;
 using SAP.Web.HTMLHelpers;
@@ -8,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Web;
 using System.Web.Mvc;
 
 namespace SAP.Web.Areas.Admin.Controllers
@@ -16,15 +19,140 @@ namespace SAP.Web.Areas.Admin.Controllers
     public class ManageTournamentsController : Controller
     {
         private ITournamentManager _tournamentManager;
+        private ApplicationUserManager _userManager;
 
         public ManageTournamentsController(ITournamentManager tournamentManager)
         {
             _tournamentManager = tournamentManager;
         }
 
+        public ApplicationUserManager UserManager
+        {
+            get
+            {
+                return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            }
+            private set
+            {
+                _userManager = value;
+            }
+        }
+
         public ActionResult Index()
         {
             return View();
+        }
+
+        public ActionResult EditTournamentList()
+        {
+            var viewModel = new List<TournamentListViewModel>();
+            var dbTournaments = _tournamentManager.Tournaments
+                .ToList();
+
+            dbTournaments.ForEach(x =>
+            {
+                var tour = new TournamentListViewModel
+                {
+                    TournamentId = x.Id,
+                    Title = x.Title
+                };
+
+                viewModel.Add(tour);
+            });
+
+            return View(viewModel);
+        }
+
+        [HttpGet]
+        public ActionResult EditTournament(int tournamentId)
+        {
+            var dbModel = _tournamentManager.Tournaments
+                .Where(x => x.Id == tournamentId)
+                .FirstOrDefault();
+
+            var viewModel = new EditTournamentViewModel
+            {
+                Id = dbModel.Id,
+                Title = dbModel.Title,
+                Description = dbModel.Description,
+                StartDate = dbModel.StartDate.Date,
+                EndDate = dbModel.EndDate.Date,
+                StartTime = dbModel.StartDate.TimeOfDay,
+                EndTime = dbModel.EndDate.TimeOfDay,
+                MaxUsers = dbModel.MaxUsers,
+                IsActive = dbModel.IsActive,
+                IsConfigured = dbModel.IsConfigured
+            };
+
+            return View(viewModel);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditTournament(EditTournamentViewModel viewModel)
+        {
+            var tour = new SAP.DAL.Tables.Tournament
+            {
+                Id = viewModel.Id,
+                Title = viewModel.Title,
+                Description = viewModel.Description,
+                StartDate = viewModel.StartDate.Add(viewModel.StartTime),
+                EndDate = viewModel.EndDate.Add(viewModel.EndTime),
+                MaxUsers = viewModel.MaxUsers
+            };
+
+            bool result = _tournamentManager.EditTournament(tour);
+
+            if (result)
+                TempData["Alert"] = SetAlert.Set("Poprawnie zmodfyfikowano turniej " + viewModel.Title, "Sukces", AlertType.Success);
+            else
+                TempData["Alert"] = SetAlert.Set("Wystąpił błąd, prosimy spróbować później", "Błąd", AlertType.Danger);
+
+            return RedirectToAction("Index");
+        }
+
+        public ActionResult TournamentUsers(int tournamentId)
+        {
+            var usersActive = _tournamentManager.TournamentsUsers
+                .Where(x => x.TournamentId == tournamentId)
+                .ToList();
+
+            var usersHistory = _tournamentManager.HistoryTournamentsUsers
+                .Where(x => x.TournamentId == tournamentId)
+                .ToList();
+
+            var viewModel = new ListOfUsersViewModel();
+            var listOfActiveUsers = new List<PersonScoreViewModel>();
+            var listOfHistoryUsers = new List<PersonScoreViewModel>();
+
+            usersActive.ForEach(x =>
+            {
+                var user = new PersonScoreViewModel
+                {
+                    FirstName = x.User.FirstName,
+                    LastName = x.User.LastName
+                };
+
+                listOfActiveUsers.Add(user);
+            });
+
+            usersHistory.ForEach(x =>
+            {
+                ApplicationUser u = UserManager.FindByIdAsync(x.UserId).Result;
+
+                var user = new PersonScoreViewModel
+                {
+                    FirstName = u.FirstName,
+                    LastName = u.LastName
+                };
+
+                listOfHistoryUsers.Add(user);
+            });
+
+            viewModel.ActiveUsers = listOfActiveUsers;
+            viewModel.HistoryUsers = listOfHistoryUsers;
+
+            return View(viewModel);
         }
 
         public ActionResult TournamentList()
@@ -596,6 +724,8 @@ namespace SAP.Web.Areas.Admin.Controllers
             if (disposing)
             {
                 _tournamentManager.Dispose();
+                _tournamentManager = null;
+
                 base.Dispose(disposing);
             }
         }

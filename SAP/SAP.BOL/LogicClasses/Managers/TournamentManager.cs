@@ -123,6 +123,13 @@ namespace SAP.BOL.LogicClasses.Managers
             return result;
         }
 
+        public bool EditTournament(Tournament model)
+        {
+            bool result = _tournamentRepository.EditTournament(model);
+
+            return result;
+        }
+
         public List<Phase> GetActiveAndEndPhase(int tourId)
         {
             //TODO: Zmienić
