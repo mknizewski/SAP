@@ -35,11 +35,6 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Content Include="fpc-3.0.0.i386-win32.exe" />
-    <Content Include="jdk-8u91-windows-x64.exe" />
-    <Content Include="mingw-get-setup.exe" />
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
