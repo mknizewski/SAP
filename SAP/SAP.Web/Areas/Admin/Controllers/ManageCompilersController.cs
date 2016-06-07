@@ -40,6 +40,11 @@ namespace SAP.Web.Areas.Admin.Controllers
             viewModel.JavaPath = CompilerInfo.JavaPath;
             viewModel.PascalPath = CompilerInfo.PascalPath;
 
+            viewModel.CAruguments = CompilerInfo.CArguments;
+            viewModel.CppArguments = CompilerInfo.CppArguments;
+            viewModel.JavaArguments = CompilerInfo.JavaArguments;
+            viewModel.PascalArguments = CompilerInfo.PascalArguments;
+
             return View(viewModel);
         }
 
@@ -108,11 +113,12 @@ namespace SAP.Web.Areas.Admin.Controllers
             return View(viewModel);
         }
 
-        public ActionResult ChangePath(int systemId, string path)
+        public ActionResult ChangePath(int systemId, string path, string arguments)
         {
-            bool result = _compilerManager.EditPath(systemId, path);
-
-            if (result)
+            bool resultPath = _compilerManager.EditPath(systemId, path);
+            bool resultArg = _compilerManager.EditArguments(systemId, arguments);
+            
+            if (resultPath && resultArg)
                 TempData["Alert"] = SetAlert.Set("Poprawnie zmieniono scieżkę!", "Sukces", AlertType.Success);
             else
                 TempData["Alert"] = SetAlert.Set("Wystąpił błąd!", "Błąd", AlertType.Danger);

@@ -29,6 +29,25 @@ namespace SAP.DAL.Repositories
             _dbContext.Dispose();
         }
 
+        public bool EditArgument(int systemId, string argument)
+        {
+            try
+            {
+                var compiler = _dbContext.Compilers
+                    .Where(x => x.SystemId == systemId)
+                    .FirstOrDefault();
+
+                compiler.Arguments = argument;
+
+                _dbContext.SaveChanges();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
         public bool EditPath(int systemId, string path)
         {
             try

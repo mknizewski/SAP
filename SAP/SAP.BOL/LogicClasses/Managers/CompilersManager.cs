@@ -28,6 +28,13 @@ namespace SAP.BOL.LogicClasses.Managers
             _compilerRepository.Dispose();
         }
 
+        public bool EditArguments(int systemId, string argument)
+        {
+            bool result = _compilerRepository.EditArgument(systemId, argument);
+
+            return result;
+        }
+
         public bool EditPath(int systemId, string path)
         {
             bool result = _compilerRepository.EditPath(systemId, path);
