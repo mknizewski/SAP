@@ -104,7 +104,7 @@ namespace SAP.Web.Areas.Tournament.Controllers
             string userId = User.Identity.GetUserId();
             bool isRegister = _tournamentManager.IsRegistered(userId, tourId);
 
-            if (isRegister)
+            if (!isRegister)
             {
                 bool tryRegister = _tournamentManager.RegisterToTournament(userId, tourId);
 
