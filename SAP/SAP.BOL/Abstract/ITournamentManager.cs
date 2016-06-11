@@ -48,6 +48,8 @@ namespace SAP.BOL.Abstract
 
         bool RegisterToTournament(string userId, int tournamentId);
 
+        bool IsRegistered(string userId, int tournamentId);
+
         void Dispose();
     }
 }

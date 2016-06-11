@@ -36,6 +36,7 @@ namespace SAP.DAL.Abstract
         bool DeleteTestData(int Id);
 
         bool RegisterToTournament(string userId, int tournamentId);
+        bool IsRegistered(string userId, int tournamentId);
 
         bool AddTaskTestingData(TasksTestData testData);
 

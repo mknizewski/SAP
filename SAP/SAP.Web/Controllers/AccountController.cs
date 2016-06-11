@@ -202,7 +202,7 @@ namespace SAP.Web.Controllers
                     {
                         await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
 
-                        TempData["Alert"] = SetAlert.Set("Dziękujemy za rejestrację w serwisie! Aby dokończyć w pełni rejestrację na Twoj email wysłaliśmy potwierdzenie.", "Sukces", AlertType.Success);
+                        TempData["Alert"] = SetAlert.Set("Dziękujemy za rejestrację w serwisie!", "Sukces", AlertType.Success);
 
                         // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
                         // Send an email with this link

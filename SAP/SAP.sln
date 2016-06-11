@@ -11,8 +11,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SAP.DAL", "SAP.DAL\SAP.DAL.
 EndProject
 Project("{F088123C-0E9E-452A-89E6-6BA2F21D5CAC}") = "SAP.Diagram", "SAP.Diagram\SAP.Diagram.modelproj", "{8F37C2AD-249E-4ACF-AD4A-778E328A279A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SAP.Addons", "SAP.Addons\SAP.Addons.csproj", "{60A46739-0054-45BC-B551-01746F8D9B0C}"
-EndProject
 Global
 	GlobalSection(SubversionScc) = preSolution
 		Svn-Managed = True
@@ -39,10 +37,6 @@ Global
 		{8F37C2AD-249E-4ACF-AD4A-778E328A279A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8F37C2AD-249E-4ACF-AD4A-778E328A279A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8F37C2AD-249E-4ACF-AD4A-778E328A279A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{60A46739-0054-45BC-B551-01746F8D9B0C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{60A46739-0054-45BC-B551-01746F8D9B0C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{60A46739-0054-45BC-B551-01746F8D9B0C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{60A46739-0054-45BC-B551-01746F8D9B0C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
