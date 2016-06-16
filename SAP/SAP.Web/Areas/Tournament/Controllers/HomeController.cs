@@ -102,9 +102,9 @@ namespace SAP.Web.Areas.Tournament.Controllers
         public ActionResult Register(int tourId)
         {
             string userId = User.Identity.GetUserId();
-            bool isRegister = _tournamentManager.IsRegistered(userId, tourId);
+            bool isNonRegister = _tournamentManager.IsRegistered(userId, tourId);
 
-            if (!isRegister)
+            if (isNonRegister)
             {
                 bool tryRegister = _tournamentManager.RegisterToTournament(userId, tourId);
 

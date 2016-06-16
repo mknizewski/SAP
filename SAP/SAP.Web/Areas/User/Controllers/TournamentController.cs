@@ -36,13 +36,16 @@ namespace SAP.Web.Areas.User.Controllers
                     .Where(x => x.IsActive)
                     .FirstOrDefault();
 
-                var tour = new ActualTournamentsViewModel
+               if (actualT != null)
                 {
-                    Id = actualT.Id,
-                    Title = actualT.Title,
-                };
+                    var tour = new ActualTournamentsViewModel
+                    {
+                        Id = actualT.Id,
+                        Title = actualT.Title,
+                    };
 
-                actualList.Add(tour);
+                    actualList.Add(tour);
+                }
             }
 
             var historyTour = _tournamentManager.HistoryTournamentsUsers
