@@ -1,6 +1,6 @@
 ﻿@model List<SAP.Web.Areas.Admin.Models.SendSolutionViewModel>
 @{
-    string userName = Model[0].UserName;
+    string userName = Model == null ? Model[0].UserName : String.Empty;
     ViewBag.Title = "Przesłane rozwiązania: " + userName;
 }
 

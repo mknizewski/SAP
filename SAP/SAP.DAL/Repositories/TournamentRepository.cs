@@ -334,6 +334,26 @@ namespace SAP.DAL.Repositories
             }
         }
 
+        public bool IsRegistered(string userId, int tournamentId)
+        {
+            try
+            {
+                var isRegistered = _context.TournamentUsers
+                    .Where(x => x.UserId == userId)
+                    .Where(x => x.TournamentId == tournamentId)
+                    .FirstOrDefault();
+
+                if (isRegistered == null)
+                    return true;
+
+                return false;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
         public bool RegisterToTournament(string userId, int tournamentId)
         {
             try

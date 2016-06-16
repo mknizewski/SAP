@@ -3,6 +3,7 @@ using SAP.BOL.LogicClasses.Exceptions;
 using System;
 using System.Diagnostics;
 using System.IO;
+using System.Security;
 using System.Timers;
 
 namespace SAP.BOL.LogicClasses
@@ -48,7 +49,7 @@ namespace SAP.BOL.LogicClasses
         public ProgramManager()
         {
             string tempDirectory = Path.GetRandomFileName();
-            tempPath = Path.Combine(Path.GetTempPath(), tempDirectory);
+            tempPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory + "App_Data", tempDirectory);
             Directory.CreateDirectory(tempPath);
         }
 
@@ -86,19 +87,19 @@ namespace SAP.BOL.LogicClasses
                     case CompilerType.C:
                         compileInfo.FileName = CompilerInfo.CPath;
                         File.AppendAllText(sourceFile + ".c", program);
-                        compileInfo.Arguments = sourceFile + ".c -o " + sourceFile + ".exe";
+                        compileInfo.Arguments = sourceFile + ".c " + CompilerInfo.CArguments + " -o " + sourceFile + ".exe";
                         break;
 
                     case CompilerType.Cpp:
                         compileInfo.FileName = CompilerInfo.CppPath;
                         File.AppendAllText(sourceFile + ".cpp", program);
-                        compileInfo.Arguments = sourceFile + ".cpp -o " + sourceFile + ".exe";
+                        compileInfo.Arguments = sourceFile + ".cpp " + CompilerInfo.CppArguments + " -o " + sourceFile + ".exe";
                         break;
 
                     case CompilerType.Pascal:
                         compileInfo.FileName = CompilerInfo.PascalPath;
                         File.AppendAllText(sourceFile + ".pas", program);
-                        compileInfo.Arguments = sourceFile + ".pas";
+                        compileInfo.Arguments = CompilerInfo.PascalArguments + " " + sourceFile + ".pas";
                         break;
                 }
 
@@ -119,7 +120,7 @@ namespace SAP.BOL.LogicClasses
                 File.AppendAllText(sourceFile + ".java", program);
 
                 compileInfo.FileName = CompilerInfo.JavaPath;
-                compileInfo.Arguments = sourceFile + ".java";
+                compileInfo.Arguments = CompilerInfo.JavaArguments + " " + sourceFile + ".java";
 
                 compile.StartInfo = compileInfo;
                 compile.Start();
@@ -147,6 +148,9 @@ namespace SAP.BOL.LogicClasses
             execInfo.RedirectStandardError = true;
             execInfo.RedirectStandardInput = true;
             execInfo.RedirectStandardOutput = true;
+            //execInfo.UserName = CompilerInfo.UserName;
+            //execInfo.Password = CompilerInfo.GetPassword();
+            //execInfo.LoadUserProfile = true;
 
             timer = new Timer();
             timer.Interval = maxTime;
@@ -233,10 +237,35 @@ namespace SAP.BOL.LogicClasses
     /// </summary>
     public static class CompilerInfo
     {
+        static CompilerInfo()
+        {
+            UserName = "SAPEXEC";
+        }
+
         public static string CPath { get; set; }
+        public static string CArguments { get; set; }
+
         public static string CppPath { get; set; }
+        public static string CppArguments { get; set; }
+
         public static string JavaPath { get; set; }
+        public static string JavaArguments { get; set; }
+
         public static string PascalPath { get; set; }
+        public static string PascalArguments { get; set; }
+
+        public static string UserName { get; set; }
+
+        public static SecureString GetPassword()
+        {
+            SecureString password = new SecureString();
+            string passwordString = "admin123";
+
+            for (int i = 0; i < passwordString.Length; i++)
+                password.AppendChar(passwordString[i]);
+
+            return password;
+        }
     }
 
     public enum CompilerType

@@ -74,17 +74,26 @@
                 @using (Html.BeginForm("ChangePath", "ManageCompilers", FormMethod.Post, new { @role = "form" }))
                 {
                     <div class="row">
-                        <div class="col-md-9">
-                            <div class="form-group">
-                                @Html.LabelFor(x => x.CPath, new { @class = "col-md-2 control-label", @style = "margin-top:7px;" })
-                                <div class="col-md-10">
-                                    @Html.Hidden("systemId", Model.CSystemId)
-                                    @Html.EditorFor(x => x.CPath, "", "path", new { htmlAttributes = new { @class = "form-control" } })
+                        <div class="col-md-10">
+                            <div class="row">
+                                <div class="col-md-7">
+                                    <div class="form-group">
+                                        @Html.LabelFor(x => x.CPath, new { @class = "col-md-2 control-label", @style = "margin-top:7px;" })
+                                        <div class="col-md-10">
+                                            @Html.Hidden("systemId", Model.CSystemId)
+                                            @Html.EditorFor(x => x.CPath, "", "path", new { htmlAttributes = new { @class = "form-control" } })
+                                            <span class="help-block">Ścieżka do pliku</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-5">
+                                    @Html.EditorFor(x => x.CAruguments, "", "arguments", new { htmlAttributes = new { @class = "form-control" } })
+                                    <span class="help-block">Argumenty kompilacji</span>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-3">
-                            <button type="submit" class="btn btn-primary">Zapisz zmiany</button>
+                        <div class="col-md-2">
+                            <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-floppy-save"></span></button>
                         </div>
                     </div>
                 }
@@ -94,17 +103,26 @@
                 @using (Html.BeginForm("ChangePath", "ManageCompilers", FormMethod.Post, new { @role = "form" }))
                 {
                     <div class="row">
-                        <div class="col-md-9">
-                            <div class="form-group">
-                                @Html.LabelFor(x => x.CppPath, new { @class = "col-md-2 control-label", @style = "margin-top:7px;" })
-                                <div class="col-md-10">
-                                    @Html.Hidden("systemId", Model.CppSystemId)
-                                    @Html.EditorFor(x => x.CppPath, "", "path", new { htmlAttributes = new { @class = "form-control" } })
+                        <div class="col-md-10">
+                            <div class="row">
+                                <div class="col-md-7">
+                                    <div class="form-group">
+                                        @Html.LabelFor(x => x.CppPath, new { @class = "col-md-2 control-label", @style = "margin-top:7px;" })
+                                        <div class="col-md-10">
+                                            @Html.Hidden("systemId", Model.CppSystemId)
+                                            @Html.EditorFor(x => x.CppPath, "", "path", new { htmlAttributes = new { @class = "form-control" } })
+                                            <span class="help-block">Scieżka do pliku</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-5">
+                                    @Html.EditorFor(x => x.CppArguments, "", "arguments", new { htmlAttributes = new { @class = "form-control" } })
+                                    <span class="help-block">Argumenty kompilacji</span>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-3">
-                            <button type="submit" class="btn btn-primary">Zapisz zmiany</button>
+                        <div class="col-md-2">
+                            <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-floppy-save"></span></button>
                         </div>
                     </div>
                 }
@@ -114,17 +132,26 @@
                 @using (Html.BeginForm("ChangePath", "ManageCompilers", FormMethod.Post, new { @role = "form" }))
                 {
                     <div class="row">
-                        <div class="col-md-9">
-                            <div class="form-group">
-                                @Html.LabelFor(x => x.PascalPath, new { @class = "col-md-2 control-label", @style = "margin-top:7px;" })
-                                <div class="col-md-10">
-                                    @Html.Hidden("systemId", Model.PascalSystemId)
-                                    @Html.EditorFor(x => x.PascalPath, "", "path", new { htmlAttributes = new { @class = "form-control" } })
+                        <div class="col-md-10">
+                            <div class="row">
+                                <div class="col-md-7">
+                                    <div class="form-group">
+                                        @Html.LabelFor(x => x.PascalPath, new { @class = "col-md-2 control-label", @style = "margin-top:7px;" })
+                                        <div class="col-md-10">
+                                            @Html.Hidden("systemId", Model.PascalSystemId)
+                                            @Html.EditorFor(x => x.PascalPath, "", "path", new { htmlAttributes = new { @class = "form-control" } })
+                                            <span class="help-block">Scieżka do pliku</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-5">
+                                    @Html.EditorFor(x => x.PascalArguments, "", "arguments", new { htmlAttributes = new { @class = "form-control" } })
+                                    <span class="help-block">Argumenty kompilacji</span>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-3">
-                            <button type="submit" class="btn btn-primary">Zapisz zmiany</button>
+                        <div class="col-md-2">
+                            <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-floppy-save"></span></button>
                         </div>
                     </div>
                 }
@@ -134,17 +161,26 @@
                 @using (Html.BeginForm("ChangePath", "ManageCompilers", FormMethod.Post, new { @role = "form" }))
                 {
                     <div class="row">
-                        <div class="col-md-9">
-                            <div class="form-group">
-                                @Html.LabelFor(x => x.JavaPath, new { @class = "col-md-2 control-label", @style = "margin-top:7px;" })
-                                <div class="col-md-10">
-                                    @Html.Hidden("systemId", Model.JavaSystemId)
-                                    @Html.EditorFor(x => x.JavaPath, "", "path", new { htmlAttributes = new { @class = "form-control" } })
+                        <div class="col-md-10">
+                            <div class="row">
+                                <div class="col-md-7">
+                                    <div class="form-group">
+                                        @Html.LabelFor(x => x.JavaPath, new { @class = "col-md-2 control-label", @style = "margin-top:7px;" })
+                                        <div class="col-md-10">
+                                            @Html.Hidden("systemId", Model.JavaSystemId)
+                                            @Html.EditorFor(x => x.JavaPath, "", "path", new { htmlAttributes = new { @class = "form-control" } })
+                                            <span class="help-block">Scieżka do pliku</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-5">
+                                    @Html.EditorFor(x => x.JavaArguments, "", "arguments", new { htmlAttributes = new { @class = "form-control" } })
+                                    <span class="help-block">Argumenty kompilacji</span>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-3">
-                            <button type="submit" class="btn btn-primary">Zapisz zmiany</button>
+                        <div class="col-md-2">
+                            <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-floppy-save"></span></button>
                         </div>
                     </div>
                 }

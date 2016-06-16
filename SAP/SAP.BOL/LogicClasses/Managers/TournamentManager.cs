@@ -177,6 +177,13 @@ namespace SAP.BOL.LogicClasses.Managers
             return result;
         }
 
+        public bool IsRegistered(string userId, int tournamentId)
+        {
+            bool result = _tournamentRepository.IsRegistered(userId, tournamentId);
+
+            return result;
+        }
+
         public bool RegisterToTournament(string userId, int tournamentId)
         {
             bool result = _tournamentRepository.RegisterToTournament(userId, tournamentId);

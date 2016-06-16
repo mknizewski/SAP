@@ -102,19 +102,26 @@ namespace SAP.Web.Areas.Tournament.Controllers
         public ActionResult Register(int tourId)
         {
             string userId = User.Identity.GetUserId();
-            bool result = _tournamentManager.RegisterToTournament(userId, tourId);
+            bool isNonRegister = _tournamentManager.IsRegistered(userId, tourId);
 
-            if (result)
-                TempData["Alert"] = SetAlert.Set("Poprawnie zapisano do turnieju!", "Sukces", AlertType.Success);
+            if (isNonRegister)
+            {
+                bool tryRegister = _tournamentManager.RegisterToTournament(userId, tourId);
+
+                if (tryRegister)
+                    TempData["Alert"] = SetAlert.Set("Poprawnie zapisano do turnieju!", "Sukces", AlertType.Success);
+                else
+                    TempData["Alert"] = SetAlert.Set("Wykorzystano limit miejsc!", "Błąd", AlertType.Danger);
+            }
             else
-                TempData["Alert"] = SetAlert.Set("W danym turnieju wykorzystano limit miejsc!", "Błąd", AlertType.Danger);
+                TempData["Alert"] = SetAlert.Set("Bierzesz udział już w tym turnieju!", "Błąd", AlertType.Danger);
 
             return RedirectToAction("Index");
         }
 
         public ActionResult Details(int tourId)
         {
-            return View();
+            return RedirectToAction("Index");
         }
 
         #region Helpers

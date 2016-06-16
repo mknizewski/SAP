@@ -9,6 +9,8 @@ namespace SAP.DAL.Abstract
 
         bool EditPath(int systemId, string path);
 
+        bool EditArgument(int systemId, string argument);
+
         void Dispose();
     }
 }
