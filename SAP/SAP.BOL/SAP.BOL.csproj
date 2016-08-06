@@ -9,9 +9,10 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>SAP.BOL</RootNamespace>
     <AssemblyName>SAP.BOL</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -35,9 +36,16 @@
   <PropertyGroup>
     <StartupObject />
   </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>SandBox.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+    <None Include="SandBox.snk" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SAP.DAL\SAP.DAL.csproj">
@@ -77,6 +85,7 @@
     <Compile Include="LogicClasses\Managers\ContactManager.cs" />
     <Compile Include="LogicClasses\Exceptions\CompilerExceptions.cs" />
     <Compile Include="LogicClasses\Managers\UserManager.cs" />
+    <Compile Include="LogicClasses\Sandbox.cs" />
     <Compile Include="LogicClasses\ServerConfig.cs" />
     <Compile Include="LogicClasses\ServerTime.cs" />
     <Compile Include="LogicClasses\SolutionManager.cs" />

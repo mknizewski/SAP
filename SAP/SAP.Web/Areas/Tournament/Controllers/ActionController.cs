@@ -6,6 +6,7 @@ using SAP.Web.Areas.Tournament.Models;
 using SAP.Web.Infrastructrue.Filters;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Web.Hosting;
 using System.Web.Mvc;
 using System.Web.Services;
@@ -86,28 +87,40 @@ namespace SAP.Web.Areas.Tournament.Controllers
         [ValidateAntiForgeryToken]
         [ValidateInput(false)]
         [HttpPost]
-        [WebMethod]
         public ActionResult Solution(SolutionViewModel viewModel)
         {
             string userId = User.Identity.GetUserId();
-            SolutionManager solutionManager;
+            object[] parameters;
 
             if (viewModel.File != null)
             {
                 byte[] file = new byte[viewModel.File.ContentLength];
-                viewModel.File.InputStream.Read(file, 0, file.Length); //zapisujemy plik w postaci bitów
+                viewModel.File.InputStream.Read(file, 0, file.Length);
 
-                solutionManager = new SolutionManager(file, userId, viewModel.TaskId, (CompilerType)viewModel.SelectedLang);
+                string program = Encoding.UTF8.GetString(file);
+                parameters = new object[] 
+                {
+                    program,
+                    userId,
+                    viewModel.TaskId,
+                    (CompilerType)viewModel.SelectedLang,
+                    viewModel.JavaMainClassName
+                };
             }
             else
-                solutionManager = new SolutionManager(viewModel.Program, userId, viewModel.TaskId, (CompilerType)viewModel.SelectedLang);
-
-            solutionManager.IniclizeManagers();
-            solutionManager.JavaMainClass = viewModel.JavaMainClassName;
+                parameters = new object[] 
+                {
+                    viewModel.Program,
+                    userId,
+                    viewModel.TaskId,
+                    (CompilerType)viewModel.SelectedLang,
+                    viewModel.JavaMainClassName
+                };
 
             HostingEnvironment.QueueBackgroundWorkItem(x =>
             {
-                solutionManager.CheckSolution();
+                var sandbox = Sandbox.Create();
+                sandbox.ExecuteUntrusedCode(parameters);
             });
 
             TempData["Alert"] = SetAlert.Set("Dziękujemy za przesłanie zgłoszenia! Wynik możesz poznać w sekcji <b>Zgłoszone rozwiązania</b> w menu.", "Sukces", AlertType.Success);
