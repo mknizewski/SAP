@@ -40,12 +40,12 @@
     <SignAssembly>true</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
-    <AssemblyOriginatorKeyFile>SandBox.snk</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>SAP.BOL.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
-    <None Include="SandBox.snk" />
+    <None Include="SAP.BOL.snk" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SAP.DAL\SAP.DAL.csproj">

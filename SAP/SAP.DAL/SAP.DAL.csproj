@@ -40,11 +40,11 @@
     <SignAssembly>true</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
-    <AssemblyOriginatorKeyFile>c.snk</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>SAP.DAL.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="c.snk" />
+    <None Include="SAP.DAL.snk" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
