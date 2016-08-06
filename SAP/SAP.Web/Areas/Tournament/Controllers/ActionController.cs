@@ -119,8 +119,7 @@ namespace SAP.Web.Areas.Tournament.Controllers
 
             HostingEnvironment.QueueBackgroundWorkItem(x =>
             {
-                var sandbox = Sandbox.Create();
-                sandbox.ExecuteUntrusedCode(parameters);
+               
             });
 
             TempData["Alert"] = SetAlert.Set("Dziękujemy za przesłanie zgłoszenia! Wynik możesz poznać w sekcji <b>Zgłoszone rozwiązania</b> w menu.", "Sukces", AlertType.Success);

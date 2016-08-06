@@ -85,7 +85,6 @@
     <Compile Include="LogicClasses\Managers\ContactManager.cs" />
     <Compile Include="LogicClasses\Exceptions\CompilerExceptions.cs" />
     <Compile Include="LogicClasses\Managers\UserManager.cs" />
-    <Compile Include="LogicClasses\Sandbox.cs" />
     <Compile Include="LogicClasses\ServerConfig.cs" />
     <Compile Include="LogicClasses\ServerTime.cs" />
     <Compile Include="LogicClasses\SolutionManager.cs" />

@@ -2,6 +2,7 @@
 using SAP.BOL.HelperClasses;
 using SAP.BOL.LogicClasses;
 using SAP.Web.Areas.Admin.Models;
+using SAP.Workers;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
@@ -15,12 +16,10 @@ namespace SAP.Web.Areas.Admin.Controllers
     {
         private ICompilersManager _compilerManager;
         private ResourceManager _compilerResource;
-        private IProgramManager _programManager;
 
-        public ManageCompilersController(ICompilersManager compilerManager, IProgramManager programManager)
+        public ManageCompilersController(ICompilersManager compilerManager)
         {
             _compilerManager = compilerManager;
-            _programManager = programManager;
 
             Assembly assembly = Assembly.Load("App_GlobalResources");
             _compilerResource = new ResourceManager("Resources.CompilersResource", assembly);
@@ -28,89 +27,19 @@ namespace SAP.Web.Areas.Admin.Controllers
 
         public ActionResult Index()
         {
-            CompilerViewModel viewModel = new CompilerViewModel();
+            
 
-            viewModel.CSystemId = (int)CompilerType.C;
-            viewModel.CppSystemId = (int)CompilerType.Cpp;
-            viewModel.JavaSystemId = (int)CompilerType.Java;
-            viewModel.PascalSystemId = (int)CompilerType.Pascal;
-
-            viewModel.CPath = CompilerInfo.CPath;
-            viewModel.CppPath = CompilerInfo.CppPath;
-            viewModel.JavaPath = CompilerInfo.JavaPath;
-            viewModel.PascalPath = CompilerInfo.PascalPath;
-
-            viewModel.CAruguments = CompilerInfo.CArguments;
-            viewModel.CppArguments = CompilerInfo.CppArguments;
-            viewModel.JavaArguments = CompilerInfo.JavaArguments;
-            viewModel.PascalArguments = CompilerInfo.PascalArguments;
-
-            return View(viewModel);
+            return View();
         }
 
-        public ActionResult Test()
+        public ActionResult GetInfo()
         {
-            List<TestCompilerViewModel> viewModel = new List<TestCompilerViewModel>();
-            string cHello = _compilerResource.GetString("CHelloWorld");
-            string cppHello = _compilerResource.GetString("CppHelloWorld");
-            string javaHello = _compilerResource.GetString("JavaHelloWorld");
-            string pascalHello = _compilerResource.GetString("PascalHelloWorld");
+            var sandboxService = SandboxService.Create(RequestType.Info);
+            string responseFromServer = sandboxService.MakeRequest();
 
-            string output = String.Empty;
-            bool hasError;
-            string errorString = String.Empty;
-            string language;
+            TempData["response"] = responseFromServer;
 
-            _programManager.MaxTime = 5;
-            _programManager.InputDataType = InputDataType.None;
-            _programManager.MaxMemory = 5;
-
-            //C - Test
-            _programManager.Language = CompilerType.C;
-            _programManager.Program = cHello;
-            _programManager.CompileAndExecute();
-
-            hasError = _programManager.HasError;
-            language = CompilerType.C.ToString();
-            errorString = _programManager.ErrorInfo;
-            output = _programManager.OutputData;
-            viewModel.Add(TestCompilerViewModel.Inicialize(output, hasError, errorString, language));
-
-            //Cpp - Test
-            _programManager.Language = CompilerType.Cpp;
-            _programManager.Program = cppHello;
-            _programManager.CompileAndExecute();
-
-            hasError = _programManager.HasError;
-            language = CompilerType.Cpp.ToString();
-            errorString = _programManager.ErrorInfo;
-            output = _programManager.OutputData;
-            viewModel.Add(TestCompilerViewModel.Inicialize(output, hasError, errorString, language));
-
-            //Java - Test
-            _programManager.Language = CompilerType.Java;
-            _programManager.JavaMainClass = "Hello";
-            _programManager.Program = javaHello;
-            _programManager.CompileAndExecute();
-
-            hasError = _programManager.HasError;
-            language = CompilerType.Java.ToString();
-            errorString = _programManager.ErrorInfo;
-            output = _programManager.OutputData;
-            viewModel.Add(TestCompilerViewModel.Inicialize(output, hasError, errorString, language));
-
-            //Pascal - Test
-            _programManager.Language = CompilerType.Pascal;
-            _programManager.Program = pascalHello;
-            _programManager.CompileAndExecute();
-
-            hasError = _programManager.HasError;
-            language = CompilerType.Pascal.ToString();
-            errorString = _programManager.ErrorInfo;
-            output = _programManager.OutputData;
-            viewModel.Add(TestCompilerViewModel.Inicialize(output, hasError, errorString, language));
-
-            return View(viewModel);
+            return View();
         }
 
         public ActionResult ChangePath(int systemId, string path, string arguments)
@@ -135,9 +64,6 @@ namespace SAP.Web.Areas.Admin.Controllers
             {
                 _compilerManager.Dispose();
                 _compilerManager = null;
-
-                _programManager.Dispose();
-                _programManager = null;
 
                 _compilerResource = null;
 

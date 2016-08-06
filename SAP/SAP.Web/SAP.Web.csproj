@@ -772,6 +772,7 @@
     <Content Include="Areas\Admin\Views\ManageTournaments\EditTournament.cshtml" />
     <Content Include="Areas\Admin\Views\ManageTournaments\TournamentUsers.cshtml" />
     <Content Include="Areas\Admin\Views\ManageUser\AddAdministrator.cshtml" />
+    <Content Include="Areas\Admin\Views\ManageCompilers\GetInfo.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -845,6 +846,10 @@
     <ProjectReference Include="..\SAP.DAL\SAP.DAL.csproj">
       <Project>{d950b3b5-63a5-4934-82bb-e80521d8a8d2}</Project>
       <Name>SAP.DAL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SAP.Services\SAP.Services.csproj">
+      <Project>{82ee70fb-df23-4de5-90a1-d7160fd46e42}</Project>
+      <Name>SAP.Services</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
