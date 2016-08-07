@@ -1,8 +1,10 @@
-﻿using SAP.Services.Resources;
+﻿using SAP.Services.Dictionaries;
+using SAP.Services.Resources;
 using System;
 using System.IO;
 using System.Net;
 using System.Resources;
+using System.Runtime.Serialization.Json;
 
 namespace SAP.Workers
 {
@@ -18,6 +20,8 @@ namespace SAP.Workers
         private RequestType _requestType;
         private ResourceManager _resourceManager;
         private TypeOfRequest _typeOfRequest;
+        private object[] _jsonParameters;
+        private const int _jsonLength = 6;
 
         public string ApiFullPath
         {
@@ -27,36 +31,81 @@ namespace SAP.Workers
             }
         }
 
+        public object[] JsonParameters
+        {
+            get
+            {
+                return _jsonParameters;
+            }
+            set
+            {
+                var val = value as object[];
+
+                if (val != null && val.Length == _jsonLength)
+                    _jsonParameters = val;
+                else
+                {
+                    string fieldName = _jsonParameters.GetType().Name;
+                    string exMessage = _resourceManager.GetString(SandboxDictionary.IncorrectJson);
+                    throw new ArgumentException(exMessage, fieldName);
+                }
+            }
+        }
+
         private SandboxService(RequestType reqType)
         {
             this._resourceManager = new ResourceManager(typeof(SandboxServiceResource));
             this._requestType = reqType;
-            this._apiPathPattern = _resourceManager.GetString("SandboxApiPattern");
+            this._apiPathPattern = _resourceManager.GetString(SandboxDictionary.SandboxApiPattern);
         }
 
         public static SandboxService Create(RequestType reqType)
         {
-            var sandboxWorker = new SandboxService(reqType);
+            var sandboxService = new SandboxService(reqType);
 
-            return sandboxWorker;
+            return sandboxService;
         }
 
         public string MakeRequest()
         {
-            _typeOfRequest = _requestType == RequestType.Info ? (TypeOfRequest)GetInfo :
-                             _requestType == RequestType.Api ? (TypeOfRequest)GetToken :
-                             _requestType == RequestType.Token ? (TypeOfRequest)GetExecute :
-                             (TypeOfRequest)(() => { return string.Empty; });
+            _typeOfRequest = _requestType == RequestType.Info ? 
+                (TypeOfRequest)(() => 
+                {
+                    _apiFullPath = string.Format(_apiPathPattern, _resourceManager.GetString(SandboxDictionary.SandboxApiInfo));
+                    return DoGet();
+                }) :
+                             _requestType == RequestType.Token ? 
+                (TypeOfRequest)(() => 
+                {
+                    _apiFullPath = string.Format(_apiPathPattern, _resourceManager.GetString(SandboxDictionary.SandboxApiToken));
+                    return DoGet();
+                }) :
+                             _requestType == RequestType.Api ? 
+                (TypeOfRequest)(() => 
+                {
+                    if (_jsonParameters == null)
+                    {
+                        string fieldName = _jsonParameters.GetType().Name;
+                        string exMessage = _resourceManager.GetString(SandboxDictionary.IncorrectJson);
+
+                        throw new ArgumentException(exMessage, fieldName);
+                    }
+
+                    _apiFullPath = string.Format(_apiPathPattern, _resourceManager.GetString(SandboxDictionary.SandboxApi));
+                    return DoPost();
+                }) :
+                (TypeOfRequest)(() => 
+                {
+                    return string.Empty;
+                });
 
             return _typeOfRequest();
         }
 
-        private string GetInfo()
+        private string DoGet()
         {
-            _apiFullPath = string.Format(_apiPathPattern, _resourceManager.GetString("SandboxApiInfo"));
-
             WebRequest webRequest = WebRequest.Create(_apiFullPath);
-            webRequest.Method = "GET";
+            webRequest.Method = SandboxDictionary.Get;
 
             WebResponse webRespone = webRequest.GetResponse();
             var dataStream = webRespone.GetResponseStream();
@@ -69,18 +118,49 @@ namespace SAP.Workers
             }
 
             dataStream.Close();
-
             return responseFromServer;
         }
 
-        private string GetToken()
+        private string DoPost()
         {
-            return string.Empty;
-        }
+            var webRequest = WebRequest.Create(_apiFullPath);
+            webRequest.ContentType = SandboxDictionary.JsonRequestMimeType;
+            webRequest.Method = SandboxDictionary.Post;
 
-        private string GetExecute()
-        {
-            return string.Empty;
+            var jsonSerializer = new DataContractJsonSerializer(typeof(object[]));
+            var memStream = new MemoryStream();
+
+            jsonSerializer.WriteObject(memStream, _jsonParameters);
+            memStream.Position = (long)decimal.Zero;
+
+            string jsonToServer = string.Empty;
+
+            using (var streamReader = new StreamReader(memStream))
+            {
+                jsonToServer = streamReader.ReadToEnd();
+                streamReader.Close();
+            }
+
+            webRequest.ContentLength = jsonToServer.Length;
+
+            using (var streamWriter = new StreamWriter(webRequest.GetRequestStream()))
+            {
+                streamWriter.Write(jsonToServer);
+                streamWriter.Flush();
+                streamWriter.Close();
+            }
+
+            var webResponse = webRequest.GetResponse();
+            string responseFromServer = string.Empty;
+
+            using (var streamReader = new StreamReader(webResponse.GetResponseStream()))
+            {
+                responseFromServer = streamReader.ReadToEnd();
+                streamReader.Close();
+            }
+
+            memStream.Close();
+            return responseFromServer;
         }
     }
 

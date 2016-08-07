@@ -1,4 +1,5 @@
-﻿using SAP.BOL.Abstract;
+﻿using Resources;
+using SAP.BOL.Abstract;
 using SAP.BOL.HelperClasses;
 using SAP.BOL.LogicClasses;
 using SAP.Web.Areas.Admin.Models;
@@ -21,8 +22,7 @@ namespace SAP.Web.Areas.Admin.Controllers
         {
             _compilerManager = compilerManager;
 
-            Assembly assembly = Assembly.Load("App_GlobalResources");
-            _compilerResource = new ResourceManager("Resources.CompilersResource", assembly);
+            _compilerResource = new ResourceManager(typeof(CompilersResource));
         }
 
         public ActionResult Index()
@@ -34,10 +34,17 @@ namespace SAP.Web.Areas.Admin.Controllers
 
         public ActionResult GetInfo()
         {
-            var sandboxService = SandboxService.Create(RequestType.Info);
-            string responseFromServer = sandboxService.MakeRequest();
+            try
+            {
+                var sandboxService = SandboxService.Create(RequestType.Info);
+                string responseFromServer = sandboxService.MakeRequest();
 
-            TempData["response"] = responseFromServer;
+                TempData["response"] = responseFromServer;
+            }
+            catch (Exception ex)
+            {
+                TempData["Alert"] = SetAlert.Set("Wystąpił błąd: " + ex.Message, "Błąd komunikacji", AlertType.Danger);
+            }
 
             return View();
         }

@@ -61,6 +61,15 @@ namespace SAP.Services.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to JSON nie jest poprawny!.
+        /// </summary>
+        internal static string IncorrectJson {
+            get {
+                return ResourceManager.GetString("IncorrectJson", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to /api.php.
         /// </summary>
         internal static string SandboxApi {

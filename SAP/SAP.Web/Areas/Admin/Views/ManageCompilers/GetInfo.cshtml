@@ -67,10 +67,10 @@
     <div class="col-md-9">
         <div class="panel panel-primary">
             <div class="panel-heading">
-                <h3 class="panel-title">Informacje z serwera kompilujacego</h3>
+                <h3 class="panel-title">Informacje z Sandbox-SAP-API</h3>
             </div>
             <div class="panel-body">
-                @TempData["response"].ToString()
+                <pre>@TempData["response"].ToString()</pre>
                 <a href='@Url.Action("Index")' class="btn btn-default" style="margin-bottom: 15px;">Powrót</a>
             </div>
         </div>
