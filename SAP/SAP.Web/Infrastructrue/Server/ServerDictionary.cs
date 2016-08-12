@@ -18,5 +18,13 @@ namespace SAP.Web.Infrastructrue.Server
                 return ConfigurationManager.AppSettings.Get("reCaptchaPrivateKey");
             }
         }
+
+        public static string AppVersion
+        {
+           get
+            {
+                return ConfigurationManager.AppSettings.Get("SystemVersion");
+            }
+        }
     }
 }

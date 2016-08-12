@@ -68,10 +68,47 @@
     <div class="col-md-9">
         <div class="panel panel-primary">
             <div class="panel-heading">
-                <h3 class="panel-title">Zarządzanie kompilatorami</h3>
+                <h3 class="panel-title">Interfejs komunikacyjny z API Sandbox</h3>
             </div>
             <div class="panel-body">
-                <a href='@Url.Action("GetInfo")' class="btn btn-default" style="margin-bottom: 15px;">Pobierz informacje</a>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="row">
+                            <div class="col-md-5">
+                                <p style="margin-top:6px;">Informacje o API:</p>
+                            </div>
+                            <div class="col-md-7">
+                                <a href='@Url.Action("GetInfo")' onclick="displayLoadingAlert(true)" class="btn btn-default" style="margin-bottom: 15px;">Pobierz informacje</a>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-5">
+                                <p style="margin-top:6px;">Testowa kompilacja:</p>
+                            </div>
+                            <div class="col-md-7">
+                                <a href='@Url.Action("CompileTest")' onclick="displayLoadingAlert(true)" class="btn btn-default" style="margin-bottom: 15px;">Kompiluj testowo</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="row">
+                            <div class="col-md-5">
+                                <p style="margin-top:6px;">Zmień scieżki:</p>
+                            </div>
+                            <div class="col-md-7">
+                                <a href='@Url.Action("ChangePath")' onclick="displayLoadingAlert(true)" class="btn btn-default" style="margin-bottom: 15px;">Zmień scieżki</a>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-5">
+                                <p style="margin-top:6px;">Zmień argumenty:</p>
+                            </div>
+                            <div class="col-md-7">
+                                <a href='@Url.Action("ChangePath")' onclick="displayLoadingAlert(true)" class="btn btn-default" style="margin-bottom: 15px;">Zmień argumenty</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

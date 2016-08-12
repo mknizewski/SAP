@@ -1,5 +1,4 @@
 ﻿using SAP.Services.Dictionaries;
-using SAP.Services.Infrastructure;
 using SAP.Services.Resources;
 using System;
 using System.IO;
@@ -57,7 +56,7 @@ namespace SAP.Workers
         {
             this._resourceManager = new ResourceManager(typeof(SandboxServiceResource));
             this._requestType = reqType;
-            this._apiPathPattern = ServiceDictionary.SandboxApiUrl;
+            this._apiPathPattern = SandboxDictionary.SandboxApi;
         }
 
         public static SandboxService Create(RequestType reqType)

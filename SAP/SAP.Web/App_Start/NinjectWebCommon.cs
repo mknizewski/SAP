@@ -52,6 +52,7 @@ namespace SAP.Web.App_Start
             catch (Exception ex)
             {
                 kernel.Dispose();
+                ErrorHandler.WriteLog(ex, "System");
                 throw;
             }
         }

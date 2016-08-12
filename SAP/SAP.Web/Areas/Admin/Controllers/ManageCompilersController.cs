@@ -1,7 +1,6 @@
 ﻿using Resources;
 using SAP.BOL.Abstract;
 using SAP.BOL.HelperClasses;
-using SAP.BOL.LogicClasses;
 using SAP.Web.Infrastructrue.Filters;
 using SAP.Workers;
 using System;
@@ -39,6 +38,8 @@ namespace SAP.Web.Areas.Admin.Controllers
             catch (Exception ex)
             {
                 TempData["Alert"] = SetAlert.Set("Wystąpił błąd: " + ex.Message, "Błąd komunikacji", AlertType.Danger);
+
+                ErrorHandler.WriteLog(ex, User.Identity.Name);
                 return View("Index");
             }
 

@@ -625,10 +625,11 @@
     <Content Include="Content\edit_area\resize_area.js" />
     <Content Include="Content\edit_area\search_replace.js" />
     <Content Include="Content\edit_area\template.html" />
+    <Content Include="Content\Site.css" />
+    <Content Include="Scripts\site.js" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
-    <Content Include="Content\Site.css" />
     <Content Include="Images\mapka.png" />
     <Content Include="Images\rki-logo.jpg" />
     <Content Include="Scripts\ai.0.15.0-build58334.js" />

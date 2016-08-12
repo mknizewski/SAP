@@ -1,11 +1,18 @@
-﻿/// <summary>
+﻿using System.Configuration;
+/// <summary>
 /// Słownik do serwisu sandboxa
 /// </summary>
 namespace SAP.Services.Dictionaries
 {
     public static class SandboxDictionary
     {
-        public static string SandboxApi = "SandboxApi";
+        public static string SandboxApi
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings.Get("SandboxApiUrl");
+            }
+        }
 
         public static string SandboxApiGetRequest = "SandboxApiGetRequest";
 

@@ -18,6 +18,9 @@ namespace SAP.Web
             bundles.Add(new ScriptBundle("~/bundles/time").Include(
                 "~/Scripts/server-time.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/global").Include(
+                "~/Scripts/site.js"));
+
             bundles.Add(new ScriptBundle("~/bundles/compilerArea").Include(
                 "~/Content/edit_area/edit_area_full.js"));
 
