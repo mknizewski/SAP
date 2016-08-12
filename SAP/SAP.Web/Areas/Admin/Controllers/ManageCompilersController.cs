@@ -2,11 +2,8 @@
 using SAP.BOL.Abstract;
 using SAP.BOL.HelperClasses;
 using SAP.BOL.LogicClasses;
-using SAP.Web.Areas.Admin.Models;
 using SAP.Workers;
 using System;
-using System.Collections.Generic;
-using System.Reflection;
 using System.Resources;
 using System.Web.Mvc;
 
@@ -27,8 +24,6 @@ namespace SAP.Web.Areas.Admin.Controllers
 
         public ActionResult Index()
         {
-            
-
             return View();
         }
 
@@ -53,7 +48,7 @@ namespace SAP.Web.Areas.Admin.Controllers
         {
             bool resultPath = _compilerManager.EditPath(systemId, path);
             bool resultArg = _compilerManager.EditArguments(systemId, arguments);
-            
+
             if (resultPath && resultArg)
                 TempData["Alert"] = SetAlert.Set("Poprawnie zmieniono scieżkę!", "Sukces", AlertType.Success);
             else

@@ -70,7 +70,10 @@
                 <h3 class="panel-title">Informacje z Sandbox-SAP-API</h3>
             </div>
             <div class="panel-body">
-                <pre>@TempData["response"].ToString()</pre>
+                @if (TempData["response"] != null)
+                {
+                    <pre>@TempData["response"].ToString()</pre>
+                }
                 <a href='@Url.Action("Index")' class="btn btn-default" style="margin-bottom: 15px;">Powrót</a>
             </div>
         </div>

@@ -9,7 +9,6 @@ using System.Linq;
 using System.Text;
 using System.Web.Hosting;
 using System.Web.Mvc;
-using System.Web.Services;
 
 namespace SAP.Web.Areas.Tournament.Controllers
 {
@@ -98,7 +97,7 @@ namespace SAP.Web.Areas.Tournament.Controllers
                 viewModel.File.InputStream.Read(file, 0, file.Length);
 
                 string program = Encoding.UTF8.GetString(file);
-                parameters = new object[] 
+                parameters = new object[]
                 {
                     program,
                     userId,
@@ -108,7 +107,7 @@ namespace SAP.Web.Areas.Tournament.Controllers
                 };
             }
             else
-                parameters = new object[] 
+                parameters = new object[]
                 {
                     viewModel.Program,
                     userId,
@@ -119,7 +118,6 @@ namespace SAP.Web.Areas.Tournament.Controllers
 
             HostingEnvironment.QueueBackgroundWorkItem(x =>
             {
-               
             });
 
             TempData["Alert"] = SetAlert.Set("Dziękujemy za przesłanie zgłoszenia! Wynik możesz poznać w sekcji <b>Zgłoszone rozwiązania</b> w menu.", "Sukces", AlertType.Success);

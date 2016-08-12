@@ -68,20 +68,20 @@ namespace SAP.Workers
 
         public string MakeRequest()
         {
-            _typeOfRequest = _requestType == RequestType.Info ? 
-                (TypeOfRequest)(() => 
+            _typeOfRequest = _requestType == RequestType.Info ?
+                () =>
                 {
                     _apiFullPath = string.Format(_apiPathPattern, _resourceManager.GetString(SandboxDictionary.SandboxApiInfo));
                     return DoGet();
-                }) :
-                             _requestType == RequestType.Token ? 
-                (TypeOfRequest)(() => 
+                } :
+                             _requestType == RequestType.Token ?
+                () =>
                 {
                     _apiFullPath = string.Format(_apiPathPattern, _resourceManager.GetString(SandboxDictionary.SandboxApiToken));
                     return DoGet();
-                }) :
-                             _requestType == RequestType.Api ? 
-                (TypeOfRequest)(() => 
+                } :
+                             _requestType == RequestType.Api ?
+                () =>
                 {
                     if (_jsonParameters == null)
                     {
@@ -93,7 +93,7 @@ namespace SAP.Workers
 
                     _apiFullPath = string.Format(_apiPathPattern, _resourceManager.GetString(SandboxDictionary.SandboxApi));
                     return DoPost();
-                }) :
+                } :
                 (TypeOfRequest)(() => 
                 {
                     return string.Empty;

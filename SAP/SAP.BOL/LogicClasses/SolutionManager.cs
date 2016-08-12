@@ -1,12 +1,4 @@
-﻿using SAP.BOL.Abstract;
-using SAP.BOL.LogicClasses.Managers;
-using SAP.DAL.Abstract;
-using SAP.DAL.Repositories;
-using SAP.DAL.Tables;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System;
 
 namespace SAP.BOL.LogicClasses
 {

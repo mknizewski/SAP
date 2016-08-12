@@ -36,7 +36,7 @@ namespace SAP.Web.Areas.User.Controllers
                     .Where(x => x.IsActive)
                     .FirstOrDefault();
 
-               if (actualT != null)
+                if (actualT != null)
                 {
                     var tour = new ActualTournamentsViewModel
                     {

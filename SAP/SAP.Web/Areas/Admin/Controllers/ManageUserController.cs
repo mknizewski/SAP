@@ -117,7 +117,6 @@ namespace SAP.Web.Areas.Admin.Controllers
             return View();
         }
 
-        
         public ActionResult AddAdministrator()
         {
             return View();

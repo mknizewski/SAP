@@ -8,6 +8,7 @@ namespace SAP.BOL.Abstract
         IEnumerable<Compilers> Compilers { get; }
 
         bool EditPath(int systemId, string path);
+
         bool EditArguments(int systemId, string argument);
 
         void Dispose();

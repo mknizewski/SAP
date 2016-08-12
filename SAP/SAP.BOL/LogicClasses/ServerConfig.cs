@@ -1,11 +1,4 @@
-﻿using SAP.DAL.Abstract;
-using SAP.DAL.Repositories;
-using System;
-using System.Collections;
-using System.Reflection;
-using System.Resources;
-
-namespace SAP.BOL.LogicClasses
+﻿namespace SAP.BOL.LogicClasses
 {
     public static class ServerConfig
     {

@@ -1,6 +1,4 @@
-﻿using SAP.BOL.LogicClasses;
-
-namespace SAP.BOL.Abstract
+﻿namespace SAP.BOL.Abstract
 {
     public interface IProgramManager
     {
