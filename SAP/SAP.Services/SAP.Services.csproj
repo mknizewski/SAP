@@ -41,15 +41,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Dictionaries\SandboxDictionary.cs" />
+    <Compile Include="Infrastructure\ServiceDictionary.cs" />
     <Compile Include="Resources\SandboxServiceResource.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>SandboxServiceResource.resx</DependentUpon>
     </Compile>
-    <Compile Include="SandboxService.cs" />
+    <Compile Include="Workers\SandboxService.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xml" />
   </ItemGroup>

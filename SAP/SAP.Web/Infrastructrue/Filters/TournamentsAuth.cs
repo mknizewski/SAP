@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNet.Identity;
 using SAP.DAL.DbContext;
+using SAP.DAL.DbContext.SAP;
 using System;
 using System.Linq;
 using System.Security.Principal;
@@ -16,7 +17,7 @@ namespace SAP.Web.Infrastructrue.Filters
         public void OnAuthentication(AuthenticationContext filterContext)
         {
             IIdentity ident = filterContext.Principal.Identity;
-            ApplicationDbContext dbContext = new ApplicationDbContext();
+            SAPDbContext dbContext = SAPDbContext.Create();
             string sTourId = filterContext.Controller.ValueProvider.GetValue("tourId").AttemptedValue;
             int tourId;
             string userId = ident.GetUserId();

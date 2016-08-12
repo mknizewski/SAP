@@ -42,7 +42,6 @@ namespace SAP.Web.Areas.User.Controllers
                     MemUsage = x.MemoryUsage,
                     TimeUsage = x.ExecutedTime,
                     IsAccepted = x.Score == 0 ? false : true,
-                    Lang = ((CompilerType)x.CompilerId).ToString(),
                     Error = x.Error
                 };
 
@@ -59,7 +58,7 @@ namespace SAP.Web.Areas.User.Controllers
                 .FirstOrDefault();
 
             string program = String.IsNullOrEmpty(solution.Program) ? String.Empty : solution.Program;
-            CompilerType compilerType = (CompilerType)solution.CompilerId;
+            CompilerType compilerType = CompilerType.C;
             string fileName = solution.Task.Title;
 
             fileName = fileName.ToLower();

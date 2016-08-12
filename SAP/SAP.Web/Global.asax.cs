@@ -1,5 +1,7 @@
 ﻿using SAP.BOL.LogicClasses;
 using SAP.DAL.DbContext;
+using SAP.DAL.DbContext.Sandbox;
+using SAP.DAL.DbContext.SAP;
 using System.Data.Entity;
 using System.Web.Http;
 using System.Web.Mvc;
@@ -17,8 +19,10 @@ namespace SAP.Web
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
-            Database.SetInitializer<ApplicationDbContext>(new ApplicationDbContext.DataBaseInitializer());
-            ApplicationDbContext.Create().Database.Initialize(true);
+            Database.SetInitializer<SAPDbContext>(new SAPDbContext.DataBaseInitializer());
+            SAPDbContext.Create().Database.Initialize(true);
+            Database.SetInitializer<SandboxDbContext>(new SandboxDbInicializer());
+            SandboxDbContext.Create().Database.Initialize(true);
             //ServerTime.Inicialize();
             ServerConfig.Inicialize();
         }

@@ -3,8 +3,9 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using reCaptcha;
 using SAP.BOL.HelperClasses;
-using SAP.DAL.DbContext;
+using SAP.DAL.DbContext.SAP;
 using SAP.DAL.Tables;
+using SAP.Web.Infrastructrue.Server;
 using SAP.Web.Models;
 using System.Configuration;
 using System.Linq;
@@ -172,7 +173,7 @@ namespace SAP.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Register(RegisterViewModel model)
         {
-            var privateKey = ConfigurationManager.AppSettings.Get("reCaptchaPrivateKey");
+            var privateKey = ServerDictionary.CaptchaPrivateKey;
 
             //sprawdzanie poprawności
             if (ReCaptcha.Validate(privateKey))

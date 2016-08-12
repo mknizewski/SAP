@@ -1,5 +1,6 @@
 ﻿using SAP.DAL.Abstract;
 using SAP.DAL.DbContext;
+using SAP.DAL.DbContext.SAP;
 using SAP.DAL.Tables;
 using System;
 using System.Collections.Generic;
@@ -10,11 +11,11 @@ namespace SAP.DAL.Repositories
 {
     public class TournamentRepository : ITournamentRepository, IDisposable
     {
-        private ApplicationDbContext _context;
+        private SAPDbContext _context;
 
         public TournamentRepository()
         {
-            _context = ApplicationDbContext.Create();
+            _context = SAPDbContext.Create();
         }
 
         public IEnumerable<HistoryTournamentUsers> HistoryTournamentsUsers

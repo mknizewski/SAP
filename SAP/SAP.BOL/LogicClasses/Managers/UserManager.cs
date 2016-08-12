@@ -142,7 +142,6 @@ namespace SAP.BOL.LogicClasses.Managers
                 TournamentId = tourId,
                 PhaseId = phaseId,
                 TaskId = taskId,
-                CompilerId = compilerId,
                 Score = score,
                 Program = program,
                 MemoryUsage = memUsage,

@@ -54,7 +54,6 @@ namespace SAP.Web.Areas.Admin.Controllers
             else
                 TempData["Alert"] = SetAlert.Set("Wystąpił błąd!", "Błąd", AlertType.Danger);
 
-            ServerConfig.CompilersSetup();
             return RedirectToAction("Index");
         }
 

@@ -43,7 +43,9 @@
     <AssemblyOriginatorKeyFile>SAP.DAL.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="SAP.DAL.snk" />
     <None Include="packages.config" />
   </ItemGroup>
@@ -72,20 +74,20 @@
       <HintPath>..\packages\Microsoft.Owin.3.0.1\lib\net45\Microsoft.Owin.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.Owin.Security, Version=2.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Owin.Security.2.1.0\lib\net45\Microsoft.Owin.Security.dll</HintPath>
+    <Reference Include="Microsoft.Owin.Security, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Security.3.0.1\lib\net45\Microsoft.Owin.Security.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.Owin.Security.Cookies, Version=2.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Owin.Security.Cookies.2.1.0\lib\net45\Microsoft.Owin.Security.Cookies.dll</HintPath>
+    <Reference Include="Microsoft.Owin.Security.Cookies, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Security.Cookies.3.0.1\lib\net45\Microsoft.Owin.Security.Cookies.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.Owin.Security.OAuth, Version=2.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Owin.Security.OAuth.2.1.0\lib\net45\Microsoft.Owin.Security.OAuth.dll</HintPath>
+    <Reference Include="Microsoft.Owin.Security.OAuth, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Security.OAuth.3.0.1\lib\net45\Microsoft.Owin.Security.OAuth.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.4.5.11\lib\net40\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Owin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f0ebd12fd5e55cc5, processorArchitecture=MSIL">
@@ -102,23 +104,27 @@
     <Compile Include="Abstract\IScoreRepository.cs" />
     <Compile Include="Abstract\ITournamentRepository.cs" />
     <Compile Include="Abstract\IUserRepository.cs" />
-    <Compile Include="DbContext\ApplicationDbContext.cs" />
-    <Compile Include="DbContext\IdentityConfig.cs" />
+    <Compile Include="DbContext\Sandbox\SandboxDbContext.cs" />
+    <Compile Include="DbContext\SAP\SAPDbContext.cs" />
+    <Compile Include="DbContext\SAP\IdentityConfig.cs" />
     <Compile Include="Repositories\CompilerRepository.cs" />
     <Compile Include="Repositories\ContactRepository.cs" />
     <Compile Include="Repositories\NewsRepository.cs" />
     <Compile Include="Repositories\ScoreRepository.cs" />
     <Compile Include="Repositories\TournamentRepository.cs" />
     <Compile Include="Repositories\UserRepository.cs" />
-    <Compile Include="Tables\Compilers.cs" />
+    <Compile Include="Tables\Sandbox\Compilers.cs" />
     <Compile Include="Tables\Contact.cs" />
+    <Compile Include="Tables\Exceptions.cs" />
     <Compile Include="Tables\Messages.cs" />
     <Compile Include="Tables\News.cs" />
+    <Compile Include="Tables\Sandbox\Tokens.cs" />
     <Compile Include="Tables\Scores.cs" />
     <Compile Include="Tables\HistoryScores.cs" />
     <Compile Include="Tables\HistoryTournamentUsers.cs" />
     <Compile Include="Tables\IdentityModels.cs" />
     <Compile Include="Tables\Phase.cs" />
+    <Compile Include="Tables\ServerSettings.cs" />
     <Compile Include="Tables\UserSolutions.cs" />
     <Compile Include="Tables\Tasks.cs" />
     <Compile Include="Tables\TasksTestData.cs" />
@@ -127,7 +133,9 @@
     <Compile Include="Tables\UsersCounselor.cs" />
     <Compile Include="Tables\UsersShools.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Tables\SAP\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

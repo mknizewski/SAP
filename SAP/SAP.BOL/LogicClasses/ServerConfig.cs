@@ -2,8 +2,8 @@
 {
     public static class ServerConfig
     {
-        public static bool SynchronizeData;
-        public static bool OnlyLocalConnection;
+        public static volatile bool SynchronizeData;
+        public static volatile bool OnlyLocalConnection;
 
         static ServerConfig()
         {
@@ -13,11 +13,7 @@
 
         public static void Inicialize()
         {
-            CompilersSetup();
-        }
-
-        public static void CompilersSetup()
-        {
+            //TODO: Coś tutaj wypadało by zrobić
         }
     }
 }

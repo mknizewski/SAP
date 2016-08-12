@@ -130,7 +130,6 @@ namespace SAP.Web.Areas.Admin.Controllers
                     InsertTime = x.InsertTime,
                     SolutionId = x.Id,
                     IsAccepted = x.Score == 0 ? false : true,
-                    Lang = ((CompilerType)x.CompilerId).ToString(),
                     Error = x.Error,
                     MemUsage = x.MemoryUsage,
                     TimeUsage = x.ExecutedTime
@@ -149,7 +148,7 @@ namespace SAP.Web.Areas.Admin.Controllers
                 .FirstOrDefault();
 
             string program = String.IsNullOrEmpty(solution.Program) ? String.Empty : solution.Program;
-            CompilerType compilerType = (CompilerType)solution.CompilerId;
+            CompilerType compilerType = CompilerType.C;
             string fileName = solution.Task.Title;
 
             fileName = fileName.ToLower();

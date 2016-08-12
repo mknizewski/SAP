@@ -1,6 +1,8 @@
 ﻿using SAP.DAL.Abstract;
-using SAP.DAL.DbContext;
+using SAP.DAL.DbContext.Sandbox;
+using SAP.DAL.DbContext.SAP;
 using SAP.DAL.Tables;
+using SAP.DAL.Tables.Sandbox;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,11 +11,11 @@ namespace SAP.DAL.Repositories
 {
     public class CompilerRepository : ICompilerRespository, IDisposable
     {
-        private ApplicationDbContext _dbContext;
+        private SandboxDbContext _dbContext;
 
         public CompilerRepository()
         {
-            _dbContext = ApplicationDbContext.Create();
+            _dbContext = SandboxDbContext.Create();
         }
 
         public IEnumerable<Compilers> Compilers

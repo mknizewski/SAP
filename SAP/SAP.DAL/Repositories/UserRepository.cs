@@ -1,5 +1,6 @@
 ﻿using SAP.DAL.Abstract;
 using SAP.DAL.DbContext;
+using SAP.DAL.DbContext.SAP;
 using SAP.DAL.Tables;
 using System;
 using System.Collections.Generic;
@@ -9,11 +10,11 @@ namespace SAP.DAL.Repositories
 {
     public class UserRepository : IUserRepository, IDisposable
     {
-        private ApplicationDbContext _context;
+        private SAPDbContext _context;
 
         public UserRepository()
         {
-            _context = new ApplicationDbContext();
+            _context = SAPDbContext.Create();
         }
 
         public IEnumerable<UsersCounselor> Counselors

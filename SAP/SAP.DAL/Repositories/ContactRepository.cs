@@ -1,4 +1,5 @@
 ﻿using SAP.DAL.Abstract;
+using SAP.DAL.DbContext.SAP;
 using SAP.DAL.Tables;
 using System;
 using System.Collections.Generic;
@@ -7,28 +8,33 @@ namespace SAP.DAL.Repositories
 {
     public class ContactRepository : IContactRepository, IDisposable
     {
-        private DbContext.ApplicationDbContext context = new DbContext.ApplicationDbContext();
+        private SAPDbContext _context;
+
+        public ContactRepository()
+        {
+            _context = SAPDbContext.Create();
+        }
 
         public IEnumerable<Contact> Contact
         {
             get
             {
-                return context.Contacts;
+                return _context.Contacts;
             }
         }
 
         public bool TryAdd(Contact model)
         {
-            context.Contacts.Add(model);
-            context.SaveChanges();
+            _context.Contacts.Add(model);
+            _context.SaveChanges();
 
             return true;
         }
 
         public bool TryDelete(int id)
         {
-            context.Contacts.Remove(context.Contacts.Find(id));
-            context.SaveChanges();
+            _context.Contacts.Remove(_context.Contacts.Find(id));
+            _context.SaveChanges();
 
             return true;
         }
@@ -37,7 +43,7 @@ namespace SAP.DAL.Repositories
 
         public void Dispose()
         {
-            context.Dispose();
+            _context.Dispose();
         }
 
         #endregion Dispose

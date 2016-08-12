@@ -1,6 +1,7 @@
 ﻿using reCaptcha;
 using SAP.BOL.Abstract;
 using SAP.BOL.HelperClasses;
+using SAP.Web.Infrastructrue.Server;
 using SAP.Web.Models;
 using System;
 using System.Collections.Generic;
@@ -68,7 +69,7 @@ namespace SAP.Web.Controllers
         [HttpPost]
         public ActionResult Contact(ContactModel model, string ReturnUrl)
         {
-            var privateKey = ConfigurationManager.AppSettings.Get("reCaptchaPrivateKey");
+            var privateKey = ServerDictionary.CaptchaPrivateKey;
 
             if (ReCaptcha.Validate(privateKey))
             {

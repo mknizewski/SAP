@@ -1,5 +1,6 @@
 ﻿using SAP.DAL.Abstract;
 using SAP.DAL.DbContext;
+using SAP.DAL.DbContext.SAP;
 using SAP.DAL.Tables;
 using System;
 using System.Collections.Generic;
@@ -8,11 +9,11 @@ namespace SAP.DAL.Repositories
 {
     public class NewsRepository : INewsRepository, IDisposable
     {
-        private ApplicationDbContext _dbContext;
+        private SAPDbContext _dbContext;
 
         public NewsRepository()
         {
-            _dbContext = ApplicationDbContext.Create();
+            _dbContext = SAPDbContext.Create();
         }
 
         public IEnumerable<News> News
