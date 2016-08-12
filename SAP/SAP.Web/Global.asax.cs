@@ -2,6 +2,8 @@
 using SAP.DAL.DbContext;
 using SAP.DAL.DbContext.Sandbox;
 using SAP.DAL.DbContext.SAP;
+using SAP.Web.Infrastructrue.Filters;
+using System;
 using System.Data.Entity;
 using System.Web.Http;
 using System.Web.Mvc;
@@ -25,6 +27,14 @@ namespace SAP.Web
             SandboxDbContext.Create().Database.Initialize(true);
             //ServerTime.Inicialize();
             ServerConfig.Inicialize();
+        }
+
+        protected void Application_Error(object sender, EventArgs args)
+        {
+            Exception ex = Server.GetLastError();
+            ErrorHandler.WriteLog(ex, User.Identity.Name);
+
+            Server.ClearError();
         }
 
         protected void Application_End()

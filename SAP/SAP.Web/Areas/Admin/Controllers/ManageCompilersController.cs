@@ -2,6 +2,7 @@
 using SAP.BOL.Abstract;
 using SAP.BOL.HelperClasses;
 using SAP.BOL.LogicClasses;
+using SAP.Web.Infrastructrue.Filters;
 using SAP.Workers;
 using System;
 using System.Resources;
@@ -18,7 +19,6 @@ namespace SAP.Web.Areas.Admin.Controllers
         public ManageCompilersController(ICompilersManager compilerManager)
         {
             _compilerManager = compilerManager;
-
             _compilerResource = new ResourceManager(typeof(CompilersResource));
         }
 
@@ -39,6 +39,7 @@ namespace SAP.Web.Areas.Admin.Controllers
             catch (Exception ex)
             {
                 TempData["Alert"] = SetAlert.Set("Wystąpił błąd: " + ex.Message, "Błąd komunikacji", AlertType.Danger);
+                return View("Index");
             }
 
             return View();

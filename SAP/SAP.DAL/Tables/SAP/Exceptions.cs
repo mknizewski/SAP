@@ -10,8 +10,7 @@ namespace SAP.DAL.Tables
         [Key]
         public int Id { get; set; }
 
-        [ForeignKey("User")]
-        public string UserId { get; set; }
+        public string UserName { get; set; }
 
         public string Message { get; set; }
 
@@ -25,6 +24,5 @@ namespace SAP.DAL.Tables
 
         public DateTime InsertTime { get; set; }
 
-        public virtual ApplicationUser User { get; set; }
     }
 }

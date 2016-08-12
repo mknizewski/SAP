@@ -3,6 +3,7 @@
 
 namespace SAP.Web.App_Start
 {
+    using Infrastructrue.Filters;
     using Infrastructrue.IoC;
     using Microsoft.Web.Infrastructure.DynamicModuleHelper;
     using Ninject;
@@ -48,7 +49,7 @@ namespace SAP.Web.App_Start
                 RegisterServices(kernel);
                 return kernel;
             }
-            catch
+            catch (Exception ex)
             {
                 kernel.Dispose();
                 throw;

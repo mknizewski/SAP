@@ -6,14 +6,13 @@
 
 <div class="jumbotron">
     <h1 class="text-danger text-center">Przepraszamy, wystąpił błąd.</h1>
-    <p>Możesz wysłać dane o błędzie do administratora lub powrócić na stronę główną.</p>
+    <p class="text-center">Błąd został zgłoszony do administatora systemu.</p>
     <br />
     <div class="row">
         <div class="col-md-6">
-            <p><a href='@Url.Action("Index", "Home", new { area = "" })' class="btn btn-primary btn-lg">Powrót</a></p>
+            <p><a href='@Url.Action("Index", "Home", new { area = "" })' class="btn btn-primary btn-lg">Powrót do strony głównej</a></p>
         </div>
         <div class="col-md-6">
-            <p style="float:right;"><a class="btn btn-danger btn-lg">Zgłoś błąd</a></p>
         </div>
     </div>
 </div>

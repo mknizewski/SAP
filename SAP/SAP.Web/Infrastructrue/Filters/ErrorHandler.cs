@@ -13,21 +13,9 @@ namespace SAP.Web.Infrastructrue.Filters
         public override void OnException(ExceptionContext filterContext)
         {
             Exception ex = filterContext.Exception;
-            SAPDbContext dbContext = SAPDbContext.Create();
-
-            var exception = new Exceptions
-            {
-                UserId = filterContext.HttpContext.User.Identity.Name,
-                Type = ex.GetType().Name,
-                Message = ex.Message,
-                Source = ex.Source,
-                InnerException = ex.InnerException.Message,
-                StackTrace = ex.StackTrace,
-                InsertTime = DateTime.Now
-            };
-
-            dbContext.Exceptions.Add(exception);
             filterContext.ExceptionHandled = true;
+
+            WriteLog(ex, filterContext.HttpContext.User.Identity.Name);
 
             var model = new HandleErrorInfo(filterContext.Exception, "Controller", "Action");
 
@@ -36,7 +24,25 @@ namespace SAP.Web.Infrastructrue.Filters
                 ViewName = "Error",
                 ViewData = new ViewDataDictionary(model)
             };
+        }
 
+        public static void WriteLog(Exception ex, string user)
+        {
+            SAPDbContext dbContext = SAPDbContext.Create();
+
+            var excep = new Exceptions
+            {
+                UserName = user,
+                Type = ex.GetType().Name,
+                Message = ex.Message,
+                Source = ex.Source,
+                InnerException = ex.InnerException != null ? ex.InnerException.Message : null,
+                StackTrace = ex.StackTrace,
+                InsertTime = DateTime.Now
+            };
+
+            dbContext.Exceptions.Add(excep);
+            dbContext.SaveChanges();
             dbContext.Dispose();
         }
     }
